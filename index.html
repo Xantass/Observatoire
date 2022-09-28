@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <meta charset="utf-8">
+
+        <title>Home</title>
+
+        <style>
+            body {
+              color: #45BAB8;
+              display: block;
+              background-color: #1D1D1D;
+              font: 1.2em "Fira Sans", sans-serif;
+              margin: 0;
+              padding: 0;
+              width: 970px;
+              height: 770px;
+            }
+            /*
+            button,
+            button::after {
+              -webkit-transition: all 0.3s;
+              -moz-transition: all 0.3s;
+              -o-transition: all 0.3s;
+              transition: all 0.3s;
+            }
+
+            button {
+              background: none;
+              border: 4px solid #c4123eab;
+              border-radius: 10px;
+              color: #c4123eab;
+              display: block;
+              font-size: 1.6em;
+              font-weight: bold;
+              margin: 10px auto;
+              padding: 2em 6em;
+              position: relative;
+              text-transform: uppercase;
+            }
+
+            button::before,
+            button::after {
+              background: #c4123eab;
+              content: "";
+              position: absolute;
+              z-index: -1;
+            }
+
+            button:hover {
+              color: #1b1b1b;
+            }
+
+            .button3::after {
+              height: 0;
+              left: 50%;
+              top: 50%;
+              width: 0;
+            }
+
+            .button3:hover:after {
+              height: 100%;
+              left: 0;
+              top: 0;
+              width: 100%;
+            }
+
+            */
+            div[id="container Dashboard"] {
+              position: fixed;
+              display: flex;
+              background:#22334d;
+              margin: 0;
+              padding: 0;
+              width: 72px;
+              height: 100%;
+            }
+            img[id="logo simonneau"] {
+              position: fixed;
+              display: flex;
+              z-index: 2;
+              width: 48px;
+              height: 72px;
+              margin-top: 16px;
+              margin-left: 12px;
+            }
+            img[id="logo simonneau avec ecriture"] {
+              display: none;
+              position: fixed;
+              z-index: 2;
+              width: 225px;
+              height: 72px;
+              margin-top: 16px;
+              margin-left: 12px;
+            }
+            div[id="container liste button"] {
+              width: 72px;
+              height: 187px;
+              margin-top: 115px;
+            }
+            div[id="liste button"] {
+              flex: 0 1 auto;
+              position: relative;
+              max-width: 100%;
+              padding: 0;
+              margin: 0;
+            }
+            a[id="home page"] {
+              width: 72px;
+              height: 57px;
+            }
+            img[id="home button"] {
+              width: 24px;
+              height: 24px;
+            }
+            div[id="container Dashboard"]:hover {
+              width: 245px;
+            }
+            div[id="container Dashboard"]:hover img[id="logo simonneau"]{
+              display: none;
+            }
+            div[id="container Dashboard"]:hover img[id="logo simonneau avec ecriture"]{
+              display: flex;
+            }
+            p[id="Title"] {
+              position: absolute;
+              display: flex;
+              color: white;
+              align-self: center;
+              left: 50%;
+              transform: translateX(-50%);
+            }
+        </style>
+
+    </head>
+
+    <body>
+
+          <div id="container Dashboard">
+
+            <div id="container image">
+
+              <img id="logo simonneau" src="./image/logo_simonneau.png" alt="simonneau logo"/>
+              <img id="logo simonneau avec ecriture" src="./image/logo_simoneau_avec_ecriture.png" alt="simonneau logo" hidden/>
+
+            </div>
+
+            <div id="container liste button">
+
+              <div id="liste button">
+
+                <a id="home page">
+
+                  <div id="box button">
+
+                    <img id="home button" src="./image/home.png" alt="home button"/>
+
+                  </div>
+
+                </a>
+
+              </div>
+
+            </div>
+
+          </div>
+
+      <script src="index.js"></script>
+
+    </body>
+
+</html>
