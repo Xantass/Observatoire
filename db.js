@@ -20,6 +20,7 @@ const connection = new Connection(config);
 
 connection.on('connect', function(err) {
     console.log("Connected");
+    connection.close()
 });
 
-connection.connect();
+connection.connect()

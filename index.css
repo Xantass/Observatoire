@@ -1,0 +1,286 @@
+  body {
+    /*color: #45BAB8;*/
+    font-family: Roboto, sans-serif;
+    box-sizing: border-box;
+    display: block;
+    background-color: white;
+    margin: 0;
+    width: 1920px;
+    height: 969px;
+    color: white;
+  }
+  div[id="container Dashboard"] {
+    box-sizing: border-box;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    background:#22334d;
+    margin: 0;
+    padding: 0;
+    width: 72px;
+    height: 969px;
+  }
+  div[id="container image"] {
+    box-sizing: border-box;
+    display: block;
+    height: 0px;
+    margin-top: 16px;
+    width: 60px;
+  }
+  img[id="logo simonneau"] {
+    position: fixed;
+    display: flex;
+    z-index: 2;
+    width: 48px;
+    height: 72px;
+    margin-top: 16px;
+    margin-left: 12px;
+  }
+  img[id="logo simonneau avec ecriture"] {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    width: 260px;
+    height: 72px;
+    margin-top: 16px;
+    margin-left: 12px;
+  }
+  div[id="container liste button"] {
+    box-sizing: border-box;
+    position: static;
+    display: block;
+    width: 72px;
+    height: 187px;
+    margin-top: 150px;
+    padding-bottom: 8px;
+  }
+  div[id="liste button"] {
+    box-sizing: border-box;
+    display: block;
+    position: relative;
+    flex-basis: auto;
+    flex-grow: 0;
+    flex-shrink: 1;
+    position: relative;
+    height: 171px;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+  a[id="home page"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    justify-content: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    width: 72px;
+    height: 57px;
+    border-bottom: 1px solid;
+    position: relative;
+    border-bottom-color: white;
+  }
+  div[id="box button"] {
+    align-self: flex-start;
+    box-sizing: border-box;
+    display: flex;
+    height: 24px;
+    margin-bottom: 16px;
+    margin-top: 16px;
+    min-width: 24px;
+    width: 24px;
+  }
+  img[id="home button"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    position: relative;
+  }
+  div[id="home text"] {
+    align-self: center;
+    box-sizing: border-box;
+    display: none;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 19.1875px;
+    width: 161px;
+    color: #45BAB8;
+  }
+  a[id="compte page"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    justify-content: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    width: 72px;
+    height: 57px;
+    border-bottom: 1px solid;
+    position: relative;
+    border-bottom-color: white;
+  }
+  img[id="compte button"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    position: relative;
+  }
+  div[id="compte text"] {
+    align-self: center;
+    box-sizing: border-box;
+    display: none;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 19.1875px;
+    width: 161px;
+  }
+  a[id="login page"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 57px;
+    justify-content: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    position: relative;
+    border-bottom: 1px solid;
+    border-bottom-color: white;
+  }
+  img[id="deconnexion button"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    position: relative;
+  }
+  div[id="login text"] {
+    align-self: center;
+    box-sizing: border-box;
+    display: none;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 19.1875px;
+    width: 161px;
+  }
+  div[id="container Dashboard"]:hover {
+    width: 275px;
+  }
+  div[id="container Dashboard"]:hover img[id="logo simonneau"]{
+    display: none;
+  }
+  div[id="container Dashboard"]:hover img[id="logo simonneau avec ecriture"]{
+    display: flex;
+  }
+  div[id="container Dashboard"]:hover a[id="home page"] {
+    justify-content: unset;
+    padding-left: 24px;
+    width: 275px;
+  }
+  div[id="container Dashboard"]:hover div[id="home text"] {
+    display: block;
+    padding-left: 20px;
+  }
+  div[id="container Dashboard"]:hover a[id="compte page"] {
+    justify-content: unset;
+    padding-left: 24px;
+    width: 275px;
+  }
+  div[id="container Dashboard"]:hover div[id="compte text"] {
+    display: block;
+    padding-left: 20px;
+  }
+  div[id="container Dashboard"]:hover a[id="login page"] {
+    justify-content: unset;
+    padding-left: 24px;
+    width: 275px;
+  }
+  div[id="container Dashboard"]:hover div[id="login text"] {
+    display: block;
+    padding-left: 20px;
+  }
+  main[id="body page"] {
+    box-sizing: border-box;
+    display: block;
+    flex-basis: auto;
+    flex-grow: 1;
+    flex-shrink: 0;
+    height: 969px;
+    max-width: 100%;
+    padding-left: 72px;
+    width: 1848px;
+  }
+  div[id="box body"] {
+    box-sizing: border-box;
+    display: block;
+    flex-basis: auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 959px;
+    max-width: 100%;
+    position: relative;
+    width: 886px;
+  }
+  div[id="wrap body"] {
+    box-sizing: border-box;
+    display: block;
+    flex-direction: column;
+    height: 959px;
+    min-height: 959px;
+    width: 886px;
+  }
+  div[id="top body"] {
+    box-sizing: border-box;
+    display: block;
+    flex-basis: 0%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 718.953px;
+    width: 886px;
+  }
+  header[id="header top body"] {
+    box-sizing: border-box;
+    display: block;
+    flex-basis: auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 110px;
+    left: 0px;
+    margin-bottom: 53.3333px;
+    max-width: 100%;
+    position: sticky;
+    width: 886px;
+  }
+  div[id="box toolbar"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: block;
+    height: 110px;
+    padding-bottom: 4px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 4px;
+    position: relative;
+    color: #80caca;
+    width: 886px;
+  }
