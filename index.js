@@ -16,3 +16,13 @@ app.get('/', function (req, res) {
 app.listen(port, () => {
     console.log(`listening at http://localhost:${port}`);
 });
+
+function slide_right_dashboard () {
+    var dashboard = document.getElementById("box Dashboard");
+    dashboard.style.width = "275px";
+}
+
+function slide_left_dashboard() {
+    var dashboard = document.getElementById("box Dashboard")
+    dashboard.style.width = "72px";
+}
