@@ -18,11 +18,16 @@ app.listen(port, () => {
 });
 
 function slide_right_dashboard () {
-    var dashboard = document.getElementById("box Dashboard");
-    dashboard.style.width = "275px";
+    console.log("yesssss!!!!!!")
+    var dashboard = document.getElementById("shadow Dashboard");
+    dashboard.style.transform = "translateX(+0px)";
+    var main = document.getElementById("main box");
+    main.style.marginLeft = "275px";
 }
 
 function slide_left_dashboard() {
-    var dashboard = document.getElementById("box Dashboard")
-    dashboard.style.width = "72px";
+    var dashboard = document.getElementById("shadow Dashboard")
+    dashboard.style.transform = "translateX(-203px)";
+    var main = document.getElementById("main box");
+    main.style.marginLeft = "72px";
 }
