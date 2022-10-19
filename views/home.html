@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <meta charset="utf-8">
+
+        <title>Home</title>
+
+        <link rel="stylesheet" href="/css/home.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+        <link rel="website icon" type="png" href="/image/logo_simonneau.png">
+
+    </head>
+
+    <body>
+
+      <div id="container">
+
+
+        <nav id="shadow Dashboard">
+
+          <div id="liste text button">
+
+            <div id="container text button">
+
+              <a id="text button">Mes Operations</a>
+
+            </div>
+
+            <div id="container text button">
+
+              <a id="text button">Mon compte</a>
+
+            </div>
+
+            <div id="container text button">
+
+              <a id="text button">Se deconnecter</a>
+
+            </div>
+
+          </div>
+
+        </nav>
+
+        <nav id="box Dashboard" onmouseover="slide_right_dashboard();" onmouseout="slide_left_dashboard();">
+
+          <div id="container image">
+
+            <img id="logo simonneau" src="./image/logo_simonneau.png" alt="simonneau logo"/>
+            <img id="logo simonneau avec ecriture" src="./image/logo_simoneau_avec_ecriture.png" alt="simonneau logo" hidden/>
+
+          </div>
+
+          <div id="container liste button">
+
+            <div id="liste button">
+
+              <a id="home page">
+
+                <div id="box button">
+
+                  <img id="home button" src="./image/home_color.png" alt="home page"/>
+
+                </div>
+
+                <div id="home text">Mes Operations</div>
+
+              </a>
+
+              <a id="compte page">
+
+                <div id="box button">
+
+                  <img id="compte button" src="./image/compte.png" alt="compte page">
+
+                </div>
+
+                <div id="compte text">Mon compte</div>
+
+              </a>
+
+              <a id="login page">
+
+                <div id="box button">
+
+                  <img id="deconnexion button" src="./image/deconnexion.png" alt="login page">
+
+                </div>
+
+                <div id="login text">Se deconnecter</div>
+
+              </a>
+
+            </div>
+
+          </div>
+
+        </nav>
+
+        <main id="main box"">
+
+          <header id="header main box">
+
+            <div id="box header main box">
+
+              <div id="Title">Mes Operations</div>
+
+              <div class="search-box">
+                <input type="text" placeholder="Type to search..."/>
+                <div class="search-btn">
+                  <i class="fas fa-search"></i>
+                </div>
+                <div class="cancel-btn">
+                  <i class="fas fa-times"></i>
+                </div>
+              </div>
+              <script id="rendered-js">
+
+                const searchBtn = document.querySelector(".search-btn");
+                const cancelBtn = document.querySelector(".cancel-btn");
+                const searchBox = document.querySelector(".search-box");
+
+                searchBtn.onclick = () => {
+                  searchBox.classList.add("active");
+                }
+                cancelBtn.onclick = () => {
+                  searchBox.classList.remove("active");
+                }
+
+              </script>
+
+            </div>
+
+          </header>
+
+        </main>
+
+      </div>
+
+      <script src="/index.js"></script>
+
+    </body>
+
+</html>
