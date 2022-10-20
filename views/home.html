@@ -9,6 +9,7 @@
 
         <link rel="stylesheet" href="/css/home.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"/>
         <link rel="website icon" type="png" href="/image/logo_simonneau.png">
 
     </head>
@@ -36,7 +37,7 @@
 
             <div id="container text button">
 
-              <a id="text button">Se deconnecter</a>
+              <a id="text button" href="http://localhost:3000">Se deconnecter</a>
 
             </div>
 
@@ -44,7 +45,7 @@
 
         </nav>
 
-        <nav id="box Dashboard" onmouseover="slide_right_dashboard();" onmouseout="slide_left_dashboard();">
+        <nav id="box Dashboard" onmouseover="slide_right_dashboard();">
 
           <div id="container image">
 
@@ -81,7 +82,7 @@
 
               </a>
 
-              <a id="login page">
+              <a id="login page" href="http://localhost:3000">
 
                 <div id="box button">
 
@@ -99,47 +100,164 @@
 
         </nav>
 
-        <main id="main box"">
+        <main id="main box" onmouseover="slide_left_dashboard();">
 
-          <header id="header main box">
+          <div id="main_wrap">
 
-            <div id="box header main box">
+            <div id="body">
 
-              <div id="Title">Mes Operations</div>
+              <div id="main_container">
 
-              <div class="search-box">
-                <input type="text" placeholder="Type to search..."/>
-                <div class="search-btn">
-                  <i class="fas fa-search"></i>
+                <header id="header main box">
+
+                  <div id="box header main box">
+
+                    <div id="Title">Mes Operations</div>
+
+                    <div class="search-box">
+                      <input type="text" placeholder="Type to search..."/>
+                      <div class="search-btn">
+                        <i class="fas fa-search"></i>
+                      </div>
+                      <div class="cancel-btn">
+                        <i class="fas fa-times"></i>
+                      </div>
+                    </div>
+                    <script id="rendered-js">
+
+                      const searchBtn = document.querySelector(".search-btn");
+                      const cancelBtn = document.querySelector(".cancel-btn");
+                      const searchBox = document.querySelector(".search-box");
+
+                      searchBtn.onclick = () => {
+                        searchBox.classList.add("active");
+                      }
+                      cancelBtn.onclick = () => {
+                        searchBox.classList.remove("active");
+                      }
+
+                    </script>
+
+                  </div>
+
+                </header>
+
+                <div id="container Operation">
+
+                    <div id="Box container Operation">
+
+                      <div id="Box content Operation">
+
+                          <div id="container sorters">
+
+                            <div id="name filter" onclick="change_icon_name();">
+
+                              <div id="text">Nom</div>
+
+                              <img src="/image/chevron-en-bas.png" id="name filter image" class="Sorted"/>
+
+                            </div>
+
+                            <div id="creator filter" onclick="change_icon_creator();">
+
+                              <div id="text">Créé par</div>
+
+                              <img src="/image/chevron-en-bas.png" id="creator filter image" class="Sorted">
+
+                            </div>
+
+                            <div id="MAJ filter" onclick="change_icon_MAJ();">
+
+                              <div id="text">Mis à jour le</div>
+
+                              <img src="/image/chevron-en-bas.png" id="MAJ filter image" class="Sorted">
+
+                            </div>
+
+                            <div id="date filter" onclick="change_icon_date();">
+
+                              <div id="text">Date de création</div>
+
+                              <img src="/image/chevron-en-bas.png" id="date filter image" class="Sorted">
+
+                            </div>
+
+                          </div>
+
+                          <div id="List Operation">
+
+                            <div id="container List Operation">
+
+                              <div id="Box Operation">
+
+                                <div id="Box color"></div>
+
+                                <img src="/image/dossier.png" id="dossier"/>
+
+                                <div id="Nom Operation">TEST DE NOM</div>
+
+                                <div id="Createur Operation">TEST DE CREATEUR</div>
+
+                                <div id="MAJ Operation">TEST DE MISE A JOUR</div>
+
+                                <div id="Date Operation">TEST DE DATE</div>
+
+                              </div>
+
+                              <div id="Box Operation">
+
+                                <div id="Box color"></div>
+
+                                <img src="/image/dossier.png" id="dossier"/>
+
+                                <div id="Nom Operation">TEST DE NOM</div>
+
+                                <div id="Createur Operation">TEST DE CREATEUR</div>
+
+                                <div id="MAJ Operation">TEST DE MISE A JOUR</div>
+
+                                <div id="Date Operation">TEST DE DATE</div>
+
+                              </div>
+
+                              <div id="Box Operation">
+
+                                <div id="Box color"></div>
+
+                                <img src="/image/dossier.png" id="dossier"/>
+
+                                <div id="Nom Operation">TEST DE NOM</div>
+
+                                <div id="Createur Operation">TEST DE CREATEUR</div>
+
+                                <div id="MAJ Operation">TEST DE MISE A JOUR</div>
+
+                                <div id="Date Operation">TEST DE DATE</div>
+
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                      </div>
+
+                    </div>
+
                 </div>
-                <div class="cancel-btn">
-                  <i class="fas fa-times"></i>
-                </div>
+
               </div>
-              <script id="rendered-js">
-
-                const searchBtn = document.querySelector(".search-btn");
-                const cancelBtn = document.querySelector(".cancel-btn");
-                const searchBox = document.querySelector(".search-box");
-
-                searchBtn.onclick = () => {
-                  searchBox.classList.add("active");
-                }
-                cancelBtn.onclick = () => {
-                  searchBox.classList.remove("active");
-                }
-
-              </script>
 
             </div>
 
-          </header>
+          </div>
 
         </main>
 
       </div>
 
       <script src="/index.js"></script>
+      <script src="/js/script.js"></script>
 
     </body>
 

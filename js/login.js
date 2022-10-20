@@ -38,7 +38,6 @@ router.post('/login', (req, res) => {
                         }
                         else {
                                 res.status(200);
-                                id_check = result[0].id;
                                 res.redirect('http://localhost:3000/home');
                         }
                 }

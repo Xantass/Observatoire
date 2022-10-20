@@ -5,6 +5,7 @@
   body {
     /*color: #45BAB8;*/
     font-family: Roboto, sans-serif;
+    color:#22334d;
     box-sizing: border-box;
     display: block;
     margin: 0;
@@ -26,9 +27,10 @@
     background:#22334d;
     width: 275px;
     height: 100%;
+    transition-delay: 0s;
+    transition-duration: 0.2s;
     transition-property: all;
-    transition-duration: 1s;
-    transition-delay: 0.1s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
     pointer-events: auto;
     position: fixed;
@@ -57,10 +59,12 @@
     border-bottom: 1px solid;
     border-bottom-color: white;
     cursor: pointer;
+    height: 57px;
   }
   a[id="text button"] {
     align-self: center;
     color: white;
+    text-decoration: none;
   }
   nav[id="box Dashboard"] {
     box-sizing: border-box;
@@ -242,15 +246,46 @@
   }
   main[id="main box"] {
     box-sizing: border-box;
-    display: block;
-    position: relative;
-    width: 100%;
-    margin-left: 72px;
+    display: flex;
+    flex-basis: auto;
+    flex-grow: 1;
+    flex-shrink: 0;
     height: 100%;
-    background-color:white;
+    max-width: 100%;
+    padding-left: 72px;
+    width: 100%;
+    transition-delay: 0s;
+    transition-duration: 0.2s;
     transition-property: all;
-    transition-duration: 1s;
-    transition-delay: 0.1s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+  div[id="main_wrap"] {
+    box-sizing: border-box;
+    display: block;
+    flex-basis: auto;
+    flex-shrink: 1;
+    flex-grow: 1;
+    height: 100%;
+    max-width: 100%;
+    position: relative;
+  }
+  div[id="body"] {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 100%;
+    width: 100%
+  }
+  div[id="main container"] {
+    box-sizing: border-box;
+    display: block;
+    flex-basis: 0%;
+    flex-shrink: 1;
+    flex-grow: 1;
+    height: 50%;
+    max-width: 100%;
+    width: 1
   }
   header[id="header main box"] {
     box-sizing: border-box;
@@ -259,6 +294,7 @@
     width: 100%;
     height: 110px;
     background-color: #e8f2f2;
+    margin-bottom: 53.333px;
   }
   div[id="box header main box"] {
     box-sizing: border-box;
@@ -278,7 +314,7 @@
     line-height: 47px;
     word-break: normal;
     margin-left: 50px;
-    width: 66%;
+    width: 50%;
   }
   div[id="box recherche"] {
     box-sizing: border-box;
@@ -379,4 +415,176 @@
     opacity:1;
     color:black;
       transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55 );
+  }
+  div[id="container Operation"] {
+    align-content: flex-start;
+    box-sizing: border-box;
+    display: flex;
+    flex-basis: auto;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    flex-shrink: 1;
+    margin-bottom: -12px;
+    margin-left: 20px;
+    margin-top: -12px;
+    margin-right: 20px;
+    width: 97.7%;
+    height: 234px;
+  }
+  div[id="Box container Operation"] {
+    box-sizing: border-box;
+    display: block;
+    flex-basis: 100%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    height: 100%;
+    max-width: 100%;
+    padding: 12px;
+    width: 100%;
+  }
+  div[id="Box content Operation"] {
+    box-sizing: border-box;
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+  div[id="container sorters"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-basis: auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-wrap: wrap;
+    height: 24px;
+    justify-content: space-between;
+    margin-left: 21.3333px;
+    margin-right: 81.3333px;
+    width: 97.5%;
+  }
+  div[id="name filter"] {
+    box-sizing: border-box;
+    display: flex;
+    height: 100%;
+    width: 40%;
+    color: #929292;
+    cursor: pointer;
+  }
+  div[id="creator filter"] {
+    box-sizing: border-box;
+    display: flex;
+    height: 100%;
+    width: 20%;
+    color: #929292;
+    cursor: pointer;
+  }
+  div[id="MAJ filter"] {
+    box-sizing: border-box;
+    display: flex;
+    height: 100%;
+    width: 20%;
+    color: #929292;
+    cursor: pointer;
+  }
+  div[id="date filter"] {
+    box-sizing: border-box;
+    display: flex;
+    height: 100%;
+    width: 20%;
+    color: #929292;
+    cursor: pointer;
+  }
+  div[id="text"] {
+    box-sizing: border-box;
+    display: flex;
+    margin-top: 3px;
+  }
+  img[class="Sorted"] {
+    box-sizing: border-box;
+    display: flex;
+    margin-left: 5px;
+    height: 24px;
+    position: relative;
+    width: 24px;
+  }
+  div[id="List Operation"] {
+    box-sizing: border-box;
+    display: block;
+    flex-basis: auto;
+    flex-grow: 0;
+    flex-shrink: 1;
+    max-width: 100%;
+    position: relative;
+    height: 88.5%;
+    width: 100%;
+  }
+  div[id="container List Operation"] {
+    box-sizing: border-box;
+    display: block;
+    flex-direction: column;
+    height: 100%;
+    max-width: 100%;
+    padding: 12px;
+    padding-left: 0px;
+    width: 100%;
+  }
+  div[id="Box Operation"] {
+    box-sizing: border-box;
+    display: flex;
+    height: 50px;
+    width: 100%;
+    border: 1px solid;
+    flex-direction: row;
+    align-items: center;
+    border-color: #929292;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+  div[id="Box color"] {
+    box-sizing: border-box;
+    display: flex;
+    height: 100%;
+    width: 12px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: #45BAB8;
+  }
+  img[id="dossier"] {
+    box-sizing: border-box;
+    display: flex;
+    height: 28px;
+    width: 28px;
+    margin-left: 10px;
+  }
+  div[id="Nom Operation"] {
+    box-sizing: border-box;
+    display: flex;
+    margin-left: 10px;
+    font-family: Roboto, sans-serif;
+    width: 640px;
+  }
+  div[id="Createur Operation"] {
+    box-sizing: border-box;
+    display: flex;
+    margin-left: 10px;
+    font-family: Roboto, sans-serif;
+    width: 340px;
+  }
+  div[id="MAJ Operation"] {
+    box-sizing: border-box;
+    display: flex;
+    margin-left: 10px;
+    font-family: Roboto, sans-serif;
+    width: 340px;
+  }
+  div[id="Date Operation"] {
+    box-sizing: border-box;
+    display: flex;
+    margin-left: 10px;
+    font-family: Roboto, sans-serif;
+    width: 300px;
   }
