@@ -2,8 +2,15 @@ var name = 0;
 var creator = 0;
 var MAJ = 0;
 var date = 0;
+const query = require('./db.js').query;
 
-
+async function load_operation() {
+  var sql = "SELECT * FROM operation WHERE id_user=?"
+  var value = [1];
+  var content_operation;
+  content_operation = await query(sql, value);
+  console.log(content_operation);
+}
 
 function slide_right_dashboard () {
     var dashboard = document.getElementById("shadow Dashboard");

@@ -7,6 +7,7 @@
 const express = require('express');
 const path = require("path");
 const bodyParser = require('body-parser');
+var jsdom = require('jsdom');
 
 /**
  * App Variables
@@ -17,6 +18,8 @@ const port = "3000";
 const router = (global.router = (express.Router()));
 const login = require("./js/login.js");
 const home = require("./js/home.js");
+var JSDOM = jsdom.JSDOM;
+global.doc = new JSDOM('home.html').window.document;
 
 /**
  *  App Configuration

@@ -33,6 +33,7 @@ connection.connect();
 */
 
 const mysql = require('mysql');
+const util = require('util');
 
 const host = "observatoire.c0ye4oevn1yn.eu-west-3.rds.amazonaws.com";
 const user = "admin";
@@ -48,6 +49,8 @@ const connection = mysql.createConnection({
     database: database
 });
 
+const query = util.promisify(connection.query).bind(connection);
+
 connection.connect((err) => {
     if (err) {
       console.error(err);
@@ -55,4 +58,4 @@ connection.connect((err) => {
     console.log('Connected!');
 });
 
-module.exports = {connection};
+module.exports = {connection, query};
