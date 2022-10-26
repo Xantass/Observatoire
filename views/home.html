@@ -5,14 +5,12 @@
 
         <meta charset="utf-8">
 
-        <title>Home</title>
+        <title>Observatoire</title>
 
         <link rel="stylesheet" href="/css/home.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"/>
         <link rel="website icon" type="png" href="/image/logo_simonneau.png">
-        <script src="/index.js" async></script>
-        <script src="/js/script.js" async></script>
 
     </head>
 
@@ -117,7 +115,7 @@
                     <div id="Title">Mes Operations</div>
 
                     <div class="search-box">
-                      <input type="text" placeholder="Type to search..."/>
+                      <input type="text" placeholder="Recherche" id="search input" onkeyup="get_value_input();"/>
                       <div class="search-btn">
                         <i class="fas fa-search"></i>
                       </div>
@@ -139,6 +137,12 @@
                       }
 
                     </script>
+
+                    <a href="#" class="myButton">
+
+                      <img src="/image/plus.png" id="icon plus"/>
+
+                    </a>
 
                   </div>
 
@@ -168,11 +172,11 @@
 
                             </div>
 
-                            <div id="MAJ filter" onclick="change_icon_MAJ();">
+                            <div id="Maitre d'ouvrage filter" onclick="change_icon_Maitre();">
 
-                              <div id="text">Mis à jour le</div>
+                              <div id="text">Maitre d'ouvrage</div>
 
-                              <img src="/image/chevron-en-bas.png" id="MAJ filter image" class="Sorted">
+                              <img src="/image/chevron-en-bas.png" id="Maitre d'ouvrage filter image" class="Sorted">
 
                             </div>
 
@@ -188,57 +192,7 @@
 
                           <div id="List Operation">
 
-                            <div id="container List Operation">
-
-                              <div id="Box Operation">
-
-                                <div id="Box color"></div>
-
-                                <img src="/image/dossier.png" id="dossier"/>
-
-                                <div id="Nom Operation">TEST DE NOM</div>
-
-                                <div id="Createur Operation">TEST DE CREATEUR</div>
-
-                                <div id="MAJ Operation">TEST DE MISE A JOUR</div>
-
-                                <div id="Date Operation">TEST DE DATE</div>
-
-                              </div>
-
-                              <div id="Box Operation">
-
-                                <div id="Box color"></div>
-
-                                <img src="/image/dossier.png" id="dossier"/>
-
-                                <div id="Nom Operation">TEST DE NOM</div>
-
-                                <div id="Createur Operation">TEST DE CREATEUR</div>
-
-                                <div id="MAJ Operation">TEST DE MISE A JOUR</div>
-
-                                <div id="Date Operation">TEST DE DATE</div>
-
-                              </div>
-
-                              <div id="Box Operation">
-
-                                <div id="Box color"></div>
-
-                                <img src="/image/dossier.png" id="dossier"/>
-
-                                <div id="Nom Operation">TEST DE NOM</div>
-
-                                <div id="Createur Operation">TEST DE CREATEUR</div>
-
-                                <div id="MAJ Operation">TEST DE MISE A JOUR</div>
-
-                                <div id="Date Operation">TEST DE DATE</div>
-
-                              </div>
-
-                            </div>
+                            <div id="container List Operation"></div>
 
                           </div>
 
@@ -257,6 +211,9 @@
         </main>
 
       </div>
+
+      <script src="/index.js" async></script>
+      <script src="/js/script.js" async></script>
 
     </body>
 

@@ -283,7 +283,7 @@
     flex-basis: 0%;
     flex-shrink: 1;
     flex-grow: 1;
-    height: 50%;
+    height: 100%;
     max-width: 100%;
     width: 1
   }
@@ -429,7 +429,7 @@
     margin-top: -12px;
     margin-right: 20px;
     width: 97.7%;
-    height: 234px;
+    height: 100%;
   }
   div[id="Box container Operation"] {
     box-sizing: border-box;
@@ -466,7 +466,7 @@
     box-sizing: border-box;
     display: flex;
     height: 100%;
-    width: 40%;
+    width: 50%;
     color: #929292;
     cursor: pointer;
   }
@@ -474,15 +474,15 @@
     box-sizing: border-box;
     display: flex;
     height: 100%;
-    width: 20%;
+    width: 16.666%;
     color: #929292;
     cursor: pointer;
   }
-  div[id="MAJ filter"] {
+  div[id="Maitre d'ouvrage filter"] {
     box-sizing: border-box;
     display: flex;
     height: 100%;
-    width: 20%;
+    width: 16.666%;
     color: #929292;
     cursor: pointer;
   }
@@ -490,7 +490,7 @@
     box-sizing: border-box;
     display: flex;
     height: 100%;
-    width: 20%;
+    width: 16.666%;
     color: #929292;
     cursor: pointer;
   }
@@ -528,7 +528,7 @@
     padding-left: 0px;
     width: 100%;
   }
-  div[id="Box Operation"] {
+  div[class="Box Operation"] {
     box-sizing: border-box;
     display: flex;
     height: 50px;
@@ -565,26 +565,55 @@
     display: flex;
     margin-left: 10px;
     font-family: Roboto, sans-serif;
-    width: 640px;
+    width: 50%;
   }
   div[id="Createur Operation"] {
     box-sizing: border-box;
     display: flex;
     margin-left: 10px;
     font-family: Roboto, sans-serif;
-    width: 340px;
+    width: 16.666%;
   }
   div[id="MAJ Operation"] {
     box-sizing: border-box;
     display: flex;
     margin-left: 10px;
     font-family: Roboto, sans-serif;
-    width: 340px;
+    width: 16.666%;
   }
   div[id="Date Operation"] {
     box-sizing: border-box;
     display: flex;
     margin-left: 10px;
     font-family: Roboto, sans-serif;
-    width: 300px;
+    width: 16.666%;
+  }
+  .myButton {
+    position: relative;
+    background-color:#45bab8;
+    border-radius:30px;
+    display:flex;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:17px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #2aa18f;
+    margin-top: 100px;
+    margin-left: 360px;
+    width: 50px;
+    height: 50px;
+  }
+  .myButton:hover {
+    background-color:#43a092;
+  }
+  .myButton:active {
+    position:relative;
+    top:1px;
+  }
+  img[id="icon plus"] {
+    height: 24px;
+    width: 24px;
+    margin-top: 12px;
+    margin-left: 12px;
   }

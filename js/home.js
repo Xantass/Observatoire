@@ -22,74 +22,36 @@
    * Routes Definitions
    */
 
-  document.addEventListener('DOMContentLoaded', () => {
-    console.log("LOAD !!!!!");
-});
+router.get("/home", (req, res) => {
+  res.render('home');
+})
 
 router.get("/home:id", async (req, res) => {
-    res.render('home');
-    var temp;
-    const id = req.params.id;
-    var sql = "SELECT * FROM operation WHERE id_user=?"
-    var value = [id];
-    var content_operation;
-    content_operation = await query(sql, value);
-    const forEach = util.promisify(content_operation.forEach).bind(content_operation);
-    await forEach(async (element) => {
-        await get_value_operation(element, id);
-    });
-    console.log("finish");
-});
+  console.log("IM HERE");
+  var sql = "SELECT * FROM operation"
+  var value = [];
+  var content_operation;
+  content_operation = await query(sql);
+  for (element of content_operation) {
+    value.push(await get_value_operation(element, element.id_user));
+  }
+  console.log(value);
+  res.status('200').json(value);
+})
 
  /**
    * Server Activation
    */
 
   async function get_value_operation(element, id) {
-      var nom;
-      var date;
-      var maj;
-      var createur;
+      var value = [];
 
-      nom = get_name(element);
-      createur = await get_createur(id);
-      date = get_date(element.dates);
-      maj = get_date(element.maj);
-      //await create_element_html();
+      value.push(get_name(element));
+      value.push( await get_createur(id));
+      value.push(get_date(element.dates));
+      value.push(get_maitre(element.maitre));
+      return value;
   };
-
-  async function create_element_html(nom, date, maj, createur) {
-    var container = document.getElementById("container List Operation");
-    var box = document.createElement('div');
-    var box_color = document.createElement('div');
-    var img = document.createElement('img');
-    var NOM = document.createElement('div');
-    var DATE = document.createElement('div');
-    var MAJ = document.createElement('div');
-    var CREATEUR = document.createElement('div');
-
-    box.id = "Box Operation";
-    box_color.id = "Box color";
-    img.src = "/image/dossier.png";
-    img.id = "dossier";
-    NOM.id = "Nom Operation";
-    NOM.textContent = nom;
-    DATE.id = "Date Operation";
-    DATE.textContent = date;
-    MAJ.id = "MAJ Operation";
-    MAJ.textContent = maj;
-    CREATEUR.id = "Createur Operation";
-    CREATEUR.textContent = createur;
-    box.appendChild(box_color);
-    box.appendChild(img);
-    box.appendChild(NOM);
-    box.appendChild(DATE);
-    box.appendChild(MAJ);
-    box.appendChild(CREATEUR);
-    console.log(container);
-    //container.appendChild(box);
-    return;
-  }
 
   function get_date(value) {
       date = new Date(value).toISOString().substring(0, 10);
@@ -106,6 +68,10 @@ router.get("/home:id", async (req, res) => {
   function get_name(content_operation) {
       return content_operation.nom;
   };
+
+  function get_maitre(value) {
+    return value;
+};
 
 
  module.exports = router;

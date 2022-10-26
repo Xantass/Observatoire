@@ -8,6 +8,7 @@ const express = require('express');
 const path = require("path");
 const bodyParser = require('body-parser');
 var jsdom = require('jsdom');
+const cookieParser = require('cookie-parser');
 
 /**
  * App Variables
@@ -18,13 +19,13 @@ const port = "3000";
 const router = (global.router = (express.Router()));
 const login = require("./js/login.js");
 const home = require("./js/home.js");
-var JSDOM = jsdom.JSDOM;
-global.doc = new JSDOM('home.html').window.document;
+global.array_elem = ["oui", "yes"];
 
 /**
  *  App Configuration
  */
 
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('ejs').renderFile);
@@ -39,7 +40,9 @@ app.use(router);
  */
 
 app.get("/", (req, res) => {
+    res.clearCookie('id');
     res.render('login');
+    console.log(res.statusCode);
 });
 
 /**

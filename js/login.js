@@ -26,7 +26,7 @@ const router = global.router;
 router.post('/login', (req, res) => {
         const sql = "SELECT * FROM user WHERE identifiant=? AND password=?";
         const values = [req.body.username, req.body.password];
-        connection.query(sql, values, (err, result) => {
+        connection.query(sql, values, async (err, result) => {
                 if (err) {
                         console.error(err);
                         res.status(500).send("internal serveur error");
@@ -34,11 +34,12 @@ router.post('/login', (req, res) => {
                 }
                 else {
                         if (result[0] == undefined) {
+                                res.status(301);
                                 res.redirect('/');
                         }
                         else {
-                                res.status(200);
-                                res.redirect(`http://localhost:3000/home${result[0].id}`);
+                                res.status('200');
+                                res.redirect(`/home`);
                         }
                 }
         });
