@@ -100,7 +100,7 @@
 
         </nav>
 
-        <main id="main box" onmouseover="slide_left_dashboard();">
+        <main id="main box" onmouseover="slide_left_dashboard();" onclick="reset_shadow_box();">
 
           <div id="main_wrap">
 
@@ -192,7 +192,31 @@
 
                           <div id="List Operation">
 
-                            <div id="container List Operation"></div>
+                            <div id="container List Operation">
+
+                              <div class="Box Operation" id="Box Operation TEST">
+
+                                <div id="Box color"></div>
+
+                                <img src="/image/dossier.png" id="dossier"/>
+
+                                <div id="Nom Operation">TEST</div>
+
+                                <div id="Date Operation">TEST</div>
+
+                                <div id="MAJ Operation">TEST</div>
+
+                                <div id="Createur Operation">TEST</div>
+
+                                <button id="Update Operation" onclick="get_position();">
+
+                                  <img src="/image/ellipse.png" id="point de suspension"/>
+
+                                </button>
+
+                              </div>
+
+                            </div>
 
                           </div>
 
@@ -209,6 +233,34 @@
           </div>
 
         </main>
+
+      </div>
+
+      <div id="box update operation">
+
+        <div id="box renommer">
+
+          <img src="/image/ecrivez.png" id="crayon"/>
+
+          <div id="box text update">Renommer</div>
+
+        </div>
+
+        <div id="box dupliquer">
+
+          <img src="/image/dupliquer.png" id="dupliquer"/>
+
+          <div id="box text update">Dupliquer</div>
+
+        </div>
+
+        <div id="box supprimer">
+
+          <img src="/image/bouton-de-suppression-de-la-poubelle.png" id="poubelle"/>
+
+          <div id="box text update">Supprimer</div>
+
+        </div>
 
       </div>
 

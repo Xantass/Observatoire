@@ -1,4 +1,4 @@
-use Observatoire;
+use observatoire;
 
 CREATE TABLE IF NOT EXISTS user
 (

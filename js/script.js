@@ -2,6 +2,7 @@ var name = 0;
 var creator = 0;
 var MAJ = 0;
 var date = 0;
+var past = 0;
 const query = require('./db.js').query;
 var httpRequest;
 var value;
@@ -10,6 +11,7 @@ var array_elem;
 
 async function load_operation() {
     var i = 0;
+    past = 0;
     httpRequest = new XMLHttpRequest();
     if (!httpRequest)
       console.log("NO REQUEST");
@@ -32,6 +34,8 @@ async function load_operation() {
     for (j = 0; j < ChildsNods.length; j++) {
       array_elem.push([ChildsNods[j].id, ChildsNods[j].childNodes[2].childNodes[0].textContent, ChildsNods[j].childNodes[3].childNodes[0].textContent, ChildsNods[j].childNodes[4].childNodes[0].textContent, ChildsNods[j].childNodes[5].childNodes[0].textContent, ChildsNods[j]]);
     }
+    console.log("length array : " + array_elem.length);
+    console.log(array_elem);
 }
 
 async function create_element_html(nom, date, maj, createur) {
@@ -43,6 +47,8 @@ async function create_element_html(nom, date, maj, createur) {
   var DATE = document.createElement('div');
   var MAJ = document.createElement('div');
   var CREATEUR = document.createElement('div');
+  var update = document.createElement('button');
+  var img_bis = document.createElement('img');
 
   box.className = "Box Operation";
   box.id = `${box.className} ${nom}`;
@@ -57,13 +63,31 @@ async function create_element_html(nom, date, maj, createur) {
   MAJ.textContent = maj;
   CREATEUR.id = "Createur Operation";
   CREATEUR.textContent = createur;
+  update.id = "Update Operation";
+  update.onclick = get_position;
+  img_bis.id = "point de suspension";
+  img_bis.src = "/image/ellipse.png";
+  update.appendChild(img_bis);
   box.appendChild(box_color);
   box.appendChild(img);
   box.appendChild(NOM);
   box.appendChild(DATE);
   box.appendChild(MAJ);
   box.appendChild(CREATEUR);
+  box.appendChild(update);
   container.appendChild(box);
+  return;
+}
+
+function get_position() {
+  console.log("get position");
+  past = 1;
+  let cord = this.getBoundingClientRect();
+  var box_update = document.getElementById("box update operation");
+
+  box_update.style.left = cord.left + (-130) + "px";
+  box_update.style.top = cord.top + "px";
+  box_update.style.display = "flex";
   return;
 }
 
@@ -102,14 +126,14 @@ function slide_right_dashboard () {
         date = 0;
         MAJ = 0;
         name = -1;
-        array_elem.sort(tri_nom_croissant);
-        console.log(array_elem);
+        array_elem.sort();
+        tri_node()
     }
     else {
         image_name.src = "/image/chevron-en-bas.png";
         name = 0;
-        array_elem.sort(tri_nom_decroissant);
-        console.log(array_elem);
+        array_elem.reverse();
+        tri_node()
     }
   }
 
@@ -128,10 +152,14 @@ function slide_right_dashboard () {
         MAJ = 0;
         date = 0;
         creator = -1;
+        array_elem.sort(tri_createur_croissant);
+        tri_node();
     }
     else {
         image_creator.src = "/image/chevron-en-bas.png";
         creator = 0;
+        array_elem.sort(tri_createur_decroissant);
+        tri_node();
     }
   }
 
@@ -150,10 +178,14 @@ function slide_right_dashboard () {
         creator = 0;
         date = 0;
         MAJ = -1;
+        array_elem.sort(tri_maitre_croissant);
+        tri_node();
     }
     else {
         image_maitre.src = "/image/chevron-en-bas.png";
         MAJ = 0;
+        array_elem.sort(tri_maitre_decroissant);
+        tri_node();
     }
   }
 
@@ -189,18 +221,57 @@ function slide_right_dashboard () {
     let ChildsNods = document.getElementById('container List Operation').childNodes;
     for (i = 0; i < ChildsNods.length; i++) {
       if (array_elem[i][1].toLowerCase().includes(input.toLowerCase()))
-        array_elem[i][2].style.display = "flex";
+        array_elem[i][5].style.display = "flex";
       else
-      array_elem[i][2].style.display = "none";
+        array_elem[i][5].style.display = "none";
     }
   }
 
-  function tri_nom_croissant(a, b) {
-    return a[1] - b[1];
+  function tri_createur_croissant(a, b) {
+    for(i = 0; i < Math.min(a[2].length, b[2].length); i++) {
+      if(a[2].charCodeAt(i) != b[2].charCodeAt(i))//comparing unicode values
+          return a[2].charCodeAt(i) - b[2].charCodeAt(i);
+    }
+    if(a[2].length != b[2].length)//smaller word is occurs at the beginning of the larger word
+      return a[2].length - b[2].length;
+    else
+      return 0;
   }
 
-  function tri_nom_decroissant(a, b) {
-    return b[1] - a[1];
+  function tri_createur_decroissant(a, b) {
+    for(i = 0; i < Math.min(a[2].length, b[2].length); i++) {
+      if(b[2].charCodeAt(i) != a[2].charCodeAt(i))//comparing unicode values
+          return b[2].charCodeAt(i) - a[2].charCodeAt(i);
+    }
+    if(b[2].length != a[2].length)//smaller word is occurs at the beginning of the larger word
+      return b[2].length - a[2].length;
+    else
+      return 0;
+  }
+
+  function tri_maitre_croissant(a, b) {
+    for(i = 0; i < Math.min(a[3].length, b[3].length); i++) {
+      if(a[3].charCodeAt(i) != b[3].charCodeAt(i)) {//comparing unicode values
+          return a[3].charCodeAt(i) - b[3].charCodeAt(i);
+      }
+    }
+    if(a[3].length != b[3].length) {//smaller word is occurs at the beginning of the larger word
+      return a[3].length - b[3].length;
+    }
+    else {
+      return 0;
+    }
+  }
+
+  function tri_maitre_decroissant(a, b) {
+    for(i = 0; i < Math.min(a[3].length, b[3].length); i++) {
+      if(b[3].charCodeAt(i) != a[3].charCodeAt(i))//comparing unicode values
+          return b[3].charCodeAt(i) - a[3].charCodeAt(i);
+    }
+    if(b[3].length != a[3].length)//smaller word is occurs at the beginning of the larger word
+      return b[3].length - a[3].length;
+    else
+      return 0;
   }
 
   function tri_date_croissant(a, b) {
@@ -250,5 +321,17 @@ function slide_right_dashboard () {
 
     for (i = 0; i < array_elem.length; i++) {
       main.append(array_elem[i][5]);
+    }
+  }
+
+  function reset_shadow_box() {
+    console.log("reset box");
+    var box_update = document.getElementById("box update operation");
+
+    if (past == 0) {
+      box_update.style.display = "none";
+    }
+    else {
+      past = 0;
     }
   }
