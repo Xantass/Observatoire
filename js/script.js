@@ -7,6 +7,8 @@ const query = require('./db.js').query;
 var httpRequest;
 var value;
 var array_elem;
+var name_operation;
+var id_operation;
 
 
 async function load_operation() {
@@ -26,19 +28,21 @@ async function load_operation() {
       value[i] = values;
       i = i + 1;
     }
-    for (j = 0; j < value.length; j = j + 4) {
-      await create_element_html(value[j], value[j + 1], value[j + 3], value[j + 2]);
+    console.log(value);
+    for (j = 0; j < value.length; j = j + 5) {
+      await create_element_html(value[j], value[j + 1], value[j + 3], value[j + 2], value[j + 4]);
     }
     array_elem = new Array();
     let ChildsNods = document.getElementById('container List Operation').childNodes;
-    for (j = 0; j < ChildsNods.length; j++) {
-      array_elem.push([ChildsNods[j].id, ChildsNods[j].childNodes[2].childNodes[0].textContent, ChildsNods[j].childNodes[3].childNodes[0].textContent, ChildsNods[j].childNodes[4].childNodes[0].textContent, ChildsNods[j].childNodes[5].childNodes[0].textContent, ChildsNods[j]]);
+    i = 4;
+    for (j = 0; j < ChildsNods.length; i = i + 5, j++) {
+      array_elem.push([ChildsNods[j].id, ChildsNods[j].childNodes[2].childNodes[0].textContent, ChildsNods[j].childNodes[3].childNodes[0].textContent, ChildsNods[j].childNodes[4].childNodes[0].textContent, ChildsNods[j].childNodes[5].childNodes[0].textContent, ChildsNods[j], value[i]]);
     }
     console.log("length array : " + array_elem.length);
     console.log(array_elem);
 }
 
-async function create_element_html(nom, date, maj, createur) {
+async function create_element_html(nom, date, maj, createur, Id) {
   var container = document.getElementById("container List Operation");
   var box = document.createElement('div');
   var box_color = document.createElement('div');
@@ -49,9 +53,10 @@ async function create_element_html(nom, date, maj, createur) {
   var CREATEUR = document.createElement('div');
   var update = document.createElement('button');
   var img_bis = document.createElement('img');
+  var ID = document.createElement('div');
 
   box.className = "Box Operation";
-  box.id = `${box.className} ${nom}`;
+  box.id = `${box.className} N ${Id}`;
   box_color.id = "Box color";
   img.src = "/image/dossier.png";
   img.id = "dossier";
@@ -67,6 +72,8 @@ async function create_element_html(nom, date, maj, createur) {
   update.onclick = get_position;
   img_bis.id = "point de suspension";
   img_bis.src = "/image/ellipse.png";
+  ID.id = "ID Operation";
+  ID.textContent = Id;
   update.appendChild(img_bis);
   box.appendChild(box_color);
   box.appendChild(img);
@@ -75,16 +82,19 @@ async function create_element_html(nom, date, maj, createur) {
   box.appendChild(MAJ);
   box.appendChild(CREATEUR);
   box.appendChild(update);
+  box.appendChild(ID);
   container.appendChild(box);
   return;
 }
 
 function get_position() {
-  console.log("get position");
   past = 1;
   let cord = this.getBoundingClientRect();
   var box_update = document.getElementById("box update operation");
 
+  name_operation = this.parentNode.childNodes[2].textContent;
+  id_operation = this.parentNode.childNodes[7].textContent;
+  console.log(id_operation);
   box_update.style.left = cord.left + (-130) + "px";
   box_update.style.top = cord.top + "px";
   box_update.style.display = "flex";
@@ -325,7 +335,6 @@ function slide_right_dashboard () {
   }
 
   function reset_shadow_box() {
-    console.log("reset box");
     var box_update = document.getElementById("box update operation");
 
     if (past == 0) {
@@ -334,4 +343,66 @@ function slide_right_dashboard () {
     else {
       past = 0;
     }
+  }
+
+  function get_rename() {
+    var update = document.getElementById("container rename operation");
+    var update_bis = document.getElementById("box update operation");
+    var input_rename = document.getElementById("name input");
+
+    input_rename.value = name_operation;
+    update_bis.style.display = "none";
+    update.style.display = "flex";
+  }
+
+  function back_to_home() {
+    var update = document.getElementById("container rename operation");
+
+    update.style.display = "none";
+  }
+
+  function go_to_update() {
+    var input = document.getElementById("name input");
+    var update = document.getElementById("container rename operation");
+    var box = document.getElementById(`Box Operation N ${id_operation}`).childNodes[2];
+
+    httpRequest = new XMLHttpRequest();
+    if (!httpRequest)
+      console.log("NO REQUEST");
+    httpRequest.open('POST', '/home/rename', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send(`operation=${input.value}&id=${id_operation}`);
+    update.style.display = "none";
+    box.textContent = input.value;
+  }
+
+  function get_duplicate() {
+    httpRequest = new XMLHttpRequest();
+    var update_bis = document.getElementById("box update operation");
+    var myNode = document.getElementById("container List Operation");
+
+    if (!httpRequest)
+      console.log("NO REQUEST");
+    httpRequest.open('POST', '/home/duplicate', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send(`id=${id_operation}`);
+    update_bis.style.display = "none";
+    while (myNode.firstChild) {
+      myNode.removeChild(myNode.firstChild);
+    }
+    load_operation();
+  }
+
+  function get_sup() {
+    httpRequest = new XMLHttpRequest();
+    var update_bis = document.getElementById("box update operation");
+    var element = document.getElementById(`Box Operation N ${id_operation}`);
+
+    if (!httpRequest)
+      console.log("NO REQUEST");
+    httpRequest.open('POST', '/home/delete', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send(`id=${id_operation}`);
+    update_bis.style.display = "none";
+    element.remove();
   }

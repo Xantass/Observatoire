@@ -61,6 +61,17 @@
     cursor: pointer;
     height: 57px;
   }
+  div[id="container text button home"] {
+    box-sizing: border-box;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    padding: 19px;
+    border-bottom: 1px solid;
+    border-bottom-color: #45BAB8;
+    cursor: pointer;
+    height: 57px;
+  }
   a[id="text button"] {
     align-self: center;
     color: white;
@@ -140,7 +151,7 @@
     height: 57px;
     border-bottom: 1px solid;
     position: relative;
-    border-bottom-color: white;
+    border-bottom-color: #45BAB8;
   }
   div[id="box button"] {
     align-self: flex-start;
@@ -243,6 +254,10 @@
     height: 19.1875px;
     width: 161px;
     color: white;
+  }
+  a[id="text button home"] {
+    color: #45BAB8;
+    text-decoration: none;
   }
   main[id="main box"] {
     box-sizing: border-box;
@@ -588,6 +603,10 @@
     font-family: Roboto, sans-serif;
     width: 16.666%;
   }
+  div[id="ID Operation"] {
+    box-sizing: border-box;
+    display: none;
+  }
   button[id="Update Operation"] {
     box-sizing: border-box;
     display: flex;
@@ -635,7 +654,7 @@
     margin-left: 12px;
   }
   div[id="box update operation"] {
-    display: flex;
+    display: none;
     position: absolute;
     flex-direction: column;
     background-color: #fff;
@@ -704,4 +723,161 @@
     display: flex;
     margin-top: 12px;
     margin-left: 50px;
+  }
+  div[id="container rename operation"] {
+    box-sizing: border-box;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.459);
+    width: 100%;
+    height: 100%;
+    z-index: 202;
+  }
+  div[id="box rename operation"] {
+    box-sizing: border-box;
+    display: flex;
+    position: relative;
+    background-color: #fff;
+    flex-direction: column;
+    margin-left: 40%;
+    width: 400px;
+    height: 219px;
+  }
+  div[id="title box rename operation"] {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    height: 60px;
+    width: 100%
+  }
+  img[id="crayon_bis"] {
+    box-sizing: border-box;
+    display: flex;
+    width: 24px;
+    height: 24px;
+    margin-left: 30px;
+  }
+  div[id="text title operation"] {
+    box-sizing: border-box;
+    display: flex;
+    margin-top: 2px;
+    margin-left: 15px;
+    font-size: large;
+  }
+  form[id="form update name"] {
+    box-sizing: border-box;
+    display: flex;
+    margin-left: 30;
+    flex-direction: column;
+    width: 100%;
+    padding-bottom: 20px;
+  }
+  input[id="name input"] {
+    box-sizing: border-box;
+    display: flex;
+    margin-top: 5px;
+    margin-left: 30px;
+    width: 80%;
+    border: none;
+    border-bottom: 1px solid;
+    font-size: large;
+  }
+  label[id="title name input"] {
+    box-sizing: border-box;
+    display: flex;
+    margin-top: 30px;
+    margin-left: 30px;
+    font-size: small;
+  }
+  input[id="name input"]:focus {
+    outline: none;
+  }
+  div[id="button form update operation"] {
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    height: 30%;
+    flex-direction: row;
+    align-items: center;
+  }
+  .button2::after {
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+  }
+  .button2 {
+    background: white;
+    border: 1px solid rgb(37, 37, 37);
+    border-radius: 10px;
+    color: rgb(37, 37, 37);
+    display: block;
+    font-size: large;
+    font-weight: bold;
+    margin: 10px auto;
+    position: relative;
+    text-transform: uppercase;
+    width: 110px;
+    height: 40px;
+  }
+  .button2::before,
+  .button2::after {
+    background: #fff;
+    content: "";
+    position: absolute;
+    z-index: -1;
+  }
+  .button2:hover {
+    background: rgb(228, 227, 227);
+  }
+  .button2::after {
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 0;
+  }
+  .button2:hover:after {
+    width: 100%;
+  }
+  .button1::after {
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+  }
+  .button1 {
+    background: #45bab8;
+    border: 1px solid #45bab8;
+    border-radius: 10px;
+    color: #fff;
+    display: block;
+    font-size: large;
+    font-weight: bold;
+    margin: 10px auto;
+    position: relative;
+    text-transform: uppercase;
+    width: 110px;
+    height: 40px;
+  }
+  .button1::before,
+  .button1::after {
+    background: #fff;
+    content: "";
+    position: absolute;
+    z-index: -1;
+  }
+  .button1:hover {
+    background: #43a092;
+  }
+  .button1::after {
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 0;
+  }
+  .button1:hover:after {
+    width: 100%;
   }

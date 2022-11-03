@@ -19,7 +19,7 @@ const port = "3000";
 const router = (global.router = (express.Router()));
 const login = require("./js/login.js");
 const home = require("./js/home.js");
-global.array_elem = ["oui", "yes"];
+const operation = require("./js/operation.js");
 
 /**
  *  App Configuration
@@ -33,6 +33,10 @@ app.set('view engine', 'html');
 app.use(express.static(path.join(__dirname, ".")));
 app.use('/login', login);
 app.use('/home', home);
+app.use('/home/rename', home);
+app.use('/home/duplicate', home);
+app.use('/home/delete', home);
+app.use('/home/operation', operation);
 app.use(router);
 
 /**
@@ -40,7 +44,6 @@ app.use(router);
  */
 
 app.get("/", (req, res) => {
-    res.clearCookie('id');
     res.render('login');
     console.log(res.statusCode);
 });

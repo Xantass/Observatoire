@@ -23,9 +23,9 @@
 
           <div id="liste text button">
 
-            <div id="container text button">
+            <div id="container text button home">
 
-              <a id="text button">Mes Operations</a>
+              <a id="text button home" href="http://localhost:3000/home">Mes Operations</a>
 
             </div>
 
@@ -49,8 +49,8 @@
 
           <div id="container image">
 
-            <img id="logo simonneau" src="./image/logo_simonneau.png" alt="simonneau logo"/>
-            <img id="logo simonneau avec ecriture" src="./image/logo_simoneau_avec_ecriture.png" alt="simonneau logo" hidden/>
+            <img id="logo simonneau" src="/image/logo_simonneau.png" alt="simonneau logo"/>
+            <img id="logo simonneau avec ecriture" src="/image/logo_simoneau_avec_ecriture.png" alt="simonneau logo" hidden/>
 
           </div>
 
@@ -58,11 +58,11 @@
 
             <div id="liste button">
 
-              <a id="home page">
+              <a id="home page" href="http://localhost:3000/home">
 
                 <div id="box button">
 
-                  <img id="home button" src="./image/home_color.png" alt="home page"/>
+                  <img id="home button" src="/image/home_color.png" alt="home page"/>
 
                 </div>
 
@@ -74,7 +74,7 @@
 
                 <div id="box button">
 
-                  <img id="compte button" src="./image/compte.png" alt="compte page">
+                  <img id="compte button" src="/image/compte.png" alt="compte page">
 
                 </div>
 
@@ -86,7 +86,7 @@
 
                 <div id="box button">
 
-                  <img id="deconnexion button" src="./image/deconnexion.png" alt="login page">
+                  <img id="deconnexion button" src="/image/deconnexion.png" alt="login page">
 
                 </div>
 
@@ -138,7 +138,7 @@
 
                     </script>
 
-                    <a href="#" class="myButton">
+                    <a href="/home/operation" class="myButton">
 
                       <img src="/image/plus.png" id="icon plus"/>
 
@@ -192,31 +192,7 @@
 
                           <div id="List Operation">
 
-                            <div id="container List Operation">
-
-                              <div class="Box Operation" id="Box Operation TEST">
-
-                                <div id="Box color"></div>
-
-                                <img src="/image/dossier.png" id="dossier"/>
-
-                                <div id="Nom Operation">TEST</div>
-
-                                <div id="Date Operation">TEST</div>
-
-                                <div id="MAJ Operation">TEST</div>
-
-                                <div id="Createur Operation">TEST</div>
-
-                                <button id="Update Operation" onclick="get_position();">
-
-                                  <img src="/image/ellipse.png" id="point de suspension"/>
-
-                                </button>
-
-                              </div>
-
-                            </div>
+                            <div id="container List Operation"></div>
 
                           </div>
 
@@ -238,7 +214,7 @@
 
       <div id="box update operation">
 
-        <div id="box renommer">
+        <div id="box renommer" onclick="get_rename();">
 
           <img src="/image/ecrivez.png" id="crayon"/>
 
@@ -246,7 +222,7 @@
 
         </div>
 
-        <div id="box dupliquer">
+        <div id="box dupliquer" onclick="get_duplicate();">
 
           <img src="/image/dupliquer.png" id="dupliquer"/>
 
@@ -254,7 +230,7 @@
 
         </div>
 
-        <div id="box supprimer">
+        <div id="box supprimer" onclick="get_sup();">
 
           <img src="/image/bouton-de-suppression-de-la-poubelle.png" id="poubelle"/>
 
@@ -264,6 +240,37 @@
 
       </div>
 
+      <div id="container rename operation">
+
+          <div id="box rename operation">
+
+              <div id="title box rename operation">
+
+                <img src="/image/ecrivez.png" id="crayon_bis"/>
+
+                <div id="text title operation">Renommer une operation</div>
+
+              </div>
+
+              <form id="form update name" method="post" action="home/update">
+
+                <label id="title name input">Nom</label>
+
+                <input id="name input" name="nom" placeholder="Taper un nom d'operation"/>
+
+              </form>
+
+              <div id="button form update operation">
+
+                <button type="button" class="button2" onclick="back_to_home();">Annuler</button>
+
+                <button type="submit" class="button1" onclick="go_to_update();">Valider</button>
+
+              </div>
+
+          </div>
+
+      </div>
       <script src="/index.js" async></script>
       <script src="/js/script.js" async></script>
 
