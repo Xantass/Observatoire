@@ -14,7 +14,7 @@
 
     </head>
 
-    <body onload="load_operation();">
+    <body onload="load_data();" onclick="reset();">
 
       <div id="container">
 
@@ -104,13 +104,19 @@
 
             <header id="header of the main box">
 
-                <div id="title header of the main box">
+              <div class="svg-wrapper">
 
-                  <input id="text title header of the main box" name="nom_operation" value="NOUVELLE OPERATION" readonly="true"></input>
+                <svg height="60" width="820" xmlns="http://www.w3.org/2000/svg">
 
-                </div>
+                  <rect class="shape" id="shape" height="60" width="820" />
 
-                <button id="button of the title">
+                </svg>
+
+                <input id="text title header of the main box" value="CONSTRUCTION D'UN COLLEGE 700 ET D'UN GYMNASE A CERGY" readonly="readonly" placeholder="Nom de l'operation" onfocus="get_focus()"/>
+
+              </div>
+
+                <button id="button of the title" onclick="get_focus()">
 
                   <img src="/image/ecrivez.png" id="crayon of the title">
 
@@ -118,12 +124,72 @@
 
             </header>
 
+            <div id="container main information">
+
+              <div id="container nav operation">
+
+                <nav id="nav operation">
+
+                  <div id="list element of the operation">
+
+                    <div id="main information of the list of the operation">
+
+                      <img src="/image/triangle_bas.png" class="triangle_bas" id="1"/>
+
+                      <img src="/image/operation.png" id="operation"/>
+
+                      <span id="text element of list">Operation</span>
+
+                    </div>
+
+                    <div id="list of the lot of the operation">
+
+                      <div class="container of the lot" id="first">
+
+                        <img src="/image/triangle_bas.png" class="triangle_bas" id="2"/>
+
+                        <img src="/image/lot.png" id="operation"/>
+
+                        <span id="text element of list">LOT</span>
+
+                      </div>
+
+                      <div class="container of the lot" id="second">
+
+                        <img src="/image/triangle_bas.png" class="triangle_bas" id="3"/>
+
+                        <img src="/image/lot.png" id="operation"/>
+
+                        <span id="text element of list">LOT</span>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  <div id="extented the nav">
+
+                    <button id="button extented the nav">
+
+                      <img src="/image/left_arrow.png" id="right_arrow"/>
+
+                    </button>
+
+                  </div>
+
+                </nav>
+
+              </div>
+
+            </div>
+
         </main>
 
       </div>
 
       <script src="/index.js" async></script>
-      <script src="/js/script.js" async></script>
+      <script src="/js/script_operation.js" async></script>
 
     </body>
 

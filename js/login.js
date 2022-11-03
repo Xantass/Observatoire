@@ -24,7 +24,6 @@ const router = global.router;
   */
 
 router.post('/login', (req, res) => {
-        console.log(req.body);
         const sql = "SELECT * FROM user WHERE identifiant=? AND password=?";
         const values = [req.body.username, req.body.password];
         connection.query(sql, values, async (err, result) => {

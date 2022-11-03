@@ -3,7 +3,6 @@ var creator = 0;
 var MAJ = 0;
 var date = 0;
 var past = 0;
-const query = require('./db.js').query;
 var httpRequest;
 var value;
 var array_elem;
@@ -88,6 +87,7 @@ async function create_element_html(nom, date, maj, createur, Id) {
 }
 
 function get_position() {
+  console.log(this);
   past = 1;
   let cord = this.getBoundingClientRect();
   var box_update = document.getElementById("box update operation");

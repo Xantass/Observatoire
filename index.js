@@ -45,7 +45,6 @@ app.use(router);
 
 app.get("/", (req, res) => {
     res.render('login');
-    console.log(res.statusCode);
 });
 
 /**
