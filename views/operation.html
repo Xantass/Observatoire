@@ -112,7 +112,7 @@
 
                 </svg>
 
-                <input id="text title header of the main box" value="CONSTRUCTION D'UN COLLEGE 700 ET D'UN GYMNASE A CERGY" readonly="readonly" placeholder="Nom de l'operation" onfocus="get_focus()"/>
+                <input id="text title header of the main box" value="" readonly="readonly" placeholder="Nom de l'operation" onclick="get_focus()"/>
 
               </div>
 
@@ -172,13 +172,185 @@
 
                     <button id="button extented the nav">
 
-                      <img src="/image/left_arrow.png" id="right_arrow"/>
+                      <img src="/image/left_arrow.png" id="arrow" onclick="slide();"/>
 
                     </button>
 
                   </div>
 
                 </nav>
+
+              </div>
+
+              <div id="container form">
+
+                <div id="container button">
+
+                    <div id="box button info generale">
+
+                      <button class="button info" id="button info generale">GENERALE</button>
+
+                    </div>
+
+                    <div id="box button info dimensionnelle">
+
+                      <button class="button info" id="button info dimensionnelle">DIMENSIONNELLE</button>
+
+                    </div>
+
+                </div>
+
+                <div id="container form generale">
+
+                  <div class="container 2 input">
+
+                    <div class="1 input">
+
+                      <span id="title input">Nom du site</span>
+
+                      <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                    </div>
+
+                    <div class="2 input">
+
+                      <span id="title input">Categorie du site</span>
+
+                      <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                    </div>
+
+                  </div>
+
+                  <div class="container 2 input">
+
+                    <div class="1 input">
+
+                      <span id="title input">Sous-Categorie du site</span>
+
+                      <input name="TEST" value="" id="Sous-Categorie du site" class="input generale"/>
+
+                    </div>
+
+                    <div class="2 input">
+
+                      <span id="title input">Composition</span>
+
+                      <input name="TEST" value="" id="Composition" class="input generale"/>
+
+                    </div>
+
+                  </div>
+
+                  <div class="container 2 input">
+
+                    <div class="1 input">
+
+                      <span id="title input">Localisation</span>
+
+                      <input name="TEST" value="" id="Localisation" class="input generale"/>
+
+                    </div>
+
+                    <div class="2 input">
+
+                      <span id="title input">Adresse du site</span>
+
+                      <input name="TEST" value="" id="Adresse du site" class="input generale"/>
+
+                    </div>
+
+                  </div>
+
+                  <div class="container 2 input">
+
+                    <div class="1 input">
+
+                      <span id="title input">Longitude</span>
+
+                      <input name="TEST" value="" id="Longitude" class="input generale"/>
+
+                    </div>
+
+                    <div class="2 input">
+
+                      <span id="title input">Latitude</span>
+
+                      <input name="TEST" value="" id="Latitude" class="input generale"/>
+
+                    </div>
+
+                  </div>
+
+                  <div class="container 2 input">
+
+                    <div class="1 input">
+
+                      <span id="title input">Description</span>
+
+                      <input name="TEST" value="" id="Description" class="input generale"/>
+
+                    </div>
+
+                    <div class="2 input">
+
+                      <span id="title input">Date AO</span>
+
+                      <input name="TEST" value="" id="Date AO" class="input generale"/>
+
+                    </div>
+
+                  </div>
+
+                  <div class="container 2 input">
+
+                    <div class="1 input">
+
+                      <span id="title input">Typologie de marche</span>
+
+                      <input name="TEST" value="" id="Typologie de marche" class="input generale"/>
+
+                    </div>
+
+                    <div class="2 input">
+
+                      <span id="title input">Typologie d'operation</span>
+
+                      <input name="TEST" value="" id="Typologie d'operation" class="input generale"/>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div id="container form dimensionnelle">
+
+                  <div class="container sous categorie" id="sous_categorie 1">
+
+                    <span class="title container sous categorie">COMPOSITION DE LA STRUCTURE</span>
+
+                    <img src="/image/chevron-en-bas.png" class="extend sous categorie"/>
+
+                  </div>
+
+                  <div class="container sous categorie" id="sous_categorie 2">
+
+                    <span class="title container sous categorie">DIMENSION CONSTRUCTION</span>
+
+                    <img src="/image/chevron-en-bas.png" class="extend sous categorie"/>
+
+                  </div>
+
+                  <div class="container sous categorie" id="sous_categorie 3">
+
+                    <span class="title container sous categorie">DIMENSION TERRAIN</span>
+
+                    <img src="/image/chevron-en-bas.png" class="extend sous categorie"/>
+
+                  </div>
+
+                </div>
 
               </div>
 

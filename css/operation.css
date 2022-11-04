@@ -1,6 +1,8 @@
 html {
     height: 100%;
     width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
   body {
     /*color: #45BAB8;*/
@@ -39,6 +41,7 @@ html {
     -moz-transform: translateX(-203px);
     -ms-transform: translateX(-203px);
     -o-transform: translateX(-203px);
+    z-index: 2;
 }
   div[id="liste text button"] {
     box-sizing: border-box;
@@ -75,6 +78,7 @@ html {
     height: 100%;
     pointer-events: auto;
     position: fixed;
+    z-index: 3;
   }
   nav[id="box Dashboard"]:hover::after {
     width: 275px;
@@ -259,6 +263,7 @@ html {
     transition-duration: 0.2s;
     transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
 }
 header[id="header of the main box"] {
     box-sizing: border-box;
@@ -355,6 +360,10 @@ div[id="container nav operation"] {
   padding-top: 20px;
   padding-bottom: 20px;
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.12);
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 nav[id="nav operation"] {
   box-sizing: border-box;
@@ -426,6 +435,7 @@ div[id="extented the nav"] {
   position: relative;
   width: 100%;
   height: 5%;
+  vertical-align: bottom;
 }
 button[id="button extented the nav"] {
   box-sizing: border-box;
@@ -438,10 +448,205 @@ button[id="button extented the nav"] {
   background-color: #fff;
   cursor: pointer;
 }
-img[id="right_arrow"] {
+img[id="arrow"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
   height: 100%;
   width: 100%;
+}
+div[id="container form"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 830px;
+  flex-direction: column;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+div[id="container form info generale"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+div[id="container button"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 430px;
+  height: 36px;
+  margin-top: 30px;
+  margin-left: 30px;
+  flex-direction: row;
+  background-color: green;
+}
+div[id="box button info generale"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  height: 100%;
+  width: 50%;
+  border: 1px solid;
+  border-color: #22334d;
+  cursor: pointer;
+}
+div[id="box button info dimensionnelle"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  height: 100%;
+  width: 50%;
+  border: 1px solid;
+  border-color: #22334d;
+  cursor: pointer;
+}
+button[id="button info generale"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: #22334d;
+  font-size: large;
+  padding-left: 60px;
+  flex-direction: row;
+  align-items: center;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+button[id="button info dimensionnelle"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: #fff;
+  font-size: large;
+  padding-left: 30px;
+  flex-direction: row;
+  align-items: center;
+  color: #22334d;
+  border: none;
+  cursor: pointer;
+}
+div[id="container form generale"] {
+  box-sizing: border-box;
+  display: block;
+  position: relative;
+  flex-direction: column;
+  width: 90%;
+  height: 83%;
+  margin-top: 15px;
+  margin-left: 30px;
+  /*background-color: red;*/
+  overflow-y: auto;
+}
+div[id="container form generale"]::-webkit-scrollbar {
+  width: 0px;
+}
+div[class="container 2 input"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  width: 90%;
+  height: 120px;
+  align-items: center;
+  margin-top: 5px;
+  margin-left: 15px;
+  /*background-color: blue;*/
+}
+div[class="1 input"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 60px;
+  /*background-color: green;*/
+  border-bottom: 1px solid;
+}
+div[class="2 input"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  margin-left: 60px;
+  width: 100%;
+  height: 60px;
+  /*background-color: pink;*/
+  border-bottom: 1px solid;
+}
+input[class="input generale"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  margin-top: 5px;
+  margin-left: 10px;
+  width: 95%;
+  height: 50%;
+  border: none;
+  font-size: large;
+  /*background-color: #fff;*/
+  outline: none;
+}
+div[id="container form dimensionnelle"] {
+  box-sizing: border-box;
+  display: none;
+  position: relative;
+  flex-direction: column;
+  width: 90%;
+  height: 83%;
+  margin-top: 15px;
+  margin-left: 30px;
+  /*background-color: green;*/
+  overflow-y: auto;
+}
+div[id="container form dimensionnelle"]::-webkit-scrollbar {
+  width: 0px;
+}
+span[id="title input"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  margin-right: 230px;
+  width: 300px;
+  height: auto;
+  opacity: 0.3;
+}
+div[class="container sous categorie"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  width: 90%;
+  height: 50px;
+  align-items: center;
+  margin-top: 5px;
+  margin-left: 15px;
+  background-color: rgba(0, 0, 0, 0.048);
+}
+span[class="title container sous categorie"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  margin-left: 20px;
+  width: 400px;
+  height: auto;
+}
+img[class="extend sous categorie"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  margin-left: 730px;
+  width: 40px;
+  height: 40px;
 }
