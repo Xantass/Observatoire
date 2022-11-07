@@ -276,7 +276,7 @@ header[id="header of the main box"] {
     justify-content: space-between;
     box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.12);
 }
-input[id="text title header of the main box"] {
+input[id="text nom title header of the main box"] {
     box-sizing: border-box;
     display: flex;
     position: absolute;
@@ -289,6 +289,20 @@ input[id="text title header of the main box"] {
     background-color: #fff;
     color: black;
     width: 780px;
+}
+input[id="text maitre title header of the main box"] {
+  box-sizing: border-box;
+  display: flex;
+  position: absolute;
+  font-size: large;
+  border: none;
+  top: 20px;
+  margin-left: 30px;
+  text-decoration: none;
+  outline: none;
+  background-color: #fff;
+  color: black;
+  width: 780px;
 }
 button[id="button of the title"] {
   box-sizing: border-box;
@@ -390,6 +404,8 @@ div[id="main information of the list of the operation"] {
   width: 100%;
   height: 35px;
   cursor: pointer;
+  background-color: #45bab85d;
+  font-weight: bold;
 }
 img[class="triangle_bas"] {
   box-sizing: border-box;
@@ -455,12 +471,13 @@ img[id="arrow"] {
   height: 100%;
   width: 100%;
 }
-div[id="container form"] {
+div[id="container form operation"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
   width: 100%;
   height: 830px;
+  padding-left: 0px;
   flex-direction: column;
   transition-delay: 0s;
   transition-duration: 0.2s;
@@ -566,7 +583,6 @@ div[class="1 input"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
-  align-items: center;
   flex-direction: column;
   width: 100%;
   height: 60px;
@@ -577,7 +593,6 @@ div[class="2 input"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
-  align-items: center;
   flex-direction: column;
   margin-left: 60px;
   width: 100%;
@@ -590,7 +605,6 @@ input[class="input generale"] {
   display: flex;
   position: relative;
   margin-top: 5px;
-  margin-left: 10px;
   width: 95%;
   height: 50%;
   border: none;
@@ -605,7 +619,7 @@ div[id="container form dimensionnelle"] {
   flex-direction: column;
   width: 90%;
   height: 83%;
-  margin-top: 15px;
+  margin-top: 25px;
   margin-left: 30px;
   /*background-color: green;*/
   overflow-y: auto;
@@ -617,8 +631,7 @@ span[id="title input"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
-  margin-right: 230px;
-  width: 300px;
+  width: 450px;
   height: auto;
   opacity: 0.3;
 }
@@ -626,12 +639,20 @@ div[class="container sous categorie"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
-  flex-direction: row;
+  flex-direction: column;
   width: 90%;
+  height: 70px;
+  margin-left: 15px;
+}
+div[class="header container sous catgeorie"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
   height: 50px;
   align-items: center;
-  margin-top: 5px;
-  margin-left: 15px;
   background-color: rgba(0, 0, 0, 0.048);
 }
 span[class="title container sous categorie"] {
@@ -649,4 +670,196 @@ img[class="extend sous categorie"] {
   margin-left: 730px;
   width: 40px;
   height: 40px;
+}
+div[id="container form 1"] {
+  box-sizing: border-box;
+  display: none;
+  position: relative;
+  flex-direction: column;
+  width: 90%;
+  height: 70px;
+  align-items: center;
+  margin-top: 15px;
+  margin-left: 15px;
+  margin-bottom: 20px;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+div[id="container form 2"] {
+  box-sizing: border-box;
+  display: none;
+  position: relative;
+  flex-direction: column;
+  width: 90%;
+  height: 70px;
+  align-items: center;
+  margin-top: 15px;
+  margin-left: 15px;
+  margin-bottom: 20px;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+div[id="container form 3"] {
+  box-sizing: border-box;
+  display: none;
+  position: relative;
+  flex-direction: column;
+  width: 90%;
+  height: 70px;
+  align-items: center;
+  margin-top: 15px;
+  margin-left: 15px;
+  margin-bottom: 20px;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+div[id="container form 4"] {
+  box-sizing: border-box;
+  display: none;
+  position: relative;
+  flex-direction: column;
+  width: 90%;
+  height: 70px;
+  align-items: center;
+  margin-top: 15px;
+  margin-left: 15px;
+  margin-bottom: 20px;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+div[class="container 2 input dimension"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  width: 100%;
+  height: 70px;
+  margin-bottom: 40px;
+  align-items: center;
+}
+div[id="container submit"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  align-items: flex-end;
+  justify-content: right;
+  align-content: space-between;
+  height: 62px;
+  width: 100%;
+  box-shadow: 1px 2px 6px inset rgba(0, 0, 0, 0.12);
+}
+.button1::after {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.button1 {
+  background: #45bab8;
+  border: 1px solid #45bab8;
+  border-radius: 10px;
+  color: #fff;
+  display: block;
+  font-size: large;
+  font-weight: bold;
+  margin-right: 20px;
+  position: relative;
+  text-transform: uppercase;
+  width: 160px;
+  height: 40px;
+}
+.button1::before,
+.button1::after {
+  background: #fff;
+  content: "";
+  position: absolute;
+  z-index: -1;
+}
+.button1:hover {
+  background: #43a092;
+}
+.button1::after {
+  height: 100%;
+  left: 0;
+  top: 0;
+  width: 0;
+}
+.button1:hover:after {
+  width: 100%;
+}
+div[class="container form lot"] {
+  box-sizing: border-box;
+  display: none;
+  position: relative;
+  width: 100%;
+  height: 830px;
+  padding-left: 0px;
+  flex-direction: column;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+div[class="container info generale lot"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 530px;
+  height: 36px;
+  margin-top: 30px;
+  margin-left: 30px;
+  flex-direction: row;
+}
+div[class="1 input lot"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  width: 58%;
+  height: 60px;
+  /*background-color: green;*/
+  border-bottom: 1px solid;
+}
+div[class="2 input lot"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  margin-left: 60px;
+  width: 58%;
+  height: 60px;
+  /*background-color: pink;*/
+  border-bottom: 1px solid;
+}
+span[class="title liste d'article"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  border: none;
+  outline: none;
+  font-weight: bold;
+  font-size: 25px;
+  margin-left: 30px;
+  margin-top: 70px;
+}
+div[class="liste d'article"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  margin-top: 20px;
+  width: 100%;
+  height: 72%;
+  overflow-y: auto;
+  background-color: red;
+}
+div[class="liste d'article"]::-webkit-scrollbar {
+  width: 0px;
 }

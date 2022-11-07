@@ -108,19 +108,31 @@
 
                 <svg height="60" width="820" xmlns="http://www.w3.org/2000/svg">
 
-                  <rect class="shape" id="shape" height="60" width="820" />
+                  <rect class="shape" id="shape_nom" height="60" width="820" />
 
                 </svg>
 
-                <input id="text title header of the main box" value="" readonly="readonly" placeholder="Nom de l'operation" onclick="get_focus()"/>
+                <input id="text nom title header of the main box" name="nom_operation" value="" placeholder="Nom de l'operation" onclick="get_focus()"/>
 
               </div>
 
-                <button id="button of the title" onclick="get_focus()">
+              <div class="svg-wrapper">
+
+                <svg height="60" width="820" xmlns="http://www.w3.org/2000/svg">
+
+                  <rect class="shape" id="shape_maitre" height="60" width="820" />
+
+                </svg>
+
+                <input id="text maitre title header of the main box" name="maitre_ouvrage" value="" placeholder="Nom du maitre d'ouvrage" onclick="get_focus_bis()"/>
+
+              </div>
+
+              <button id="button of the title" onclick="get_focus()">
 
                   <img src="/image/ecrivez.png" id="crayon of the title">
 
-                </button>
+              </button>
 
             </header>
 
@@ -146,21 +158,17 @@
 
                       <div class="container of the lot" id="first">
 
-                        <img src="/image/triangle_bas.png" class="triangle_bas" id="2"/>
-
                         <img src="/image/lot.png" id="operation"/>
 
-                        <span id="text element of list">LOT</span>
+                        <span id="text element of list">Lot</span>
 
                       </div>
 
                       <div class="container of the lot" id="second">
 
-                        <img src="/image/triangle_bas.png" class="triangle_bas" id="3"/>
-
                         <img src="/image/lot.png" id="operation"/>
 
-                        <span id="text element of list">LOT</span>
+                        <span id="text element of list">Lot</span>
 
                       </div>
 
@@ -182,7 +190,7 @@
 
               </div>
 
-              <div id="container form">
+              <div id="container form operation">
 
                 <div id="container button">
 
@@ -328,29 +336,437 @@
 
                   <div class="container sous categorie" id="sous_categorie 1">
 
-                    <span class="title container sous categorie">COMPOSITION DE LA STRUCTURE</span>
+                    <div class="header container sous catgeorie">
 
-                    <img src="/image/chevron-en-bas.png" class="extend sous categorie"/>
+                      <span class="title container sous categorie">COMPOSITION DE LA STRUCTURE</span>
+
+                      <img src="/image/chevron-en-bas.png" class="extend sous categorie" onclick="deroule_form_1();"/>
+
+                    </div>
+
+                    <div id="container form 1">
+
+                      <div class="container 2 input dimension">
+
+                        <div class="1 input">
+
+                          <span id="title input">Nombre d'eleve</span>
+
+                          <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                        </div>
+
+                        <div class="2 input">
+
+                          <span id="title input">Nombre de classe (salle d'enseignement)</span>
+
+                          <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                        </div>
+
+                      </div>
+
+                      <div class="container 2 input dimension">
+
+                        <div class="1 input">
+
+                          <span id="title input">Nombre de salle (poly, spectacle, sport)</span>
+
+                          <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                        </div>
+
+                        <div class="2 input">
+
+                          <span id="title input">Nombre de logement</span>
+
+                          <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                        </div>
+
+                      </div>
+
+                      <div class="container 2 input dimension">
+
+                        <div class="1 input">
+
+                          <span id="title input">Nombre de bureaux / autres locaux</span>
+
+                          <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                        </div>
+
+                        <div class="2 input">
+
+                          <span id="title input">Nombre de chambre</span>
+
+                          <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                        </div>
+
+                      </div>
+
+                      <div class="container 2 input dimension">
+
+                        <div class="1 input">
+
+                          <span id="title input">Nombre de commerce</span>
+
+                          <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                        </div>
+
+                        <div class="2 input">
+
+                          <span id="title input">Nombre place de parking Infrastructure</span>
+
+                          <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                        </div>
+
+                      </div>
+
+                      <div class="container 2 input dimension">
+
+                        <div class="1 input">
+
+                          <span id="title input">Nombre de places de parking interieur dans la superstructure</span>
+
+                          <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                        </div>
+
+                        <div class="2 input">
+
+                          <span id="title input">Nombre place de parking Infrastructure</span>
+
+                          <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                        </div>
+
+                      </div>
+
+                      <div class="container 2 input dimension">
+
+                        <div class="1 input">
+
+                          <span id="title input">Nombre de places de parking exterieur</span>
+
+                          <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                        </div>
+
+                      </div>
+
+                    </div>
 
                   </div>
 
                   <div class="container sous categorie" id="sous_categorie 2">
 
-                    <span class="title container sous categorie">DIMENSION CONSTRUCTION</span>
+                    <div class="header container sous catgeorie">
 
-                    <img src="/image/chevron-en-bas.png" class="extend sous categorie"/>
+                      <span class="title container sous categorie">DIMENSION CONSTRUCTION</span>
+
+                      <img src="/image/chevron-en-bas.png" class="extend sous categorie" onclick="deroule_form_2();"/>
+
+                    </div>
+
+                    <div id="container form 2">
+
+                      <div class="container 2 input dimension">
+
+                        <div class="1 input">
+
+                          <span id="title input">Surface de locaux technique</span>
+
+                          <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                        </div>
+
+                        <div class="2 input">
+
+                          <span id="title input">Surface des garages et locaux annexes</span>
+
+                          <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                        </div>
+
+                      </div>
+
+                      <div class="container 2 input dimension">
+
+                        <div class="1 input">
+
+                          <span id="title input">SHAB</span>
+
+                          <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                        </div>
+
+                        <div class="2 input">
+
+                          <span id="title input">SDO</span>
+
+                          <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                        </div>
+
+                      </div>
+
+                      <div class="container 2 input dimension">
+
+                        <div class="1 input">
+
+                          <span id="title input">SDP</span>
+
+                          <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                        </div>
+
+                        <div class="2 input">
+
+                          <span id="title input">Nombre de niveaux superstructure</span>
+
+                          <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                        </div>
+
+                      </div>
+
+                      <div class="container 2 input dimension">
+
+                        <div class="1 input">
+
+                          <span id="title input">Nombre de niveaux Infrastructure</span>
+
+                          <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                        </div>
+
+                      </div>
+
+                    </div>
 
                   </div>
 
                   <div class="container sous categorie" id="sous_categorie 3">
 
-                    <span class="title container sous categorie">DIMENSION TERRAIN</span>
+                    <div class="header container sous catgeorie">
 
-                    <img src="/image/chevron-en-bas.png" class="extend sous categorie"/>
+                      <span class="title container sous categorie">DIMENSION TERRAIN</span>
+
+                      <img src="/image/chevron-en-bas.png" class="extend sous categorie" onclick="deroule_form_3();"/>
+
+                    </div>
+
+                    <div id="container form 3">
+
+                      <div class="container 2 input dimension">
+
+                        <div class="1 input">
+
+                          <span id="title input">Emprise de la parcelle</span>
+
+                          <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                        </div>
+
+                        <div class="2 input">
+
+                          <span id="title input">Surface d'espace verts</span>
+
+                          <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                        </div>
+
+                      </div>
+
+                      <div class="container 2 input dimension">
+
+                        <div class="1 input">
+
+                          <span id="title input">Surface minerale</span>
+
+                          <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  <div class="container sous categorie" id="sous_categorie 4">
+
+                    <div class="header container sous catgeorie">
+
+                      <span class="title container sous categorie">DIMENSION CONSTRUCTION</span>
+
+                      <img src="/image/chevron-en-bas.png" class="extend sous categorie" onclick="deroule_form_4();"/>
+
+                    </div>
+
+                    <div id="container form 4">
+
+                      <div class="container 2 input dimension">
+
+                        <div class="1 input">
+
+                          <span id="title input">Emprise au sol</span>
+
+                          <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                        </div>
+
+                        <div class="2 input">
+
+                          <span id="title input">Surface de toiture (isolee thermiquement)</span>
+
+                          <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                        </div>
+
+                      </div>
+
+                      <div class="container 2 input dimension">
+
+                        <div class="1 input">
+
+                          <span id="title input">Emprise de facade totale</span>
+
+                          <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                        </div>
+
+                      </div>
+
+                      <div class="container 2 input dimension">
+
+                        <div class="1 input">
+
+                          <span id="title input">Dont surface de facade pleine</span>
+
+                          <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                        </div>
+
+                        <div class="2 input">
+
+                          <span id="title input">Dont surface de vitrage</span>
+
+                          <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                        </div>
+
+                      </div>
+
+                    </div>
 
                   </div>
 
                 </div>
+
+                <div id="container submit">
+
+                  <button type="button" class="button1">Sauvegarder</button>
+
+                </div>
+
+              </div>
+
+              <div class="container form lot" id="lot first">
+
+                <div class="container info generale lot">
+
+                  <div class="container 2 input dimension">
+
+                    <div class="1 input lot">
+
+                      <span id="title input">Nom du lot</span>
+
+                      <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                    </div>
+
+                    <div class="2 input lot">
+
+                      <span id="title input">Numero du lot</span>
+
+                      <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                    </div>
+
+                    <div class="2 input lot">
+
+                      <span id="title input">Entreprise</span>
+
+                      <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                    </div>
+
+                    <div class="2 input lot">
+
+                      <span id="title input">Date</span>
+
+                      <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <span class="title liste d'article">Liste des Articles</span>
+
+              </div>
+
+              <div class="container form lot" id="lot second">
+
+                <div class="container info generale lot">
+
+                  <div class="container 2 input dimension">
+
+                    <div class="1 input lot">
+
+                      <span id="title input">Nom du lot</span>
+
+                      <input name="TEST" value="" id="Nom du site" class="input generale"/>
+
+                    </div>
+
+                    <div class="2 input lot">
+
+                      <span id="title input">Numero du lot</span>
+
+                      <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                    </div>
+
+                    <div class="2 input lot">
+
+                      <span id="title input">Entreprise</span>
+
+                      <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                    </div>
+
+                    <div class="2 input lot">
+
+                      <span id="title input">Date</span>
+
+                      <input name="TEST" value="" id="Categorie du site" class="input generale"/>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <span class="title liste d'article">Liste des Articles</span>
+
+                <div class="liste d'article"></div>
 
               </div>
 

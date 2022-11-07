@@ -55,7 +55,7 @@ router.post("/home/duplicate", async (req, res) => {
 
   result = await query(sql, value);
   arg.push(result[0].ID_OP);
-  arg.push(result[0].NOM_OP);
+  arg.push(result[0].NOM_OP + " (COPY)");
   arg.push(result[0].NOM_SITE);
   arg.push(result[0].CATEGORIE_SITE);
   arg.push(result[0].SOUS_CATEGORIE_SITE);
