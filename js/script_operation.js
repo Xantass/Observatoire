@@ -11,6 +11,17 @@ let image_e;
 let button_e;
 
 function load_data() {
+    var urlcourante = document.location.href;
+    var queue_url;
+
+    urlcourante = urlcourante.replace(/\/$/, "");
+    queue_url = urlcourante.substring (urlcourante.lastIndexOf( "/" )+1 );
+    queue_url = decodeURIComponent(queue_url);
+    load_element();
+    console.log(queue_url);
+}
+
+function load_element() {
     console.log("DATA");
     lot_e = document.getElementsByClassName("container of the lot");
     projet_e = document.getElementById("main information of the list of the operation");
@@ -88,12 +99,14 @@ function get_lot(e) {
     e.stopPropagation();
     console.log("GET LOT");
     var box = document.getElementsByClassName("container of the lot");
+    var add = document.getElementById("container add lot");
     var image = document.getElementById("1");
 
     if (lot == 0) {
         for (i = 0; i < box.length; i++) {
             box[i].style.display = "flex";
         }
+        add.style.display = "flex";
         image.src = "/image/triangle_haut.png";
         lot = 1;
     }
@@ -101,6 +114,7 @@ function get_lot(e) {
         for (i = 0; i < box.length; i++) {
             box[i].style.display = "none";
         }
+        add.style.display = "none";
         image.src = "/image/triangle_bas.png";
         lot = 0;
     }
@@ -119,7 +133,7 @@ function change_background (e) {
         lot_background[i].style.background = "none";
         lot_background[i].style.fontWeight = "normal";
     }
-    this.style.backgroundColor = "#45bab85d";
+    this.style.backgroundColor = "#45bab871";
     this.style.fontWeight = "bold";
     if (this.id == "main information of the list of the operation") {
         for (i = 0; i < form_ilot.length; i++)
@@ -269,4 +283,159 @@ function deroule_form_4() {
         form.style.display = "none";
         box.style.height = "70px";
     }
+}
+
+function add_lot_to_operation() {
+    var container = document.createElement('div');
+    var image = document.createElement('img');
+    var span = document.createElement('span');
+    var reference = document.getElementById("container add lot");
+    var parent = document.getElementById("list of the lot of the operation");
+
+    container.className = "container of the lot";
+    container.id = "third";
+    container.style.display = "flex";
+    image.src = "/image/lot.png";
+    image.id = "operation";
+    span.id = "text element of list";
+    span.textContent = "Lot";
+    container.appendChild(image);
+    container.appendChild(span);
+    parent.insertBefore(container, reference);
+    create_form_lot();
+    load_element();
+}
+
+function create_form_lot() {
+    var container_form = document.createElement('div');
+    var container_info_generale_lot = document.createElement('div');
+    var container_input_info_generale_lot = document.createElement('div');
+    var box_nom_lot = document.createElement('div');
+    var span_nom_lot = document.createElement('span');
+    var input_nom_lot = document.createElement('input');
+    var box_numero_lot = document.createElement('div');
+    var span_numero_lot = document.createElement('span');
+    var input_numero_lot = document.createElement('input');
+    var box_entreprise_lot = document.createElement('div');
+    var span_entreprise_lot = document.createElement('span');
+    var input_entreprise_lot = document.createElement('input');
+    var box_date_lot = document.createElement('div');
+    var span_date_lot = document.createElement('span');
+    var input_date_lot = document.createElement('input');
+    var span_title = document.createElement('span');
+    var container_champ = document.createElement('div');
+    var box_prestation_champ = document.createElement('div');
+    var text_prestation_champ= document.createElement('div');
+    var box_article_champ = document.createElement('div');
+    var text_article_champ = document.createElement('div');
+    var box_unite_champ = document.createElement('div');
+    var text_unite_champ = document.createElement('div');
+    var box_quantite_champ = document.createElement('div');
+    var text_quantite_champ = document.createElement('div');
+    var box_prix_unitaire_champ = document.createElement('div');
+    var text_prix_unitaire_champ = document.createElement('div');
+    var box_prix_totale_champ = document.createElement('div');
+    var text_prix_totale_champ = document.createElement('div');
+    var box_tva_champ = document.createElement('div');
+    var text_tva_champ = document.createElement('div');
+    var container_article = document.createElement('div');
+    var main_container = document.getElementById("container main information");
+
+    container_form.className = "container form lot";
+    container_form.id = "lot third";
+    container_info_generale_lot.className = "container info generale lot";
+    container_input_info_generale_lot.className = "container 2 input dimension";
+    box_nom_lot.className = "1 input lot";
+    span_nom_lot.id = "title input";
+    span_nom_lot.textContent = "Nom du lot";
+    input_nom_lot.name = "nom_lot";
+    input_nom_lot.value = "";
+    input_nom_lot.id = "nom_lot";
+    input_nom_lot.className = "input generale";
+    box_numero_lot.className = "2 input lot";
+    span_numero_lot.id = "title input";
+    span_numero_lot.textContent = "Numero du lot";
+    input_numero_lot.name = "numero_lot";
+    input_numero_lot.value = "";
+    input_numero_lot.id = "numero_lot";
+    input_numero_lot.className = "input generale";
+    box_entreprise_lot.className = "2 input lot";
+    span_entreprise_lot.id = "title input";
+    span_entreprise_lot.textContent = "Entreprise";
+    input_entreprise_lot.name = "entreprise_lot";
+    input_entreprise_lot.value = "";
+    input_entreprise_lot.id = "entreprise_lot";
+    input_entreprise_lot.className = "input generale";
+    box_date_lot.className = "2 input lot";
+    span_date_lot.id = "title input";
+    span_date_lot.textContent = "Date";
+    input_date_lot.name = "date_lot";
+    input_date_lot.value = "";
+    input_date_lot.id = "date_lot";
+    input_date_lot.className = "input generale";
+    span_title.className = "title liste d'article";
+    span_title.textContent = "Liste des Articles";
+    container_champ.className = "container champ";
+    box_prestation_champ.className = "champ";
+    box_prestation_champ.id = "Prestation champ";
+    text_prestation_champ.id = "text";
+    text_prestation_champ.textContent = "Prestation";
+    box_article_champ.className = "champ";
+    box_article_champ.id = "Article champ";
+    text_article_champ.id = "text";
+    text_article_champ.textContent = "Article";
+    box_unite_champ.className = "champ";
+    box_unite_champ.id = "Unite champ";
+    text_unite_champ.id = "text";
+    text_unite_champ.textContent = "Unite";
+    box_quantite_champ.className = "champ";
+    box_quantite_champ.id = "Quantite champ";
+    text_quantite_champ.id = "text";
+    text_quantite_champ.textContent = "Quantite";
+    box_prix_unitaire_champ.className = "champ";
+    box_prix_unitaire_champ.id = "Prix Unitaire champ";
+    text_prix_unitaire_champ.id = "text";
+    text_prix_unitaire_champ.textContent = "Prix Unitaire";
+    box_prix_totale_champ.className = "champ";
+    box_prix_totale_champ.id = "Prix totale champ";
+    text_prix_totale_champ.id = "text";
+    text_prix_totale_champ.textContent = "Prix Totale";
+    box_tva_champ.className = "champ";
+    box_tva_champ.id = "TVA champ";
+    text_tva_champ.id = "text";
+    text_tva_champ.textContent = "TVA";
+    container_article.className = "container article";
+
+    main_container.appendChild(container_form);
+    container_form.appendChild(container_info_generale_lot);
+    container_info_generale_lot.appendChild(container_input_info_generale_lot);
+    container_input_info_generale_lot.appendChild(box_nom_lot);
+    container_input_info_generale_lot.appendChild(box_numero_lot);
+    container_input_info_generale_lot.appendChild(box_entreprise_lot);
+    container_input_info_generale_lot.appendChild(box_date_lot);
+    box_nom_lot.appendChild(span_nom_lot);
+    box_nom_lot.appendChild(input_nom_lot);
+    box_numero_lot.appendChild(span_numero_lot);
+    box_numero_lot.appendChild(input_numero_lot);
+    box_entreprise_lot.appendChild(span_entreprise_lot);
+    box_entreprise_lot.appendChild(input_entreprise_lot);
+    box_date_lot.appendChild(span_date_lot);
+    box_date_lot.appendChild(input_date_lot);
+    container_form.appendChild(span_title);
+    container_form.appendChild(container_champ);
+    container_champ.appendChild(box_prestation_champ);
+    container_champ.appendChild(box_article_champ);
+    container_champ.appendChild(box_unite_champ);
+    container_champ.appendChild(box_quantite_champ);
+    container_champ.appendChild(box_prix_unitaire_champ);
+    container_champ.appendChild(box_prix_totale_champ);
+    container_champ.appendChild(box_tva_champ);
+    box_prestation_champ.appendChild(text_prestation_champ);
+    box_article_champ.appendChild(text_article_champ);
+    box_unite_champ.appendChild(text_unite_champ);
+    box_quantite_champ.appendChild(text_quantite_champ);
+    box_prix_unitaire_champ.appendChild(text_prix_unitaire_champ);
+    box_prix_totale_champ.appendChild(text_prix_totale_champ);
+    box_tva_champ.appendChild(text_tva_champ);
+    container_form.appendChild(container_article);
 }

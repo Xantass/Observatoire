@@ -22,7 +22,7 @@
    * Routes Definitions
    */
 
-router.get("/home/operation", (req, res) => {
+router.get("/home/:operation", (req, res) => {
   res.render('operation');
 })
 

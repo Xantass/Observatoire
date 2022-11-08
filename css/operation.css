@@ -1,8 +1,10 @@
 html {
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
+    min-height: 937px;
+    min-width: 1920px;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
   }
   body {
     /*color: #45BAB8;*/
@@ -404,7 +406,7 @@ div[id="main information of the list of the operation"] {
   width: 100%;
   height: 35px;
   cursor: pointer;
-  background-color: #45bab85d;
+  background-color: #45bab871;
   font-weight: bold;
 }
 img[class="triangle_bas"] {
@@ -432,8 +434,12 @@ div[id="list of the lot of the operation"] {
   margin-top: 4px;
   margin-left: 20px;
   flex-direction: column;
-  height: 90%;
+  height: 721.7px;
   width: 94.5%;
+  overflow-y: auto;
+}
+div[id="list of the lot of the operation"]::-webkit-scrollbar {
+  width: 0px;
 }
 div[class="container of the lot"] {
   box-sizing: border-box;
@@ -444,6 +450,36 @@ div[class="container of the lot"] {
   align-items: center;
   width: 100%;
   height: 35px;
+  cursor: pointer;
+}
+div[id="container add lot"] {
+  box-sizing: border-box;
+  display: none;
+  position: relative;
+  margin-top: 5px;
+  margin-right: 10px;
+  flex-direction: row;
+  align-items: center;
+  width: 90%;
+  height: 35px;
+  border-bottom: 1px dotted;
+  border-color: #929292;
+  color: #929292;
+  font-size: small;
+  font-weight: bold;
+  cursor: pointer;
+}
+img[id="add lot"] {
+  box-sizing: border-box;
+  display: flex;
+  margin-left: 5px;
+  width: 26px;
+  height: 26px;
+  border: none;
+}
+div[id="text add lot"] {
+  box-sizing: border-box;
+  display: flex;
 }
 div[id="extented the nav"] {
   box-sizing: border-box;
@@ -850,16 +886,65 @@ span[class="title liste d'article"] {
   margin-left: 30px;
   margin-top: 70px;
 }
-div[class="liste d'article"] {
+div[class="container champ"] {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+  justify-content: space-between;
+  margin-top: 30px;
+  padding-left: 30px;
+  margin-right: 81.3333px;
+  width: 100%;
+  border-top: 1px solid;
+  border-color: #929292;
+}
+div[class="champ"] {
+  box-sizing: border-box;
+  display: flex;
+  margin-top: 30px;
+  height: 100%;
+  width: 14.28%;
+  color: #929292;
+  font-weight: bold ;
+}
+div[id="text"] {
+  box-sizing: border-box;
+  display: flex;
+  margin-top: 3px;
+}
+div[class="container article"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
+  flex-direction: column;
   margin-top: 20px;
   width: 100%;
-  height: 72%;
+  height: 68%;
   overflow-y: auto;
-  background-color: red;
 }
-div[class="liste d'article"]::-webkit-scrollbar {
+div[class="container article"]::-webkit-scrollbar {
   width: 0px;
+}
+div[class="box article"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  flex-direction: row;
+  height: 60px;
+  width: 100%;
+  border-top: 1px solid;
+  padding-left: 30px;
+  border-color: #929292;
+}
+div[class="champ article"] {
+  box-sizing: border-box;
+  margin-top: 20px;
+  display: flex;
+  position: relative;
+  height: 100%;
+  width: 14.28%;
+  color: black;
 }
