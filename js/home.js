@@ -41,9 +41,8 @@ router.get("/home:id", async (req, res) => {
 router.post("/home/rename", async (req, res) => {
   var sql = "UPDATE operation SET NOM_OP = ? WHERE ID = ?";
   var value = [req.body.operation, req.body.id];
-  var result;
 
-  result = await query(sql, value);
+  await query(sql, value);
   res.redirect('/home');
 })
 
@@ -97,9 +96,8 @@ router.post("/home/duplicate", async (req, res) => {
 router.post("/home/delete", async (req, res) => {
   var sql = "DELETE FROM operation WHERE ID = ?";
   var value = [req.body.id];
-  var result;
 
-  result = await query(sql, value);
+  await query(sql, value);
   res.redirect('/home');
 })
 

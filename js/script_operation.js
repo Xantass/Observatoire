@@ -5,10 +5,14 @@ var sous_categorie_1 = 0;
 var sous_categorie_2 = 0;
 var sous_categorie_3 = 0;
 var sous_categorie_4 = 0;
+var httpRequest;
+var value;
 let lot_e;
 let projet_e;
 let image_e;
 let button_e;
+let current_operation;
+
 
 function load_data() {
     var urlcourante = document.location.href;
@@ -18,7 +22,118 @@ function load_data() {
     queue_url = urlcourante.substring (urlcourante.lastIndexOf( "/" )+1 );
     queue_url = decodeURIComponent(queue_url);
     load_element();
-    console.log(queue_url);
+    current_operation = queue_url;
+    httpRequest = new XMLHttpRequest();
+    if (!httpRequest)
+      console.log("NO REQUEST");
+    httpRequest.onreadystatechange = requete;
+    httpRequest.open('POST', '/home/:operation/load', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send(`operation=${current_operation}`);
+    if (value == undefined)
+        return;
+    load_title_op(value.NOM_OP, value.NOM_CLIENT);
+    load_form_generale_op([value.NOM_SITE, value.CATEGORIE_SITE, value.SOUS_CATEGORIE_SITE, value.COMPOSITION_SITE, "", value.ADRESSE, value.LONGITUDE, value.LATITUDE, value.DESCRIPTION, value.DATE_AO, value.TYPOLOGIE_MARCHE2, value.TYPOLOGIE_OPERATION]);
+    load_form_dimension_op(["", "", "", value.NBR_LOGEMENT, "", "", "", "", "", "", "", "", value.SHAB, value.SU, value.SDO, value.SDP, "", "", value.PARCELLE, value.ESPACE_VERT, value.S_MINERALE, value.EMPRISE_SOL, value.S_TOITURE, value.S_FACADE, "", value.S_VITRAGE]);
+}
+
+function load_form_dimension_op(values) {
+    var zero = document.getElementById("Nombre d'eleve");
+    var one = document.getElementById("Nombre de classe");
+    var two = document.getElementById("Nombre de salle");
+    var three = document.getElementById("Nombre de logement");
+    var four = document.getElementById("Nombre de bureaux / autres locaux");
+    var five = document.getElementById("Nombre de chambre");
+    var six = document.getElementById("Nombre de commerce");
+    var seven = document.getElementById("Nombre place de parking Infrastructure");
+    var height = document.getElementById("Nombre de places de parking interieur dans la superstructure");
+    var nine = document.getElementById("Nombre de places de parking exterieur");
+    var ten = document.getElementById("Surface de locaux technique");
+    var eleven = document.getElementById("Surface des garages et locaux annexes");
+    var twelve = document.getElementById("SHAB");
+    var thirteen = document.getElementById("SU");
+    var fourteen = document.getElementById("SDO");
+    var fifteen = document.getElementById("SDP");
+    var sixteen = document.getElementById("Nombre de niveaux Infrastructure");
+    var seventeen = document.getElementById("Nombre de niveaux superstructure");
+    var heighteen = document.getElementById("Emprise de la parcelle");
+    var nineteen = document.getElementById("Surface d'espace verts");
+    var twenty = document.getElementById("Surface minerale");
+    var twenty_one = document.getElementById("Emprise au sol");
+    var twenty_two = document.getElementById("Surface de toiture (isolee thermiquement)");
+    var twenty_three = document.getElementById("Emprise de facade totale");
+    var twenty_four = document.getElementById("Dont surface de facade pleine");
+    var twenty_five = document.getElementById("Dont surface de vitrage");
+
+    zero.value = values[0];
+    one.value = values[1];
+    two.value = values[2];
+    three.value = values[3];
+    four.value = values[4];
+    five.value = values[5];
+    six.value = values[6];
+    seven.value = values[7];
+    height.value = values[8];
+    nine.value = values[9];
+    ten.value = values[10];
+    eleven.value = values[11];
+    twelve.value = values[12];
+    thirteen.value = values[13];
+    fourteen.value = values[14];
+    fifteen.value = values[15];
+    sixteen.value = values[16];
+    seventeen.value = values[17];
+    heighteen.value = values[18];
+    nineteen.value = values[19];
+    twenty.value = values[20];
+    twenty_one.value = values[21];
+    twenty_two.value = values[22];
+    twenty_three.value = values[23];
+    twenty_four.value = values[24];
+    twenty_five.value = values[25];
+}
+
+function load_form_generale_op(values) {
+    var zero = document.getElementById("Nom du site");
+    var one = document.getElementById("Categorie du site");
+    var two = document.getElementById("Sous-Categorie du site");
+    var three = document.getElementById("Composition");
+    var four = document.getElementById("Localisation");
+    var five = document.getElementById("Adresse du site");
+    var six = document.getElementById("Longitude");
+    var seven = document.getElementById("Latitude");
+    var height = document.getElementById("Description");
+    var nine = document.getElementById("Date AO");
+    var ten = document.getElementById("Typologie de marche");
+    var eleven = document.getElementById("Typologie d'operation");
+
+    zero.value = values[0];
+    one.value = values[1];
+    two.value = values[2];
+    three.value = values[3];
+    four.value = values[4];
+    five.value = values[5];
+    six.value = values[6];
+    seven.value = values[7];
+    height.value = values[8];
+    nine.value = values[9];
+    ten.value = values[10];
+    eleven.value = values[11];
+}
+
+function load_title_op(_nom_op, _nom_maitre) {
+    var nom_op = document.getElementById("text nom title header of the main box");
+    var nom_maitre = document.getElementById("text maitre title header of the main box");
+
+    nom_op.value = _nom_op;
+    nom_maitre.value = _nom_maitre;
+}
+
+async function requete() {
+    if (httpRequest.readyState == 4) {
+        console.log("ITS OKAY");
+        value = JSON.parse(httpRequest.response);
+    }
 }
 
 function load_element() {
@@ -218,7 +333,7 @@ function deroule_form_1() {
         console.log("here");
         sous_categorie_1 = 1;
         form.style.display = "flex";
-        box.style.height = "670px";
+        box.style.height = "570px";
     }
     else {
         console.log("HERERRER");

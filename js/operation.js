@@ -22,6 +22,15 @@
    * Routes Definitions
    */
 
+router.post("/home/:operation/load", async (req, res) => {
+  var sql = "SELECT * FROM operation WHERE NOM_OP = ?"
+  var result;
+
+  result = await query(sql, req.body.operation);
+  console.log(result);
+  res.status('200').json(result[0]);
+})
+
 router.get("/home/:operation", (req, res) => {
   res.render('operation');
 })
