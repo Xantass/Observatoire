@@ -26,7 +26,7 @@ router.get("/home", (req, res) => {
   res.render('home');
 })
 
-router.get("/home:id", async (req, res) => {
+router.post("/home:id", async (req, res) => {
   var sql = "SELECT * FROM operation"
   var value = [];
   var content_operation;
@@ -43,7 +43,6 @@ router.post("/home/rename", async (req, res) => {
   var value = [req.body.operation, req.body.id];
 
   await query(sql, value);
-  res.redirect('/home');
 })
 
 router.post("/home/duplicate", async (req, res) => {
@@ -90,7 +89,6 @@ router.post("/home/duplicate", async (req, res) => {
   arg.push(result[0].LONGITUDE);
   sql = "INSERT INTO `observatoire`.`operation` (`ID_OP`, `NOM_OP`, `NOM_SITE`, `CATEGORIE_SITE`, `SOUS_CATEGORIE_SITE`, `NOM_CLIENT`, `COMPOSITION_SITE`, `IMPORTANCE`, `NBR_LOGEMENT`, `ADRESSE`, `DESCRIPTION`, `DATE_AO`, `TYPOLOGIE_OPERATION`, `TYPOLOGIE_MARCHE2`, `PERF_THERMIQUE`, `PERF_ENVIRONNEMENTALE`, `NIVEAU_PERF`, `SU`, `SHAB`, `SDO`, `SDP`, `PARCELLE`, `ESPACE_VERT`, `S_MINERALE`, `CLOTURE`, `ENTREE_SITE`, `EMPRISE_SOL`, `S_TOITURE`, `S_FACADE`, `S_VITRAGE`, `MONTANT_TRAVAUX`, `MONTANT_BDD_UNTEC`, `TAUX_TVA`, `LATITUDE`, `LONGITUDE`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
   result = await query(sql, arg);
-  res.redirect('/home');
 })
 
 router.post("/home/delete", async (req, res) => {
@@ -98,7 +96,6 @@ router.post("/home/delete", async (req, res) => {
   var value = [req.body.id];
 
   await query(sql, value);
-  res.redirect('/home');
 })
 
  /**

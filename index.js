@@ -36,7 +36,8 @@ app.use('/home', home);
 app.use('/home/rename', home);
 app.use('/home/duplicate', home);
 app.use('/home/delete', home);
-app.use('/home/operation', operation);
+app.use('/home/direction', home);
+app.use('/home/:operation', operation);
 app.use(router);
 
 /**

@@ -17,7 +17,7 @@ async function load_operation() {
     if (!httpRequest)
       console.log("NO REQUEST");
     httpRequest.onreadystatechange = requete;
-    httpRequest.open('GET', `/home:id`, false);
+    httpRequest.open('POST', `/home:id`, false);
     httpRequest.send();
     value = value.split(',');
     for (values of value) {
@@ -27,7 +27,6 @@ async function load_operation() {
       value[i] = values;
       i = i + 1;
     }
-    console.log(value);
     for (j = 0; j < value.length; j = j + 5) {
       await create_element_html(value[j], value[j + 1], value[j + 3], value[j + 2], value[j + 4]);
     }
@@ -37,8 +36,6 @@ async function load_operation() {
     for (j = 0; j < ChildsNods.length; i = i + 5, j++) {
       array_elem.push([ChildsNods[j].id, ChildsNods[j].childNodes[2].childNodes[0].textContent, ChildsNods[j].childNodes[3].childNodes[0].textContent, ChildsNods[j].childNodes[4].childNodes[0].textContent, ChildsNods[j].childNodes[5].childNodes[0].textContent, ChildsNods[j], value[i]]);
     }
-    console.log("length array : " + array_elem.length);
-    console.log(array_elem);
 }
 
 async function create_element_html(nom, date, maj, createur, Id) {
@@ -56,6 +53,7 @@ async function create_element_html(nom, date, maj, createur, Id) {
 
   box.className = "Box Operation";
   box.id = `${box.className} N ${Id}`;
+  box.onclick = get_op;
   box_color.id = "Box color";
   img.src = "/image/dossier.png";
   img.id = "dossier";
@@ -83,6 +81,17 @@ async function create_element_html(nom, date, maj, createur, Id) {
   box.appendChild(update);
   box.appendChild(ID);
   container.appendChild(box);
+  return;
+}
+
+function get_op() {
+  console.log(this.childNodes[2].textContent);
+  window.location = `/home/${this.childNodes[2].textContent}`;
+  return;
+}
+
+function get_new_op() {
+  window.location = `/home/Nouvelle Operation`;
   return;
 }
 

@@ -558,6 +558,7 @@
     -moz-border-radius: 10px;
     -ms-border-radius: 10px;
     -o-border-radius: 10px;
+    cursor: pointer;
 }
   div[id="Box color"] {
     box-sizing: border-box;

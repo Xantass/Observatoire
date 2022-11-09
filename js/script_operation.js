@@ -6,6 +6,7 @@ var sous_categorie_2 = 0;
 var sous_categorie_3 = 0;
 var sous_categorie_4 = 0;
 var httpRequest;
+var max_id;
 var value;
 let lot_e;
 let projet_e;
@@ -18,23 +19,37 @@ function load_data() {
     var urlcourante = document.location.href;
     var queue_url;
 
+    max_id = 0;
     urlcourante = urlcourante.replace(/\/$/, "");
     queue_url = urlcourante.substring (urlcourante.lastIndexOf( "/" )+1 );
     queue_url = decodeURIComponent(queue_url);
-    load_element();
     current_operation = queue_url;
     httpRequest = new XMLHttpRequest();
     if (!httpRequest)
       console.log("NO REQUEST");
     httpRequest.onreadystatechange = requete;
-    httpRequest.open('POST', '/home/:operation/load', false);
+    httpRequest.open('POST', '/home/:operation/load_info_generale', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`operation=${current_operation}`);
-    if (value == undefined)
+    if (value == undefined) {
+        load_title_op(current_operation, "");
         return;
+    }
     load_title_op(value.NOM_OP, value.NOM_CLIENT);
-    load_form_generale_op([value.NOM_SITE, value.CATEGORIE_SITE, value.SOUS_CATEGORIE_SITE, value.COMPOSITION_SITE, "", value.ADRESSE, value.LONGITUDE, value.LATITUDE, value.DESCRIPTION, value.DATE_AO, value.TYPOLOGIE_MARCHE2, value.TYPOLOGIE_OPERATION]);
-    load_form_dimension_op(["", "", "", value.NBR_LOGEMENT, "", "", "", "", "", "", "", "", value.SHAB, value.SU, value.SDO, value.SDP, "", "", value.PARCELLE, value.ESPACE_VERT, value.S_MINERALE, value.EMPRISE_SOL, value.S_TOITURE, value.S_FACADE, "", value.S_VITRAGE]);
+    load_form_generale_op([value.NOM_SITE, value.CATEGORIE_SITE, value.SOUS_CATEGORIE_SITE, value.COMPOSITION_SITE, value.LOCALISATION, value.ADRESSE, value.LONGITUDE, value.LATITUDE, value.DESCRIPTION, value.DATE_AO, value.TYPOLOGIE_MARCHE2, value.TYPOLOGIE_OPERATION]);
+    load_form_dimension_op([value.NBR_ELEVE, value.NBR_CLASSE, value.NBR_SALLE, value.NBR_LOGEMENT, value.NBR_BUREAUX, value.NBR_CHAMBRE, value.NBR_COMMERCE, value.NBR_PARKING_INFRA, value.NBR_PARKING_INT_SUPERSTRUCT, value.NBR_PARKING_EXT, value.S_LOCAUX_TECHNIQUE, value.S_GARAGE_LOCAUX_ANNEXES, value.SHAB, value.SU, value.SDO, value.SDP, value.NBR_NIV_INFRA, value.NBR_NIV_SUPERSTRUCT, value.PARCELLE, value.ESPACE_VERT, value.S_MINERALE, value.EMPRISE_SOL, value.S_TOITURE, value.S_FACADE, value.S_FACADE_PLEINE, value.S_VITRAGE]);
+    httpRequest.open('POST', '/home/:operation/load_info_lot', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send(`id=${value.ID}`);
+    console.log(value);
+    load_lot(value);
+    load_element();
+}
+
+function load_lot(value) {
+    for (values of value) {
+        add_lot_to_operation([values.NOM, "none", values.ID, values.NUMERO, values.ENTREPRISE, values.DATE]);
+    }
 }
 
 function load_form_dimension_op(values) {
@@ -133,6 +148,13 @@ async function requete() {
     if (httpRequest.readyState == 4) {
         console.log("ITS OKAY");
         value = JSON.parse(httpRequest.response);
+    }
+}
+
+async function requete_bis() {
+    if (httpRequest.readyState == 4) {
+        console.log("ITS OKAY_BIS");
+        max_id = JSON.parse(httpRequest.response);
     }
 }
 
@@ -400,7 +422,7 @@ function deroule_form_4() {
     }
 }
 
-function add_lot_to_operation() {
+function add_lot_to_operation(arg) {
     var container = document.createElement('div');
     var image = document.createElement('img');
     var span = document.createElement('span');
@@ -408,20 +430,38 @@ function add_lot_to_operation() {
     var parent = document.getElementById("list of the lot of the operation");
 
     container.className = "container of the lot";
-    container.id = "third";
-    container.style.display = "flex";
+    if (arg[2] == "any") {
+        if (max_id == 0) {
+            httpRequest = new XMLHttpRequest();
+            if (!httpRequest)
+            console.log("NO REQUEST");
+            httpRequest.onreadystatechange = requete_bis;
+            httpRequest.open('POST', '/home/:operation/get_max_id_lot', false);
+            httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            httpRequest.send();
+            console.log("OLD MAX = " + max_id[0]["MAX (ID)"]);
+            max_id = max_id[0]["MAX (ID)"] + 1;
+            console.log("NEW MAX = " + max_id);
+        }
+        else {
+            max_id++;
+        }
+        arg[2] = max_id;
+    }
+    container.id = arg[2];
+    container.style.display = arg[1];
     image.src = "/image/lot.png";
     image.id = "operation";
     span.id = "text element of list";
-    span.textContent = "Lot";
+    span.textContent = arg[0];
     container.appendChild(image);
     container.appendChild(span);
     parent.insertBefore(container, reference);
-    create_form_lot();
+    create_form_lot(arg);
     load_element();
 }
 
-function create_form_lot() {
+function create_form_lot(arg) {
     var container_form = document.createElement('div');
     var container_info_generale_lot = document.createElement('div');
     var container_input_info_generale_lot = document.createElement('div');
@@ -457,35 +497,35 @@ function create_form_lot() {
     var main_container = document.getElementById("container main information");
 
     container_form.className = "container form lot";
-    container_form.id = "lot third";
+    container_form.id = "lot " + arg[2];
     container_info_generale_lot.className = "container info generale lot";
     container_input_info_generale_lot.className = "container 2 input dimension";
     box_nom_lot.className = "1 input lot";
     span_nom_lot.id = "title input";
     span_nom_lot.textContent = "Nom du lot";
     input_nom_lot.name = "nom_lot";
-    input_nom_lot.value = "";
+    input_nom_lot.value = arg[0];
     input_nom_lot.id = "nom_lot";
     input_nom_lot.className = "input generale";
     box_numero_lot.className = "2 input lot";
     span_numero_lot.id = "title input";
     span_numero_lot.textContent = "Numero du lot";
     input_numero_lot.name = "numero_lot";
-    input_numero_lot.value = "";
+    input_numero_lot.value = arg[3];
     input_numero_lot.id = "numero_lot";
     input_numero_lot.className = "input generale";
     box_entreprise_lot.className = "2 input lot";
     span_entreprise_lot.id = "title input";
     span_entreprise_lot.textContent = "Entreprise";
     input_entreprise_lot.name = "entreprise_lot";
-    input_entreprise_lot.value = "";
+    input_entreprise_lot.value = arg[4];
     input_entreprise_lot.id = "entreprise_lot";
     input_entreprise_lot.className = "input generale";
     box_date_lot.className = "2 input lot";
     span_date_lot.id = "title input";
     span_date_lot.textContent = "Date";
     input_date_lot.name = "date_lot";
-    input_date_lot.value = "";
+    input_date_lot.value = arg[5];
     input_date_lot.id = "date_lot";
     input_date_lot.className = "input generale";
     span_title.className = "title liste d'article";
