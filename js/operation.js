@@ -34,14 +34,30 @@ router.post("/home/:operation/load_info_lot", async (req, res) => {
   var sql = "SELECT * FROM lot WHERE ID_OP = ?"
   var result;
 
-  console.log(req.body.id);
   result = await query(sql, req.body.id);
-  console.log(result);
   res.status('200').json(result);
 })
 
 router.post("/home/:operation/get_max_id_lot", async (req, res) => {
   var sql = "SELECT MAX (ID) FROM lot";
+  var result;
+
+  result = await query(sql);
+  res.status('200').json(result);
+})
+
+router.post("/home/:operation/get_article", async (req, res) => {
+  console.log("req: " + req.body.id_lot)
+  var sql = "SELECT * FROM tram_untec WHERE ID_LOT = ?";
+  var result;
+
+  result = await query(sql, req.body.id_lot);
+  console.log(result);
+  res.status('200').json(result);
+})
+
+router.post("/home/:operation/load_tram", async (req, res) => {
+  var sql = "SELECT SECTION FROM tram_untec";
   var result;
 
   result = await query(sql);

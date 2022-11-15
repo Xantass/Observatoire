@@ -272,7 +272,7 @@ header[id="header of the main box"] {
     display: flex;
     position: relative;
     width: 100%;
-    height : 13%;
+    height : 10%;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
@@ -594,7 +594,7 @@ div[id="container form generale"] {
   position: relative;
   flex-direction: column;
   width: 90%;
-  height: 83%;
+  height: 100%;
   margin-top: 15px;
   margin-left: 30px;
   /*background-color: red;*/
@@ -640,12 +640,36 @@ input[class="input generale"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
-  margin-top: 5px;
+  margin-top: 8px;
   width: 95%;
   height: 50%;
   border: none;
   font-size: large;
   /*background-color: #fff;*/
+  outline: none;
+}
+select[class="input generale"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  margin-top: 11px;
+  width: 100%;
+  height: 50%;
+  border: none;
+  font-size: large;
+  background-color: #fff;
+  outline: none;
+}
+select[class="input generale_bis"] {
+  box-sizing: border-box;
+  display: none;
+  position: relative;
+  margin-top: 11px;
+  width: 100%;
+  height: 50%;
+  border: none;
+  font-size: large;
+  background-color: #fff;
   outline: none;
 }
 div[id="container form dimensionnelle"] {
@@ -654,7 +678,7 @@ div[id="container form dimensionnelle"] {
   position: relative;
   flex-direction: column;
   width: 90%;
-  height: 83%;
+  height: 97.8%;
   margin-top: 25px;
   margin-left: 30px;
   /*background-color: green;*/
@@ -785,11 +809,10 @@ div[id="container submit"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
-  align-items: flex-end;
+  align-items: center;
   justify-content: right;
-  align-content: space-between;
-  height: 62px;
-  width: 100%;
+  height: 11%;
+  width: 98%;
   box-shadow: 1px 2px 6px inset rgba(0, 0, 0, 0.12);
 }
 .button1::after {
@@ -806,7 +829,7 @@ div[id="container submit"] {
   display: block;
   font-size: large;
   font-weight: bold;
-  margin-right: 20px;
+  margin-left: 20px;
   position: relative;
   text-transform: uppercase;
   width: 160px;
@@ -893,7 +916,7 @@ div[class="container champ"] {
   flex-direction: row;
   height: 40px;
   justify-content: space-between;
-  margin-top: 30px;
+  margin-top: 70px;
   padding-left: 30px;
   margin-right: 81.3333px;
   width: 100%;
@@ -905,7 +928,7 @@ div[class="champ"] {
   display: flex;
   margin-top: 30px;
   height: 100%;
-  width: 14.28%;
+  width: 33.5%;
   color: #929292;
   font-weight: bold ;
 }
@@ -921,7 +944,9 @@ div[class="container article"] {
   flex-direction: column;
   margin-top: 20px;
   width: 100%;
-  height: 68%;
+  height: 83%;
+  border-bottom: 1px solid;
+  border-color: #929292;
   overflow-y: auto;
 }
 div[class="container article"]::-webkit-scrollbar {
@@ -931,9 +956,10 @@ div[class="box article"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
   flex-direction: row;
-  height: 60px;
+  height: 40px;
   width: 100%;
   border-top: 1px solid;
   padding-left: 30px;
@@ -941,10 +967,155 @@ div[class="box article"] {
 }
 div[class="champ article"] {
   box-sizing: border-box;
-  margin-top: 20px;
   display: flex;
   position: relative;
-  height: 100%;
-  width: 14.28%;
+  align-items: center;
+  height: 80px;
+  width: 33.5%;
   color: black;
+}
+
+div[id="Quantite champ"] {
+  width: 7%;
+}
+
+div[id="Quantite article"] {
+  width: 7%;
+}
+
+div[id="Prix Unitaire champ"] {
+  width: 7%;
+}
+
+div[id="Prix Unitaire article"] {
+  width: 7%;
+}
+
+div[id="Unite champ"] {
+  width: 7%;
+}
+
+div[id="Unite article"] {
+  width: 7%;
+}
+
+div[id="TVA champ"] {
+  width: 5%;
+}
+
+div[id="TVA article"] {
+  width: 5%;
+}
+
+div[id="Prix totale champ"] {
+  width: 7%;
+}
+
+div[id="Prix totale article"] {
+  width: 7%;
+}
+
+div[id="text montant totale lot"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  margin-top: 20px;
+  width: 240px;
+  height: 40px;
+}
+div[id="box montant totale lot"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 360px;
+  height: 40px;
+  border: 1px solid;
+  justify-content: center;
+  align-items: center;
+  border-color: #929292;
+}
+button[id="button add article"] {
+  margin-right: 250px;
+  width: 200px;
+}
+nav[id="navigation d'ajout d'article"] {
+  box-sizing: border-box;
+  display: flex;
+  position: absolute;
+  height: 100%;
+  width: 440px;
+  margin-left: 1920px;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #fff;
+  flex-direction: column;
+  z-index: 6;
+}
+div[id="cancel add"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  height: 5%;
+  width: 100%;
+  margin-top: 10px;
+  align-items: center;
+}
+img[id="cancel"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  height: 24px;
+  width: 24px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+div[id="container input ajout d'article"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  margin-top: 30px;
+  margin-left: 20px;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+div[class="input ajout d'article"] {
+  box-sizing: border-box;
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  margin-top: 20px;
+  width: 400px;
+  height: 10%;
+  flex-direction: column;
+}
+input[class="ajout d'article"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+  border: none;
+  outline: none;
+  font-size: large;
+  padding-bottom: 10px;
+  border-bottom: 1px solid;
+}
+div[id="search article"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: auto;
+  align-items: center;
+}
+
+img[id="search"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  cursor: pointer;
 }

@@ -6,7 +6,14 @@ var sous_categorie_2 = 0;
 var sous_categorie_3 = 0;
 var sous_categorie_4 = 0;
 var httpRequest;
+var Section = [];
+var Theme = [];
+var Chapitre = [];
+var Sous_Chapitre = [];
+var Prestation = [];
+var tram;
 var max_id;
+var article;
 var value;
 let lot_e;
 let projet_e;
@@ -15,7 +22,7 @@ let button_e;
 let current_operation;
 
 
-function load_data() {
+async function load_data() {
     var urlcourante = document.location.href;
     var queue_url;
 
@@ -35,20 +42,50 @@ function load_data() {
         load_title_op(current_operation, "");
         return;
     }
-    load_title_op(value.NOM_OP, value.NOM_CLIENT);
-    load_form_generale_op([value.NOM_SITE, value.CATEGORIE_SITE, value.SOUS_CATEGORIE_SITE, value.COMPOSITION_SITE, value.LOCALISATION, value.ADRESSE, value.LONGITUDE, value.LATITUDE, value.DESCRIPTION, value.DATE_AO, value.TYPOLOGIE_MARCHE2, value.TYPOLOGIE_OPERATION]);
-    load_form_dimension_op([value.NBR_ELEVE, value.NBR_CLASSE, value.NBR_SALLE, value.NBR_LOGEMENT, value.NBR_BUREAUX, value.NBR_CHAMBRE, value.NBR_COMMERCE, value.NBR_PARKING_INFRA, value.NBR_PARKING_INT_SUPERSTRUCT, value.NBR_PARKING_EXT, value.S_LOCAUX_TECHNIQUE, value.S_GARAGE_LOCAUX_ANNEXES, value.SHAB, value.SU, value.SDO, value.SDP, value.NBR_NIV_INFRA, value.NBR_NIV_SUPERSTRUCT, value.PARCELLE, value.ESPACE_VERT, value.S_MINERALE, value.EMPRISE_SOL, value.S_TOITURE, value.S_FACADE, value.S_FACADE_PLEINE, value.S_VITRAGE]);
+    await load_title_op(value.NOM_OP, value.NOM_CLIENT);
+    await load_form_generale_op([value.NOM_SITE, value.CATEGORIE_SITE, value.SOUS_CATEGORIE_SITE, value.COMPOSITION_SITE, value.LOCALISATION, value.ADRESSE, value.LONGITUDE, value.LATITUDE, value.DESCRIPTION, value.DATE_AO, value.TYPOLOGIE_MARCHE2, value.TYPOLOGIE_OPERATION]);
+    await load_form_dimension_op([value.NBR_ELEVE, value.NBR_CLASSE, value.NBR_SALLE, value.NBR_LOGEMENT, value.NBR_BUREAUX, value.NBR_CHAMBRE, value.NBR_COMMERCE, value.NBR_PARKING_INFRA, value.NBR_PARKING_INT_SUPERSTRUCT, value.NBR_PARKING_EXT, value.S_LOCAUX_TECHNIQUE, value.S_GARAGE_LOCAUX_ANNEXES, value.SHAB, value.SU, value.SDO, value.SDP, value.NBR_NIV_INFRA, value.NBR_NIV_SUPERSTRUCT, value.PARCELLE, value.ESPACE_VERT, value.S_MINERALE, value.EMPRISE_SOL, value.S_TOITURE, value.S_FACADE, value.S_FACADE_PLEINE, value.S_VITRAGE]);
     httpRequest.open('POST', '/home/:operation/load_info_lot', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`id=${value.ID}`);
-    console.log(value);
-    load_lot(value);
-    load_element();
+    await load_lot(value);
+    await load_totale_value_op();
+    await load_element();
+    httpRequest.onreadystatechange = requete_tram;
+    httpRequest.open('POST', '/home/:operation/load_tram', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send();
 }
 
-function load_lot(value) {
+function load_totale_value_op() {
+    var temp = 0;
+    var montant_totale = 0;
+    var liste_lot = document.getElementsByClassName("container form lot");
+    var op = document.getElementById("container form operation");
+    var virgule = -1;
+    var string;
+
+    for (i = 0; i < liste_lot.length; i++) {
+        temp = liste_lot[i].childNodes[3].childNodes[1].textContent;
+        temp = temp.replace(' ', '');
+        montant_totale = montant_totale + parseFloat(temp);
+    }
+    montant_totale = Math.round(montant_totale * 100) / 100;
+    op.childNodes[7].childNodes[3].textContent = montant_totale;
+    virgule = op.childNodes[7].childNodes[3].textContent.indexOf('.');
+    if (virgule != -1) {
+        for (i = virgule; i - 3 > 0; i = i - 3) {
+            string = op.childNodes[7].childNodes[3].textContent.substring(0, i - 3);
+            string = string + " ";
+            string = string + op.childNodes[7].childNodes[3].textContent.substring(i - 3);
+        }
+    }
+    op.childNodes[7].childNodes[3].textContent = string;
+}
+
+async function load_lot(value) {
     for (values of value) {
-        add_lot_to_operation([values.NOM, "none", values.ID, values.NUMERO, values.ENTREPRISE, values.DATE]);
+        await add_lot_to_operation([values.NOM, "none", values.ID, values.NUMERO, values.ENTREPRISE, values.DATE]);
     }
 }
 
@@ -111,7 +148,7 @@ function load_form_dimension_op(values) {
 function load_form_generale_op(values) {
     var zero = document.getElementById("Nom du site");
     var one = document.getElementById("Categorie du site");
-    var two = document.getElementById("Sous-Categorie du site");
+    var two;
     var three = document.getElementById("Composition");
     var four = document.getElementById("Localisation");
     var five = document.getElementById("Adresse du site");
@@ -119,21 +156,51 @@ function load_form_generale_op(values) {
     var seven = document.getElementById("Latitude");
     var height = document.getElementById("Description");
     var nine = document.getElementById("Date AO");
-    var ten = document.getElementById("Typologie de marche");
-    var eleven = document.getElementById("Typologie d'operation");
+    var ten = document.getElementById("Typologie d'operation");
+    var eleven = document.getElementById("Typologie de marche");
+    var containers = document.getElementsByClassName("input generale_bis");
 
     zero.value = values[0];
-    one.value = values[1];
-    two.value = values[2];
-    three.value = values[3];
+    for (i = 0; i < one.childElementCount; i++) {
+        if (one[i].id.toLowerCase().trim() == values[1].toLowerCase().trim()) {
+            one[i].selected = true;
+            containers[i - 1].style.display = "flex";
+            two = document.getElementById(container[i - 1].id);
+        }
+    }
+    //one.value = values[1];
+    for (i = 0; i < two.childElementCount; i++) {
+        console.log(two[i].id.toLowerCase().trim());
+        console.log(values[2].toLowerCase().trim());
+        if (two[i].id.toLowerCase().trim() == values[2].toLowerCase().trim()) {
+            two[i].selected = true;
+        }
+    }
+    //two.value = values[2];
+    for (i = 0; i < three.childElementCount; i++) {
+        if (three[i].id.toLowerCase().trim() == values[3].toLowerCase().trim()) {
+            three[i].selected = true;
+        }
+    }
+    //three.value = values[3];
     four.value = values[4];
     five.value = values[5];
     six.value = values[6];
     seven.value = values[7];
     height.value = values[8];
     nine.value = values[9];
-    ten.value = values[10];
-    eleven.value = values[11];
+    for (i = 0; i < ten.childElementCount; i++) {
+        if (ten[i].id.toLowerCase().trim() == values[10].toLowerCase().trim()) {
+            ten[i].selected = true;
+        }
+    }
+    //ten.value = values[10];
+    for (i = 0; i < eleven.childElementCount; i++) {
+        if (eleven[i].id.toLowerCase().trim() == values[11].toLowerCase().trim()) {
+            eleven[i].selected = true;
+        }
+    }
+    //eleven.value = values[11];
 }
 
 function load_title_op(_nom_op, _nom_maitre) {
@@ -146,20 +213,29 @@ function load_title_op(_nom_op, _nom_maitre) {
 
 async function requete() {
     if (httpRequest.readyState == 4) {
-        console.log("ITS OKAY");
         value = JSON.parse(httpRequest.response);
     }
 }
 
 async function requete_bis() {
     if (httpRequest.readyState == 4) {
-        console.log("ITS OKAY_BIS");
         max_id = JSON.parse(httpRequest.response);
     }
 }
 
+async function requete_article() {
+    if (httpRequest.readyState == 4) {
+        article = JSON.parse(httpRequest.response);
+    }
+}
+
+async function requete_tram() {
+    if (httpRequest.readyState == 4) {
+        tram = JSON.parse(httpRequest.response);
+    }
+}
+
 function load_element() {
-    console.log("DATA");
     lot_e = document.getElementsByClassName("container of the lot");
     projet_e = document.getElementById("main information of the list of the operation");
     image_e = document.getElementById("1");
@@ -193,7 +269,6 @@ function get_focus() {
     var input = document.getElementById("text nom title header of the main box");
     var box_title = document.getElementById("shape_nom");
 
-    console.log("FOCUS");
     past = 1;
     input.removeAttribute("readonly");
     input.focus();
@@ -206,7 +281,6 @@ function get_focus_bis() {
     var input = document.getElementById("text maitre title header of the main box");
     var box_title = document.getElementById("shape_maitre");
 
-    console.log("FOCUS");
     past = 1;
     input.focus();
     box_title.style.strokeWidth = "4px";
@@ -234,7 +308,6 @@ function reset () {
 
 function get_lot(e) {
     e.stopPropagation();
-    console.log("GET LOT");
     var box = document.getElementsByClassName("container of the lot");
     var add = document.getElementById("container add lot");
     var image = document.getElementById("1");
@@ -298,8 +371,6 @@ function slide() {
     var form_operation = document.getElementById("container form operation");
     let form_ilot = document.getElementsByClassName("container form lot");
 
-    console.log(this);
-    console.log(container.style.Maxheight);
     if (slide_nb == 0) {
         box.style.display = "none";
         image.src = "/image/right_arrow.png";
@@ -322,6 +393,18 @@ function slide() {
         }
         slide_nb = 0;
     }
+}
+
+function slide_ajout() {
+    var container = document.getElementById("navigation d'ajout d'article");
+
+    container.style.marginLeft = "1480px";
+}
+
+function cancel_slide() {
+    var container = document.getElementById("navigation d'ajout d'article");
+
+    container.style.marginLeft = "1920px";
 }
 
 function select_form_operation(e) {
@@ -350,15 +433,12 @@ function deroule_form_1() {
     var box = document.getElementById("sous_categorie 1");
     var form = box.childNodes[3];
 
-    console.log(form);
     if (sous_categorie_1 == 0) {
-        console.log("here");
         sous_categorie_1 = 1;
         form.style.display = "flex";
         box.style.height = "570px";
     }
     else {
-        console.log("HERERRER");
         sous_categorie_1 = 0;
         form.style.display = "none";
         box.style.height = "70px";
@@ -371,13 +451,11 @@ function deroule_form_2() {
 
     console.log(form);
     if (sous_categorie_2 == 0) {
-        console.log("here");
         sous_categorie_2 = 1;
         form.style.display = "flex";
         box.style.height = "470px";
     }
     else {
-        console.log("HERERRER");
         sous_categorie_2 = 0;
         form.style.display = "none";
         box.style.height = "70px";
@@ -388,15 +466,12 @@ function deroule_form_3() {
     var box = document.getElementById("sous_categorie 3");
     var form = box.childNodes[3];
 
-    console.log(form);
     if (sous_categorie_3 == 0) {
-        console.log("here");
         sous_categorie_3 = 1;
         form.style.display = "flex";
         box.style.height = "270px";
     }
     else {
-        console.log("HERERRER");
         sous_categorie_3 = 0;
         form.style.display = "none";
         box.style.height = "70px";
@@ -407,22 +482,19 @@ function deroule_form_4() {
     var box = document.getElementById("sous_categorie 4");
     var form = box.childNodes[3];
 
-    console.log(form);
     if (sous_categorie_4 == 0) {
-        console.log("here");
         sous_categorie_4 = 1;
         form.style.display = "flex";
         box.style.height = "370px";
     }
     else {
-        console.log("HERERRER");
         sous_categorie_4 = 0;
         form.style.display = "none";
         box.style.height = "70px";
     }
 }
 
-function add_lot_to_operation(arg) {
+async function add_lot_to_operation(arg) {
     var container = document.createElement('div');
     var image = document.createElement('img');
     var span = document.createElement('span');
@@ -434,14 +506,12 @@ function add_lot_to_operation(arg) {
         if (max_id == 0) {
             httpRequest = new XMLHttpRequest();
             if (!httpRequest)
-            console.log("NO REQUEST");
+                console.log("NO REQUEST");
             httpRequest.onreadystatechange = requete_bis;
             httpRequest.open('POST', '/home/:operation/get_max_id_lot', false);
             httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             httpRequest.send();
-            console.log("OLD MAX = " + max_id[0]["MAX (ID)"]);
             max_id = max_id[0]["MAX (ID)"] + 1;
-            console.log("NEW MAX = " + max_id);
         }
         else {
             max_id++;
@@ -457,11 +527,15 @@ function add_lot_to_operation(arg) {
     container.appendChild(image);
     container.appendChild(span);
     parent.insertBefore(container, reference);
-    create_form_lot(arg);
+    await create_form_lot(arg);
     load_element();
 }
 
-function create_form_lot(arg) {
+async function create_form_lot(arg) {
+    var temp = 0.00;
+    var montant_totale = 0.00;
+    var virgule = -1;
+    var string;
     var container_form = document.createElement('div');
     var container_info_generale_lot = document.createElement('div');
     var container_input_info_generale_lot = document.createElement('div');
@@ -477,7 +551,6 @@ function create_form_lot(arg) {
     var box_date_lot = document.createElement('div');
     var span_date_lot = document.createElement('span');
     var input_date_lot = document.createElement('input');
-    var span_title = document.createElement('span');
     var container_champ = document.createElement('div');
     var box_prestation_champ = document.createElement('div');
     var text_prestation_champ= document.createElement('div');
@@ -494,6 +567,11 @@ function create_form_lot(arg) {
     var box_tva_champ = document.createElement('div');
     var text_tva_champ = document.createElement('div');
     var container_article = document.createElement('div');
+    var container_submit = document.createElement('div');
+    var text_box_montant = document.createElement('div');
+    var box_montant = document.createElement('div');
+    var button_submit = document.createElement('button');
+    var button_add = document.createElement('button');
     var main_container = document.getElementById("container main information");
 
     container_form.className = "container form lot";
@@ -528,8 +606,6 @@ function create_form_lot(arg) {
     input_date_lot.value = arg[5];
     input_date_lot.id = "date_lot";
     input_date_lot.className = "input generale";
-    span_title.className = "title liste d'article";
-    span_title.textContent = "Liste des Articles";
     container_champ.className = "container champ";
     box_prestation_champ.className = "champ";
     box_prestation_champ.id = "Prestation champ";
@@ -550,7 +626,7 @@ function create_form_lot(arg) {
     box_prix_unitaire_champ.className = "champ";
     box_prix_unitaire_champ.id = "Prix Unitaire champ";
     text_prix_unitaire_champ.id = "text";
-    text_prix_unitaire_champ.textContent = "Prix Unitaire";
+    text_prix_unitaire_champ.textContent = "Prix Unite";
     box_prix_totale_champ.className = "champ";
     box_prix_totale_champ.id = "Prix totale champ";
     text_prix_totale_champ.id = "text";
@@ -560,6 +636,18 @@ function create_form_lot(arg) {
     text_tva_champ.id = "text";
     text_tva_champ.textContent = "TVA";
     container_article.className = "container article";
+    container_submit.id = "container submit";
+    text_box_montant.id = "text montant totale lot";
+    text_box_montant.textContent = "Montant Totale du Lot :";
+    box_montant.id = "box montant totale lot";
+    button_submit.type = "button";
+    button_submit.className = "button1";
+    button_submit.textContent = "Sauvegarder";
+    button_add.type = "button";
+    button_add.className = "button1";
+    button_add.textContent = "Ajouter Article";
+    button_add.id = "button add article";
+    button_add.onclick = slide_ajout;
 
     main_container.appendChild(container_form);
     container_form.appendChild(container_info_generale_lot);
@@ -576,7 +664,6 @@ function create_form_lot(arg) {
     box_entreprise_lot.appendChild(input_entreprise_lot);
     box_date_lot.appendChild(span_date_lot);
     box_date_lot.appendChild(input_date_lot);
-    container_form.appendChild(span_title);
     container_form.appendChild(container_champ);
     container_champ.appendChild(box_prestation_champ);
     container_champ.appendChild(box_article_champ);
@@ -593,4 +680,117 @@ function create_form_lot(arg) {
     box_prix_totale_champ.appendChild(text_prix_totale_champ);
     box_tva_champ.appendChild(text_tva_champ);
     container_form.appendChild(container_article);
+    httpRequest = new XMLHttpRequest();
+    if (!httpRequest)
+            console.log("NO REQUEST");
+    httpRequest.onreadystatechange = requete_article;
+    httpRequest.open('POST', '/home/:operation/get_article', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send(`id_lot=${arg[2]}`);
+    for (i = 0; i < article.length; i++) {
+        temp = await create_article(article[i], container_article);
+        temp = temp.replace(',', '.');
+        montant_totale = montant_totale + parseFloat(temp);
+    }
+    container_form.appendChild(container_submit);
+    container_submit.appendChild(button_add);
+    container_submit.appendChild(text_box_montant);
+    container_submit.appendChild(box_montant);
+    container_submit.appendChild(button_submit);
+    montant_totale = Math.round(montant_totale * 100) / 100;
+    box_montant.textContent = montant_totale;
+    virgule = box_montant.textContent.indexOf('.');
+    if (virgule != -1) {
+        for (i = virgule; i - 3 > 0; i = i - 3) {
+            string = box_montant.textContent.substring(0, i - 3);
+            string = string + " ";
+            string = string + box_montant.textContent.substring(i - 3)
+        }
+    }
+    box_montant.textContent = string;
+}
+
+function create_article(article, container) {
+    var virgule = -1;
+    var string;
+    var box_article = document.createElement('div');
+    var champ_prestation = document.createElement('div');
+    var champ_article = document.createElement('div');
+    var champ_unite = document.createElement('div');
+    var champ_quantite = document.createElement('div');
+    var champ_prix_unitaire = document.createElement('div');
+    var champ_prix_totale = document.createElement('div');
+    var champ_tva = document.createElement('div');
+    var text_prestation = document.createElement('div');
+    var text_article = document.createElement('div');
+    var text_unite = document.createElement('div');
+    var text_quantite = document.createElement('div');
+    var text_prix_unitaire = document.createElement('div');
+    var text_prix_totale = document.createElement('div');
+    var text_tva = document.createElement('div');
+
+
+    box_article.className = "box article";
+    champ_prestation.id = "Prestation article";
+    champ_prestation.className = "champ article";
+    champ_article.id = "Article article";
+    champ_article.className = "champ article";
+    champ_unite.id = "Unite article";
+    champ_unite.className = "champ article";
+    champ_quantite.id = "Quantite article";
+    champ_quantite.className = "champ article";
+    champ_prix_unitaire.id = "Prix Unitaire article";
+    champ_prix_unitaire.className = "champ article";
+    champ_prix_totale.id = "Prix totale article";
+    champ_prix_totale.className = "champ article";
+    champ_tva.id = "TVA article";
+    champ_tva.className = "champ article";
+    text_article.id = "text";
+    text_prestation.id = "text";
+    text_quantite.id = "text";
+    text_prix_totale.id = "text";
+    text_prix_unitaire.id = "text";
+    text_unite.id = "text";
+    text_tva.id = "text";
+    text_article.textContent = article.ARTICLE;
+    text_prestation.textContent = article.PRESTATION;
+    text_quantite.textContent = article.QTE;
+    text_prix_totale.textContent = article.TOTAL;
+    text_prix_unitaire.textContent = article.PU;
+    text_unite.textContent = article.U;
+    text_tva.textContent = "20%";
+
+    container.appendChild(box_article);
+    box_article.appendChild(champ_prestation);
+    box_article.appendChild(champ_article);
+    box_article.appendChild(champ_unite);
+    box_article.appendChild(champ_quantite);
+    box_article.appendChild(champ_prix_unitaire);
+    box_article.appendChild(champ_prix_totale);
+    box_article.appendChild(champ_tva);
+    champ_prestation.appendChild(text_prestation);
+    champ_article.appendChild(text_article);
+    champ_unite.appendChild(text_unite);
+    champ_quantite.appendChild(text_quantite);
+    champ_prix_unitaire.appendChild(text_prix_unitaire);
+    champ_prix_totale.appendChild(text_prix_totale);
+    champ_tva.appendChild(text_tva);
+    return article.TOTAL;
+}
+
+function select_categorie(value) {
+    var containers = document.getElementsByClassName("input generale_bis");
+    var select = document.getElementById("Categorie du site");
+    var temp;
+
+    for (i = 0; i < 5; i++) {
+        if (select.options[i].selected && i != 0) {
+            temp = document.getElementById(containers[i - 1].id)
+            temp.style.display = "flex";
+        }
+        else if (i != 0) {
+            temp = document.getElementById(containers[i - 1].id)
+            temp.style.display = "none";
+        }
+    }
 }
