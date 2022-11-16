@@ -423,6 +423,15 @@ img[id="operation"] {
   height: 26px;
   border: none;
 }
+img[id="del"] {
+  box-sizing: border-box;
+  display: flex;
+  position: absolute;
+  right: 15px;
+  width: 16px;
+  height: 16px;
+  border: none;
+}
 span[id="text element of list"] {
   margin-left: 9px;
   font-size: large;

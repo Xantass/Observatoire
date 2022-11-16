@@ -15,6 +15,7 @@ var tram;
 var max_id;
 var article;
 var value;
+var operation_id;
 let lot_e;
 let projet_e;
 let image_e;
@@ -42,6 +43,7 @@ async function load_data() {
         load_title_op(current_operation, "");
         return;
     }
+    operation_id = value.ID;
     await load_title_op(value.NOM_OP, value.NOM_CLIENT);
     await load_form_generale_op([value.NOM_SITE, value.CATEGORIE_SITE, value.SOUS_CATEGORIE_SITE, value.COMPOSITION_SITE, value.LOCALISATION, value.ADRESSE, value.LONGITUDE, value.LATITUDE, value.DESCRIPTION, value.DATE_AO, value.TYPOLOGIE_MARCHE2, value.TYPOLOGIE_OPERATION]);
     await load_form_dimension_op([value.NBR_ELEVE, value.NBR_CLASSE, value.NBR_SALLE, value.NBR_LOGEMENT, value.NBR_BUREAUX, value.NBR_CHAMBRE, value.NBR_COMMERCE, value.NBR_PARKING_INFRA, value.NBR_PARKING_INT_SUPERSTRUCT, value.NBR_PARKING_EXT, value.S_LOCAUX_TECHNIQUE, value.S_GARAGE_LOCAUX_ANNEXES, value.SHAB, value.SU, value.SDO, value.SDP, value.NBR_NIV_INFRA, value.NBR_NIV_SUPERSTRUCT, value.PARCELLE, value.ESPACE_VERT, value.S_MINERALE, value.EMPRISE_SOL, value.S_TOITURE, value.S_FACADE, value.S_FACADE_PLEINE, value.S_VITRAGE]);
@@ -51,10 +53,12 @@ async function load_data() {
     await load_lot(value);
     await load_totale_value_op();
     await load_element();
+    /*
     httpRequest.onreadystatechange = requete_tram;
     httpRequest.open('POST', '/home/:operation/load_tram', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send();
+    */
 }
 
 function load_totale_value_op() {
@@ -165,13 +169,11 @@ function load_form_generale_op(values) {
         if (one[i].id.toLowerCase().trim() == values[1].toLowerCase().trim()) {
             one[i].selected = true;
             containers[i - 1].style.display = "flex";
-            two = document.getElementById(container[i - 1].id);
+            two = document.getElementById(containers[i - 1].id);
         }
     }
     //one.value = values[1];
     for (i = 0; i < two.childElementCount; i++) {
-        console.log(two[i].id.toLowerCase().trim());
-        console.log(values[2].toLowerCase().trim());
         if (two[i].id.toLowerCase().trim() == values[2].toLowerCase().trim()) {
             two[i].selected = true;
         }
@@ -238,8 +240,9 @@ async function requete_tram() {
 function load_element() {
     lot_e = document.getElementsByClassName("container of the lot");
     projet_e = document.getElementById("main information of the list of the operation");
-    image_e = document.getElementById("1");
+    image_e = document.getElementById("1 chevron");
     button_e = document.getElementsByClassName("button info");
+    button_save = document.getElementById("button save op");
 
     for (i = 0; i < lot_e.length; i++) {
         lot_e[i].addEventListener('click', change_background);
@@ -249,6 +252,7 @@ function load_element() {
     }
     projet_e.addEventListener('click', change_background);
     image_e.addEventListener('click', get_lot);
+    button_save.addEventListener('click', maj_op);
 }
 
 function slide_right_dashboard () {
@@ -310,7 +314,7 @@ function get_lot(e) {
     e.stopPropagation();
     var box = document.getElementsByClassName("container of the lot");
     var add = document.getElementById("container add lot");
-    var image = document.getElementById("1");
+    var image = document.getElementById("1 chevron");
 
     if (lot == 0) {
         for (i = 0; i < box.length; i++) {
@@ -498,13 +502,14 @@ async function add_lot_to_operation(arg) {
     var container = document.createElement('div');
     var image = document.createElement('img');
     var span = document.createElement('span');
+    var del = document.createElement('img');
     var reference = document.getElementById("container add lot");
     var parent = document.getElementById("list of the lot of the operation");
 
     container.className = "container of the lot";
+    httpRequest = new XMLHttpRequest();
     if (arg[2] == "any") {
         if (max_id == 0) {
-            httpRequest = new XMLHttpRequest();
             if (!httpRequest)
                 console.log("NO REQUEST");
             httpRequest.onreadystatechange = requete_bis;
@@ -517,6 +522,9 @@ async function add_lot_to_operation(arg) {
             max_id++;
         }
         arg[2] = max_id;
+        httpRequest.open('POST', '/home/:operation/add_lot', false);
+        httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        httpRequest.send(`id_lot=${arg[2]}&&id_op=${this.operation_id}`);
     }
     container.id = arg[2];
     container.style.display = arg[1];
@@ -524,8 +532,12 @@ async function add_lot_to_operation(arg) {
     image.id = "operation";
     span.id = "text element of list";
     span.textContent = arg[0];
+    del.src = "/image/bouton-de-suppression-de-la-poubelle.png";
+    del.id = "del";
+    del.addEventListener('click', delete_lot);
     container.appendChild(image);
     container.appendChild(span);
+    container.appendChild(del);
     parent.insertBefore(container, reference);
     await create_form_lot(arg);
     load_element();
@@ -585,6 +597,7 @@ async function create_form_lot(arg) {
     input_nom_lot.value = arg[0];
     input_nom_lot.id = "nom_lot";
     input_nom_lot.className = "input generale";
+    input_nom_lot.addEventListener('keyup', maj_nom_lot);
     box_numero_lot.className = "2 input lot";
     span_numero_lot.id = "title input";
     span_numero_lot.textContent = "Numero du lot";
@@ -643,6 +656,7 @@ async function create_form_lot(arg) {
     button_submit.type = "button";
     button_submit.className = "button1";
     button_submit.textContent = "Sauvegarder";
+    button_submit.addEventListener('click', update_lot);
     button_add.type = "button";
     button_add.className = "button1";
     button_add.textContent = "Ajouter Article";
@@ -793,4 +807,60 @@ function select_categorie(value) {
             temp.style.display = "none";
         }
     }
+}
+
+function delete_lot(e) {
+    var container = document.getElementById("lot " + this.parentNode.id);
+
+    e.stopPropagation();
+    this.parentNode.remove();
+    container.remove();
+    httpRequest = new XMLHttpRequest();
+    if (!httpRequest)
+            console.log("NO REQUEST");
+    httpRequest.open('DELETE', '/home/:operation/del_lot', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send(`id_lot=${this.parentNode.id}`);
+}
+
+function maj_nom_lot(e) {
+    var container = document.getElementById(this.parentNode.parentNode.parentNode.parentNode.id.substring(4));
+
+    e.stopPropagation();
+    container.childNodes[1].textContent = this.value;
+}
+
+function update_lot(e) {
+    var container = document.getElementById("lot " + this.parentNode.parentNode.id.substring(4));
+    var nom = container.childNodes[0].childNodes[0].childNodes[0].childNodes[1].value;
+    var numero = container.childNodes[0].childNodes[0].childNodes[1].childNodes[1].value;
+    var entreprise = container.childNodes[0].childNodes[0].childNodes[2].childNodes[1].value;
+    var date = container.childNodes[0].childNodes[0].childNodes[3].childNodes[1].value;
+
+    e.stopPropagation()
+    httpRequest = new XMLHttpRequest();
+    if (!httpRequest)
+            console.log("NO REQUEST");
+    httpRequest.open('POST', '/home/:operation/update_lot', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send(`id_lot=${this.parentNode.parentNode.id.substring(4)}&&nom=${nom}&&numero=${numero}&&entreprise=${entreprise}&&date=${date}`);
+}
+
+function maj_op(e) {
+    e.stopPropagation();
+    console.log(this.parentNode.parentNode);
+    console.log(document.getElementsByName("nom_operation")[0].value);
+    console.log(document.getElementsByName("maitre_ouvrage")[0].value);
+    console.log(document.getElementsByName("Nom_site")[0].value);
+    console.log(document.getElementsByName("Nom_site")[0].value);
+    console.log(document.getElementsByName("Nom_site")[0].value);
+    console.log(document.getElementsByName("Nom_site")[0].value);
+    console.log(document.getElementsByName("Nom_site")[0].value);
+    console.log(document.getElementsByName("Nom_site")[0].value);
+    console.log(document.getElementsByName("Nom_site")[0].value);
+    console.log(document.getElementsByName("Nom_site")[0].value);
+    console.log(document.getElementsByName("Nom_site")[0].value);
+    console.log(document.getElementsByName("Nom_site")[0].value);
+    console.log(document.getElementsByName("Nom_site")[0].value);
+    console.log(document.getElementsByName("Nom_site")[0].value);
 }
