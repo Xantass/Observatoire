@@ -1044,8 +1044,12 @@ div[id="box montant totale lot"] {
   border-color: #929292;
 }
 button[id="button add article"] {
-  margin-right: 250px;
+  margin-right: 100px;
   width: 200px;
+}
+button[id="button add entreprise"] {
+  margin-right: 50px;
+  width: 250px;
 }
 nav[id="navigation d'ajout d'article"] {
   box-sizing: border-box;
@@ -1127,4 +1131,129 @@ img[id="search"] {
   display: flex;
   position: relative;
   cursor: pointer;
+}
+nav[id="navigation d'ajout d'entreprise"] {
+  box-sizing: border-box;
+  display: flex;
+  position: absolute;
+  height: 100%;
+  width: 440px;
+  margin-left: 1920px;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #fff;
+  flex-direction: column;
+  z-index: 7;
+}
+div[id="container input ajout d'entreprise"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  margin-top: 30px;
+  margin-left: 20px;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+div[class="input ajout d'entreprise"] {
+  box-sizing: border-box;
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  margin-top: 20px;
+  width: 400px;
+  height: 10%;
+  flex-direction: column;
+}
+input[class="ajout d'entreprise"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+  border: none;
+  outline: none;
+  font-size: large;
+  padding-bottom: 10px;
+  border-bottom: 1px solid;
+}
+button[id="button entreprise"] {
+  margin-right: 250px;
+}
+div[id="recherche d'article"] {
+  box-sizing: border-box;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  background-color: red;
+  z-index:2;
+}
+div[id="filtrage article"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 50%;
+  height: 100%;
+  flex-direction: column;
+  background-color: blue;
+  align-items: center;
+}
+div[id="resultat article"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 50%;
+  height: 100%;
+  flex-direction: column;
+  background-color: green;
+  align-items: center;
+}
+div[id="title filtrage article"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 50%;
+  height: 5%;
+  background-color: violet;
+  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: large;
+}
+div[id="title resultat article"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 50%;
+  height: 5%;
+  background-color: violet;
+  margin-top: 20px;
+  justify-content: center;
+  font-size: large;
+  align-items: center;
+  font-weight: bold;
+}
+div[id="aborescence article"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 92%;
+  background-color: sienna;
+  margin-top: 20px;
+}
+div[id="liste article"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 92%;
+  background-color: darkgoldenrod;
+  margin-top: 20px;
 }

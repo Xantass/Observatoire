@@ -12,10 +12,11 @@ var Chapitre = [];
 var Sous_Chapitre = [];
 var Prestation = [];
 var tram;
-var max_id;
+var max_id = 0;
 var article;
 var value;
 var operation_id;
+var liste_entreprise;
 let lot_e;
 let projet_e;
 let image_e;
@@ -50,6 +51,11 @@ async function load_data() {
     httpRequest.open('POST', '/home/:operation/load_info_lot', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`id=${value.ID}`);
+    httpRequest.onreadystatechange = requete_entreprise;
+    httpRequest.open('POST', '/home/:operation/load_entreprise', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send();
+    console.log(liste_entreprise);
     await load_lot(value);
     await load_totale_value_op();
     await load_element();
@@ -237,6 +243,12 @@ async function requete_tram() {
     }
 }
 
+async function requete_entreprise() {
+    if (httpRequest.readyState == 4) {
+        liste_entreprise = JSON.parse(httpRequest.response);
+    }
+}
+
 function load_element() {
     lot_e = document.getElementsByClassName("container of the lot");
     projet_e = document.getElementById("main information of the list of the operation");
@@ -405,8 +417,20 @@ function slide_ajout() {
     container.style.marginLeft = "1480px";
 }
 
+function slide_ajout_entreprise() {
+    var container = document.getElementById("navigation d'ajout d'entreprise");
+
+    container.style.marginLeft = "1480px";
+}
+
 function cancel_slide() {
     var container = document.getElementById("navigation d'ajout d'article");
+
+    container.style.marginLeft = "1920px";
+}
+
+function cancel_slide_entreprise() {
+    var container = document.getElementById("navigation d'ajout d'entreprise");
 
     container.style.marginLeft = "1920px";
 }
@@ -499,6 +523,7 @@ function deroule_form_4() {
 }
 
 async function add_lot_to_operation(arg) {
+    var max = 0;
     var container = document.createElement('div');
     var image = document.createElement('img');
     var span = document.createElement('span');
@@ -509,19 +534,15 @@ async function add_lot_to_operation(arg) {
     container.className = "container of the lot";
     httpRequest = new XMLHttpRequest();
     if (arg[2] == "any") {
-        if (max_id == 0) {
-            if (!httpRequest)
-                console.log("NO REQUEST");
-            httpRequest.onreadystatechange = requete_bis;
-            httpRequest.open('POST', '/home/:operation/get_max_id_lot', false);
-            httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            httpRequest.send();
-            max_id = max_id[0]["MAX (ID)"] + 1;
-        }
-        else {
-            max_id++;
-        }
-        arg[2] = max_id;
+        if (!httpRequest)
+            console.log("NO REQUEST");
+        httpRequest.onreadystatechange = requete_bis;
+        httpRequest.open('POST', '/home/:operation/get_max_id_lot', false);
+        httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        httpRequest.send();
+        max = max_id[0]["MAX (ID)"] + 1;
+        arg[2] = max;
+        console.log(arg[2]);
         httpRequest.open('POST', '/home/:operation/add_lot', false);
         httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         httpRequest.send(`id_lot=${arg[2]}&&id_op=${this.operation_id}`);
@@ -559,7 +580,7 @@ async function create_form_lot(arg) {
     var input_numero_lot = document.createElement('input');
     var box_entreprise_lot = document.createElement('div');
     var span_entreprise_lot = document.createElement('span');
-    var input_entreprise_lot = document.createElement('input');
+    var input_entreprise_lot = document.createElement('select');
     var box_date_lot = document.createElement('div');
     var span_date_lot = document.createElement('span');
     var input_date_lot = document.createElement('input');
@@ -584,6 +605,7 @@ async function create_form_lot(arg) {
     var box_montant = document.createElement('div');
     var button_submit = document.createElement('button');
     var button_add = document.createElement('button');
+    var button_add_entreprise = document.createElement('button');
     var main_container = document.getElementById("container main information");
 
     container_form.className = "container form lot";
@@ -609,9 +631,9 @@ async function create_form_lot(arg) {
     span_entreprise_lot.id = "title input";
     span_entreprise_lot.textContent = "Entreprise";
     input_entreprise_lot.name = "entreprise_lot";
-    input_entreprise_lot.value = arg[4];
     input_entreprise_lot.id = "entreprise_lot";
     input_entreprise_lot.className = "input generale";
+    create_option_entreprise(input_entreprise_lot, arg[4]);
     box_date_lot.className = "2 input lot";
     span_date_lot.id = "title input";
     span_date_lot.textContent = "Date";
@@ -662,6 +684,11 @@ async function create_form_lot(arg) {
     button_add.textContent = "Ajouter Article";
     button_add.id = "button add article";
     button_add.onclick = slide_ajout;
+    button_add_entreprise.type = "button";
+    button_add_entreprise.className = "button1";
+    button_add_entreprise.textContent = "Ajouter Entreprise";
+    button_add_entreprise.id = "button add entreprise";
+    button_add_entreprise.onclick = slide_ajout_entreprise;
 
     main_container.appendChild(container_form);
     container_form.appendChild(container_info_generale_lot);
@@ -707,6 +734,7 @@ async function create_form_lot(arg) {
         montant_totale = montant_totale + parseFloat(temp);
     }
     container_form.appendChild(container_submit);
+    container_submit.appendChild(button_add_entreprise);
     container_submit.appendChild(button_add);
     container_submit.appendChild(text_box_montant);
     container_submit.appendChild(box_montant);
@@ -722,6 +750,29 @@ async function create_form_lot(arg) {
         }
     }
     box_montant.textContent = string;
+}
+
+function create_option_entreprise(container, arg) {
+    var temp;
+    var option;
+
+    option = document.createElement('option');
+    option.id = "nothing";
+    option.textContent = "";
+    container.appendChild(option);
+    for (i = 0; i < liste_entreprise.length; i++) {
+        option = document.createElement('option');
+        option.id = liste_entreprise[i].NOM;
+        option.textContent = liste_entreprise[i].NOM;
+        container.appendChild(option);
+    }
+    console.log(container.childNodes);
+    for (i = 0; i < container.childNodes.length; i++) {
+        if (container.childNodes[i].textContent == arg) {
+            container.childNodes[i].selected = true;
+            break;
+        }
+    }
 }
 
 function create_article(article, container) {
@@ -848,19 +899,68 @@ function update_lot(e) {
 
 function maj_op(e) {
     e.stopPropagation();
-    console.log(this.parentNode.parentNode);
-    console.log(document.getElementsByName("nom_operation")[0].value);
-    console.log(document.getElementsByName("maitre_ouvrage")[0].value);
-    console.log(document.getElementsByName("Nom_site")[0].value);
-    console.log(document.getElementsByName("Nom_site")[0].value);
-    console.log(document.getElementsByName("Nom_site")[0].value);
-    console.log(document.getElementsByName("Nom_site")[0].value);
-    console.log(document.getElementsByName("Nom_site")[0].value);
-    console.log(document.getElementsByName("Nom_site")[0].value);
-    console.log(document.getElementsByName("Nom_site")[0].value);
-    console.log(document.getElementsByName("Nom_site")[0].value);
-    console.log(document.getElementsByName("Nom_site")[0].value);
-    console.log(document.getElementsByName("Nom_site")[0].value);
-    console.log(document.getElementsByName("Nom_site")[0].value);
-    console.log(document.getElementsByName("Nom_site")[0].value);
+    var nom_op = document.getElementsByName("nom_operation")[0].value;
+    var maitre = document.getElementsByName("maitre_ouvrage")[0].value;
+    var nom_site = document.getElementsByName("Nom_site")[0].value;
+    var categorie = document.getElementsByName("Categorie")[0].value;
+    var sous_categorie = document.getElementsByName("Sous_Categorie");
+    var composition = document.getElementsByName("Composition")[0].value;
+    var localisation = document.getElementsByName("Localisation")[0].value;
+    var adresse = document.getElementsByName("Adresse_du_site")[0].value;
+    var longitude = document.getElementsByName("Longitude")[0].value;
+    var latitude = document.getElementsByName("Latitude")[0].value;
+    var description = document.getElementsByName("Description")[0].value;
+    var date_ao = document.getElementsByName("Date_AO")[0].value;
+    var typologie_marche = document.getElementsByName("Typologie_marche")[0].value;
+    var typologie_operation = document.getElementsByName("Typologie_operation")[0].value;
+    var nb_eleve = document.getElementsByName("Nombre_d'eleve")[0].value;
+    var nb_classe = document.getElementsByName("Nombre_de_classe_(salle_d'enseignement)")[0].value;
+    var nb_salle = document.getElementsByName("Nombre_de_salle_(poly_spectacle_sport)")[0].value;
+    var nb_logement = document.getElementsByName("Nombre_de_logement")[0].value;
+    var nb_bureaux = document.getElementsByName("Nombre_de_bureaux_/_autres_locaux")[0].value;
+    var nb_chambre = document.getElementsByName("Nombre_de_chambre")[0].value;
+    var nb_commerce = document.getElementsByName("Nombre_de_commerce")[0].value;
+    var nb_parking_infra = document.getElementsByName("Nombre_place_de_parking_Infrastructure")[0].value;
+    var nb_parking_int_super = document.getElementsByName("Nombre_de_places_de_parking_interieur_dans_la_superstructure")[0].value;
+    var nb_parking_ext = document.getElementsByName("Nombre_de_places_de_parking_exterieur")[0].value;
+    var s_locaux_tech = document.getElementsByName("Surface_de_locaux_technique")[0].value;
+    var s_locaux_annexe = document.getElementsByName("Surface_des_garages_et_locaux_annexes")[0].value;
+    var shab = document.getElementsByName("SHAB")[0].value;
+    var su = document.getElementsByName("SU")[0].value;
+    var sdo = document.getElementsByName("SDO")[0].value;
+    var sdp = document.getElementsByName("SDP")[0].value;
+    var nb_niv_infra = document.getElementsByName("Nombre_de_niveaux_Infrastructure")[0].value;
+    var nb_niv_super = document.getElementsByName("Nombre_de_niveaux_superstructure")[0].value;
+    var emprise_parcelle = document.getElementsByName("Emprise_de_la_parcelle")[0].value;
+    var s_espace_vert = document.getElementsByName("Surface_d'espace_verts")[0].value;
+    var s_minerale = document.getElementsByName("Surface_minerale")[0].value;
+    var emprise_sol = document.getElementsByName("Emprise_au_sol")[0].value;
+    var s_toiture = document.getElementsByName("Surface_de_toiture_(isolee_thermiquement)")[0].value;
+    var emprise_facade = document.getElementsByName("Emprise_de_facade_totale")[0].value;
+    var s_facade = document.getElementsByName("Dont_surface_de_facade_pleine")[0].value;
+    var s_vitrage = document.getElementsByName("Dont_surface_de_vitrage")[0].value;
+
+    for (i = 0; i < sous_categorie.length; i++) {
+        if (sous_categorie[i].style.display == "flex") {
+            sous_categorie = sous_categorie[i].value;
+            break;
+        }
+    }
+    httpRequest = new XMLHttpRequest();
+    if (!httpRequest)
+            console.log("NO REQUEST");
+    httpRequest.open('POST', '/home/:operation/update_op', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send(`id=${operation_id}&&nom_op=${nom_op}&&maitre=${maitre}&&nom_site=${nom_site}&&categorie=${categorie}&sous_categorie=${sous_categorie}&&composition=${composition}&&localisation=${localisation}&&adresse=${adresse}&&longitude=${longitude}&&latitude=${latitude}&&description=${description}&&date_ao=${date_ao}&&typologie_marche=${typologie_marche}&&typologie_operation=${typologie_operation}&&nb_eleve=${nb_eleve}&&nb_classe=${nb_classe}&&nb_salle=${nb_salle}&&nb_logement=${nb_logement}&&nb_bureaux=${nb_bureaux}&&nb_chambre=${nb_chambre}&&nb_commerce=${nb_commerce}&&nb_parking_infra=${nb_parking_infra}&&nb_parking_int_super=${nb_parking_int_super}&&nb_parking_ext=${nb_parking_ext}&&s_locaux_tech=${s_locaux_tech}&&s_locaux_annexe=${s_locaux_annexe}&&shab=${shab}&&su=${su}&&sdo=${sdo}&&sdp=${sdp}&&nb_niv_infra=${nb_niv_infra}&&nb_niv_super=${nb_niv_super}&&emprise_parcelle=${emprise_parcelle}&&s_espace_vert=${s_espace_vert}&&s_mineral=${s_minerale}&&emprise_sol=${emprise_sol}&&s_toiture=${s_toiture}&&emprise_facade=${emprise_facade}&&s_facade=${s_facade}&&s_vitrage=${s_vitrage}`);
+}
+
+function add_entreprise() {
+    var input = document.getElementById("Nom entreprise");
+
+    if (!httpRequest)
+            console.log("NO REQUEST");
+    httpRequest.open('POST', '/home/:operation/add_entreprise', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send(`nom=${input.value}`);
+    cancel_slide_entreprise();
 }
