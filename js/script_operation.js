@@ -11,12 +11,14 @@ var Theme = [];
 var Chapitre = [];
 var Sous_Chapitre = [];
 var Prestation = [];
+var element_result = [];
 var tram;
 var max_id = 0;
 var article;
 var value;
 var operation_id;
 var liste_entreprise;
+var arbre;
 let lot_e;
 let projet_e;
 let image_e;
@@ -40,6 +42,14 @@ async function load_data() {
     httpRequest.open('POST', '/home/:operation/load_info_generale', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`operation=${current_operation}`);
+    await create_arborescence();
+    httpRequest.onreadystatechange = requete_tram;
+    httpRequest.open('POST', '/home/:operation/get_tram', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send();
+    console.log(tram);
+    create_tram();
+    await load_element();
     if (value == undefined) {
         load_title_op(current_operation, "");
         return;
@@ -48,6 +58,7 @@ async function load_data() {
     await load_title_op(value.NOM_OP, value.NOM_CLIENT);
     await load_form_generale_op([value.NOM_SITE, value.CATEGORIE_SITE, value.SOUS_CATEGORIE_SITE, value.COMPOSITION_SITE, value.LOCALISATION, value.ADRESSE, value.LONGITUDE, value.LATITUDE, value.DESCRIPTION, value.DATE_AO, value.TYPOLOGIE_MARCHE2, value.TYPOLOGIE_OPERATION]);
     await load_form_dimension_op([value.NBR_ELEVE, value.NBR_CLASSE, value.NBR_SALLE, value.NBR_LOGEMENT, value.NBR_BUREAUX, value.NBR_CHAMBRE, value.NBR_COMMERCE, value.NBR_PARKING_INFRA, value.NBR_PARKING_INT_SUPERSTRUCT, value.NBR_PARKING_EXT, value.S_LOCAUX_TECHNIQUE, value.S_GARAGE_LOCAUX_ANNEXES, value.SHAB, value.SU, value.SDO, value.SDP, value.NBR_NIV_INFRA, value.NBR_NIV_SUPERSTRUCT, value.PARCELLE, value.ESPACE_VERT, value.S_MINERALE, value.EMPRISE_SOL, value.S_TOITURE, value.S_FACADE, value.S_FACADE_PLEINE, value.S_VITRAGE]);
+    httpRequest.onreadystatechange = requete;
     httpRequest.open('POST', '/home/:operation/load_info_lot', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`id=${value.ID}`);
@@ -55,16 +66,9 @@ async function load_data() {
     httpRequest.open('POST', '/home/:operation/load_entreprise', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send();
-    console.log(liste_entreprise);
     await load_lot(value);
     await load_totale_value_op();
-    await load_element();
-    /*
-    httpRequest.onreadystatechange = requete_tram;
-    httpRequest.open('POST', '/home/:operation/load_tram', false);
-    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    httpRequest.send();
-    */
+    console.log(article);
 }
 
 function load_totale_value_op() {
@@ -249,6 +253,12 @@ async function requete_entreprise() {
     }
 }
 
+async function requete_arbre() {
+    if (httpRequest.readyState == 4) {
+        arbre = JSON.parse(httpRequest.response);
+    }
+}
+
 function load_element() {
     lot_e = document.getElementsByClassName("container of the lot");
     projet_e = document.getElementById("main information of the list of the operation");
@@ -412,9 +422,9 @@ function slide() {
 }
 
 function slide_ajout() {
-    var container = document.getElementById("navigation d'ajout d'article");
+    var container = document.getElementById("recherche d'article");
 
-    container.style.marginLeft = "1480px";
+    container.style.marginTop = "0px";
 }
 
 function slide_ajout_entreprise() {
@@ -423,14 +433,27 @@ function slide_ajout_entreprise() {
     container.style.marginLeft = "1480px";
 }
 
-function cancel_slide() {
+function slide_modif_article() {
     var container = document.getElementById("navigation d'ajout d'article");
 
-    container.style.marginLeft = "1920px";
+    container.style.marginLeft = "1480px";
+    console.log(container.childNodes[3].childNodes);
+}
+
+function cancel_slide() {
+    var container = document.getElementById("recherche d'article");
+
+    container.style.marginTop = "965px";
 }
 
 function cancel_slide_entreprise() {
     var container = document.getElementById("navigation d'ajout d'entreprise");
+
+    container.style.marginLeft = "1920px";
+}
+
+function cancel_slide_modif_article() {
+    var container = document.getElementById("navigation d'ajout d'article");
 
     container.style.marginLeft = "1920px";
 }
@@ -766,7 +789,6 @@ function create_option_entreprise(container, arg) {
         option.textContent = liste_entreprise[i].NOM;
         container.appendChild(option);
     }
-    console.log(container.childNodes);
     for (i = 0; i < container.childNodes.length; i++) {
         if (container.childNodes[i].textContent == arg) {
             container.childNodes[i].selected = true;
@@ -796,6 +818,7 @@ function create_article(article, container) {
 
 
     box_article.className = "box article";
+    box_article.addEventListener('click', slide_modif_article);
     champ_prestation.id = "Prestation article";
     champ_prestation.className = "champ article";
     champ_article.id = "Article article";
@@ -964,3 +987,291 @@ function add_entreprise() {
     httpRequest.send(`nom=${input.value}`);
     cancel_slide_entreprise();
 }
+
+async function create_arborescence() {
+    var container = document.getElementById("aborescence article");
+    var options = document.createElement('div');
+    var text = document.createElement('div');
+    var img = document.createElement('img');
+    var liste;
+    var temp;
+
+    if (!httpRequest)
+            console.log("NO REQUEST");
+    httpRequest.onreadystatechange = requete_arbre;
+    httpRequest.open('POST', '/home/:operation/get_section', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send();
+    for (i = 0; i < arbre.length; i++) {
+        options = document.createElement('div');
+        text = document.createElement('div');
+        img = document.createElement('img');
+        options.className = "option filtrage section";
+        text.className = "texte section";
+        img.src = "/image/add_bis.png";
+        img.className = "deploiement";
+        img.id = "plus";
+        options.id = "Section " + arbre[i].ID;
+        options.style.height = "20px";
+        text.appendChild(img);
+        text.innerHTML += arbre[i].NOM;
+        options.appendChild(text);
+        text.onclick = deploiement_arbre;
+        container.appendChild(options);
+    }
+    temp = document.getElementsByClassName("option filtrage section");
+    for (i = 0; i < temp.length; i++) {
+        httpRequest.onreadystatechange = requete_arbre;
+        httpRequest.open('POST', '/home/:operation/get_theme', false);
+        httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        httpRequest.send(`id=${temp[i].id.substring(8)}`);
+        liste = document.createElement('div');
+        liste.className = "liste options filtrage theme";
+        temp[i].appendChild(liste);
+        for (j = 0; j < arbre.length; j++) {
+            options = document.createElement('div');
+            text = document.createElement('div');
+            img = document.createElement('img');
+            options.className = "option filtrage theme";
+            text.className = "texte theme";
+            img.src = "/image/add_bis.png";
+            img.className = "deploiement";
+            img.id = "plus";
+            options.id = "Theme " + arbre[j].ID;
+            options.style.height = "20px";
+            text.appendChild(img);
+            text.innerHTML += arbre[j].NOM;
+            text.onclick = deploiement_arbre;
+            options.appendChild(text);
+            liste.appendChild(options);
+        }
+    }
+    temp = document.getElementsByClassName("option filtrage theme");
+    for (i = 0; i < temp.length; i++) {
+        httpRequest.onreadystatechange = requete_arbre;
+        httpRequest.open('POST', '/home/:operation/get_chapitre', false);
+        httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        httpRequest.send(`id=${temp[i].id.substring(6)}`);
+        liste = document.createElement('div');
+        liste.className = "liste options filtrage chapitre";
+        temp[i].appendChild(liste);
+        for (j = 0; j < arbre.length; j++) {
+            options = document.createElement('div');
+            text = document.createElement('div');
+            img = document.createElement('img');
+            options.className = "option filtrage chapitre";
+            text.className = "texte chapitre";
+            img.src = "/image/add_bis.png";
+            img.className = "deploiement";
+            img.id = "plus";
+            options.id = "Chapitre " + arbre[j].ID;
+            options.style.height = "20px";
+            text.appendChild(img);
+            text.innerHTML += arbre[j].NOM;
+            text.onclick = deploiement_arbre;
+            options.appendChild(text);
+            liste.appendChild(options);
+        }
+    }
+}
+
+function deploiement_arbre(e) {
+    var container = document.getElementById("test");
+    var temp
+    var int;
+    var height = 0;
+    var temp;
+    var check = 0;
+
+    e.stopPropagation();
+    container = this.parentNode;
+    if (container.childNodes[0].childNodes[0].id == "plus") {
+        temp = container.parentNode;
+        for (i = 0; i < temp.childElementCount; i++) {
+            if (temp.childNodes[i].childNodes[0].childNodes[0].id == "moins") {
+                height = height + parseInt(temp.childNodes[i].style.height.substring(0, temp.childNodes[i].style.height.length - 1)) - 20;
+                temp.childNodes[i].childNodes[0].childNodes[0].id = "plus";
+                temp.childNodes[i].childNodes[0].childNodes[0].src = "/image/add_bis.png";
+                temp.childNodes[i].style.height = "20px";
+                temp.childNodes[i].childNodes[1].style.display = "none";
+                temp = temp.childNodes[i].childNodes[1];
+                i = 0;
+                check = 1;
+            }
+        }
+        temp = temp.parentNode;
+        if (check == 1) {
+            while (1) {
+                if (temp.className == "option filtrage section") {
+                    break;
+                }
+                temp = temp.parentNode.parentNode;
+                temp.style.height = `${parseInt(temp.style.height.substring(0, temp.style.height.length - 1)) - height}px`;
+            }
+        }
+        height = parseInt(container.style.height.substring(0, container.style.height.length - 1)) + (30 * (container.childNodes[container.childElementCount - 1].childElementCount));
+        container.style.height = `${parseInt(container.style.height.substring(0, container.style.height.length - 1)) + (30 * (container.childNodes[container.childElementCount - 1].childElementCount))}px`;
+        container.childNodes[container.childElementCount - 1].style.display = "flex";
+        container.childNodes[0].childNodes[0].id = "moins";
+        container.childNodes[0].childNodes[0].src = "/image/moins.png";
+        while (1) {
+            if (container.className == "option filtrage section") {
+                break;
+            }
+            container = container.parentNode;
+            container.style.height = `${parseInt(container.style.height.substring(0, container.style.height.length - 1)) + (height - 20)}px`;
+        }
+        maj_liste_article(this.parentNode);
+    }
+    else {
+        height = container.style.height.substring(0, container.style.height.length - 2);
+        container.style.height = `20px`;
+        container.childNodes[container.childElementCount - 1].style.display = "none";
+        container.childNodes[0].childNodes[0].id = "plus";
+        container.childNodes[0].childNodes[0].src = "/image/add_bis.png";
+        temp = container;
+        temp = temp.childNodes[1];
+        for (i = 0; i < temp.childElementCount; i++) {
+            if (temp.childNodes[i].childNodes[0].childNodes[0].id == "moins") {
+                temp.style.display = "none";
+                temp.childNodes[i].childNodes[0].childNodes[0].id = "plus";
+                temp.childNodes[i].childNodes[0].childNodes[0].src = "/image/add_bis.png";
+                temp.childNodes[i].style.height = "20px";
+                temp.childNodes[i].childNodes[1].style.display = "none";
+                temp = temp.childNodes[i].childNodes[1];
+                i = 0;
+            }
+        }
+        while (1) {
+            if (container.className == "option filtrage section") {
+                break;
+            }
+            container = container.parentNode.parentNode;
+            container.style.height = `${parseInt(container.style.height.substring(0, container.style.height.length - 1)) - (height - 20)}px`;
+        }
+        maj_liste_article(this.parentNode.parentNode.parentNode);
+    }
+}
+
+function create_tram() {
+    var container;
+
+    console.log(tram.length);
+    for (i = 0; i < tram.length; i++) {
+        container = create_element_tram(tram[i]);
+        element_result.push([tram[i].ID, tram[i].ID_SECTION, tram[i].ID_THEME, tram[i].ID_CHAPITRE, tram[i].ID_SOUS_CHAPITRE, tram[i].ID_PRESTATION, tram[i].NOM, container]);
+    }
+}
+
+function create_element_tram(values) {
+    var container = document.getElementById("liste article");
+    var article = document.createElement('div');
+    var nom_of_article = document.createElement('div');
+    var unite_of_article = document.createElement('div');
+    var button_of_article = document.createElement('div');
+    var input = document.createElement('input');
+    var label = document.createElement('label');
+
+    label.setAttribute("for", "switch " + values.ID);
+    input.type = "checkbox";
+    input.id = "switch " + values.ID;
+    button_of_article.className = "selection of article of liste";
+    unite_of_article.className = "unite of article of liste";
+    nom_of_article.className = "nom of article of liste";
+    nom_of_article.textContent = values.NOM;
+    article.className = "article of liste";
+    article.id = "article of list " + values.ID;
+
+    button_of_article.appendChild(input);
+    button_of_article.appendChild(label);
+    article.appendChild(nom_of_article);
+    article.appendChild(unite_of_article);
+    article.appendChild(button_of_article);
+    container.appendChild(article);
+    return article;
+}
+
+function maj_liste_article(container) {
+    var check = document.getElementsByClassName("option filtrage section");
+
+    console.log(container.id.substring(0, 2));
+    if (check[0].childNodes[0].childNodes[0].id == "plus" &&
+        check[1].childNodes[0].childNodes[0].id == "plus" &&
+        check[2].childNodes[0].childNodes[0].id == "plus") {
+
+        console.log("ALLLL");
+        for (i = 0; i < element_result.length; i++) {
+            element_result[i][7].style.display = "flex";
+        }
+        return;
+    }
+    if (container.id.substring(0, 2) == "Se") {
+        console.log(container.id.substring(8));
+        for (i = 0; i < element_result.length; i++) {
+            if (container.id.substring(8) == element_result[i][1]) {
+                element_result[i][7].style.display = "flex";
+            }
+            else {
+                element_result[i][7].style.display = "none";
+            }
+        }
+    }
+    if (container.id.substring(0, 2) == "Th") {
+        console.log(container.id.substring(6));
+        for (i = 0; i < element_result.length; i++) {
+            if (container.id.substring(6) == element_result[i][2]) {
+                element_result[i][7].style.display = "flex";
+            }
+            else {
+                element_result[i][7].style.display = "none";
+            }
+        }
+    }
+    if (container.id.substring(0, 2) == "Ch") {
+        console.log(container.id.substring(9));
+        for (i = 0; i < element_result.length; i++) {
+            if (container.id.substring(9) == element_result[i][3]) {
+                element_result[i][7].style.display = "flex";
+            }
+            else {
+                element_result[i][7].style.display = "none";
+            }
+        }
+    }
+    if (container.id.substring(0, 2) == "So") {
+        console.log(container.id.substring(14));
+        for (i = 0; i < element_result.length; i++) {
+            if (container.id.substring(14) == element_result[i][4]) {
+                element_result[i][7].style.display = "flex";
+            }
+            else {
+                element_result[i][7].style.display = "none";
+            }
+        }
+    }
+    if (container.id.substring(0, 2) == "Pr") {
+        console.log(container.id.substring(11));
+        for (i = 0; i < element_result.length; i++) {
+            if (container.id.substring(11) == element_result[i][5]) {
+                element_result[i][7].style.display = "flex";
+            }
+            else {
+                element_result[i][7].style.display = "none";
+            }
+        }
+    }
+}
+
+function filtre_element_article() {
+    var input = document.getElementById("search bar article").value;
+
+    console.log(input);
+    for (i = 0; i < element_result.length; i++) {
+        if (element_result[i][6].toLowerCase().includes(input.toLowerCase()))
+          element_result[i][7].style.display = "flex";
+        else
+          element_result[i][7].style.display = "none";
+    }
+}
+
+// importer de la base untec champ unite. non modifiable

@@ -56,14 +56,6 @@ router.post("/home/:operation/get_article", async (req, res) => {
   res.status('200').json(result);
 })
 
-router.post("/home/:operation/load_tram", async (req, res) => {
-  var sql = "SELECT SECTION FROM tram_untec";
-  var result;
-
-  result = await query(sql);
-  res.status('200').json(result);
-})
-
 router.delete("/home/:operation/del_lot", async (req, res) => {
   var sql = "DELETE FROM lot WHERE ID = ?";
   var result;
@@ -109,6 +101,38 @@ router.post("/home/:operation/add_entreprise", async (req, res) => {
   var result;
 
   result = await query(sql, req.body.nom);
+  res.status('200').json(result);
+})
+
+router.post("/home/:operation/get_section", async (req, res) => {
+  var sql = "SELECT * FROM section";
+  var result;
+
+  result = await query(sql);
+  res.status('200').json(result);
+})
+
+router.post("/home/:operation/get_theme", async (req, res) => {
+  var sql = "SELECT * FROM theme WHERE ID_SECTION = ?";
+  var result;
+
+  result = await query(sql, req.body.id);
+  res.status('200').json(result);
+})
+
+router.post("/home/:operation/get_chapitre", async (req, res) => {
+  var sql = "SELECT * FROM chapitre WHERE ID_THEME = ?";
+  var result;
+
+  result = await query(sql, req.body.id);
+  res.status('200').json(result);
+})
+
+router.post("/home/:operation/get_tram", async (req, res) => {
+  var sql = "SELECT * FROM article";
+  var result;
+
+  result = await query(sql, req.body.id);
   res.status('200').json(result);
 })
 

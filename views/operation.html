@@ -8,6 +8,7 @@
         <title>Observatoire</title>
 
         <link rel="stylesheet" href="/css/operation.css">
+        <link rel="stylesheet" href="/css/operation_button.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"/>
         <link rel="website icon" type="png" href="/image/logo_simonneau.png">
@@ -784,7 +785,7 @@
 
           <div id="cancel add">
 
-            <img src="/image/close.png" id="cancel" onclick="cancel_slide();"/>
+            <img src="/image/close.png" id="cancel" onclick="cancel_slide_modif_article();"/>
 
           </div>
 
@@ -792,13 +793,7 @@
 
             <div class="input ajout d'article">
 
-              <div id="search article">
-
-                <span id="title input">Nom de l'article</span>
-
-                <img src="/image/symbole-de-linterface-de-recherche.png" id="search"/>
-
-              </div>
+              <span id="title input">Nom de l'article</span>
 
               <input name="nom_article" value="" id="" class="ajout d'article" readonly/>
 
@@ -878,25 +873,53 @@
 
         <div id="recherche d'article">
 
-          <div id="filtrage article">
+          <div id="main info recherche article">
 
-            <div id="title filtrage article">Aborescence</div>
+            <div id="filtrage article">
 
-            <div id="aborescence article"></div>
+              <div id="title filtrage article">Aborescence</div>
+
+              <div id="aborescence article"></div>
+
+            </div>
+
+            <div id="resultat article">
+
+              <div class="input-wrapper">
+
+                <input placeholder="Search..." id="search bar article" onkeyup="filtre_element_article();"/>
+
+                <span class="input-highlight"></span>
+
+              </div>
+
+              <div id="liste article">
+
+                <div id="title liste article">
+
+                  <div class="nom liste article">Nom</div>
+
+                  <div class="unite liste article">Unite</div>
+
+                  <div class="selection liste article">Selection</div>
+
+                </div>
+
+              </div>
+
+            </div>
 
           </div>
 
-          <div id="resultat article">
+          <div id="bottom page recherche article">
 
-            <div id="title resultat article">Resultat</div>
+            <div id="container submit recherche article">
 
-            <div id="liste article">
+              <button type="button" class="button1" id="button save article" onclick="cancel_slide();">Quitter</button>
 
-              <div class="option filtrage section">CONSTRUCTION</div>
+              <button type="button" class="button1" id="button save article">Ajouter</button>
 
-              <div class="option filtrage section">DEMOLITION</div>
-
-              <div class="option filtrage section">STRUCTURATION</div>
+              <button type="button" class="button1" id="button save article">Sauvegarder</button>
 
             </div>
 
