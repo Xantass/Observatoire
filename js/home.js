@@ -41,8 +41,10 @@ router.post("/home:id", async (req, res) => {
 router.post("/home/rename", async (req, res) => {
   var sql = "UPDATE operation SET NOM_OP = ? WHERE ID = ?";
   var value = [req.body.operation, req.body.id];
+  var result;
 
-  await query(sql, value);
+  result = await query(sql, value);
+  res.status('200').json(result);
 })
 
 router.post("/home/duplicate", async (req, res) => {
@@ -87,15 +89,18 @@ router.post("/home/duplicate", async (req, res) => {
   arg.push(result[0].TAUX_TVA);
   arg.push(result[0].LATITUDE);
   arg.push(result[0].LONGITUDE);
-  sql = "INSERT INTO `observatoire`.`operation` (`ID_OP`, `NOM_OP`, `NOM_SITE`, `CATEGORIE_SITE`, `SOUS_CATEGORIE_SITE`, `NOM_CLIENT`, `COMPOSITION_SITE`, `IMPORTANCE`, `NBR_LOGEMENT`, `ADRESSE`, `DESCRIPTION`, `DATE_AO`, `TYPOLOGIE_OPERATION`, `TYPOLOGIE_MARCHE2`, `PERF_THERMIQUE`, `PERF_ENVIRONNEMENTALE`, `NIVEAU_PERF`, `SU`, `SHAB`, `SDO`, `SDP`, `PARCELLE`, `ESPACE_VERT`, `S_MINERALE`, `CLOTURE`, `ENTREE_SITE`, `EMPRISE_SOL`, `S_TOITURE`, `S_FACADE`, `S_VITRAGE`, `MONTANT_TRAVAUX`, `MONTANT_BDD_UNTEC`, `TAUX_TVA`, `LATITUDE`, `LONGITUDE`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+  sql = "INSERT INTO operation (`ID_OP`, `NOM_OP`, `NOM_SITE`, `CATEGORIE_SITE`, `SOUS_CATEGORIE_SITE`, `NOM_CLIENT`, `COMPOSITION_SITE`, `IMPORTANCE`, `NBR_LOGEMENT`, `ADRESSE`, `DESCRIPTION`, `DATE_AO`, `TYPOLOGIE_OPERATION`, `TYPOLOGIE_MARCHE2`, `PERF_THERMIQUE`, `PERF_ENVIRONNEMENTALE`, `NIVEAU_PERF`, `SU`, `SHAB`, `SDO`, `SDP`, `PARCELLE`, `ESPACE_VERT`, `S_MINERALE`, `CLOTURE`, `ENTREE_SITE`, `EMPRISE_SOL`, `S_TOITURE`, `S_FACADE`, `S_VITRAGE`, `MONTANT_TRAVAUX`, `MONTANT_BDD_UNTEC`, `TAUX_TVA`, `LATITUDE`, `LONGITUDE`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
   result = await query(sql, arg);
+  res.status('200').json(result);
 })
 
 router.post("/home/delete", async (req, res) => {
   var sql = "DELETE FROM operation WHERE ID = ?";
   var value = [req.body.id];
+  var result;
 
-  await query(sql, value);
+  result = await query(sql, value);
+  res.status('200').json(result);
 })
 
  /**

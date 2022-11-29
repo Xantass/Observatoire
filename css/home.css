@@ -656,10 +656,10 @@
   }
   div[id="box update operation"] {
     display: none;
-    position: absolute;
+    position: fixed;
     flex-direction: column;
     background-color: #fff;
-    top: 500px;
+    top: 300px;
     left: 700px;
     width: 200px;
     height: 135px;
@@ -881,4 +881,50 @@
   }
   .button1:hover:after {
     width: 100%;
+  }
+  div[id="container validation"] {
+    box-sizing: border-box;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.459);
+    width: 100%;
+    height: 100%;
+    z-index: 202;
+  }
+  div[id="box validation"] {
+    box-sizing: border-box;
+    display: flex;
+    position: relative;
+    background-color: #fff;
+    flex-direction: column;
+    margin-left: 38%;
+    width: 500px;
+    height: 219px;
+  }
+  div[id="title box validation"] {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    width: 100%
+  }
+  img[id="poubelle_bis"] {
+    box-sizing: border-box;
+    display: flex;
+    width: 24px;
+    height: 24px;
+    margin-left: 30px;
+  }
+  div[id="button form validation"] {
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    height: 30%;
+    margin-top: 60px;
+    flex-direction: row;
+    align-items: center;
   }

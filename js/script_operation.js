@@ -19,11 +19,13 @@ var value;
 var operation_id;
 var liste_entreprise;
 var arbre;
+var _new;
+var id_delete_lot = 0;
 let lot_e;
 let projet_e;
 let image_e;
 let button_e;
-let current_operation;
+let current_operation = "";
 
 
 async function load_data() {
@@ -38,6 +40,10 @@ async function load_data() {
     httpRequest = new XMLHttpRequest();
     if (!httpRequest)
       console.log("NO REQUEST");
+    httpRequest.onreadystatechange = requete_entreprise;
+    httpRequest.open('POST', '/home/:operation/load_entreprise', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send();
     httpRequest.onreadystatechange = requete;
     httpRequest.open('POST', '/home/:operation/load_info_generale', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -47,13 +53,14 @@ async function load_data() {
     httpRequest.open('POST', '/home/:operation/get_tram', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send();
-    console.log(tram);
     create_tram();
     await load_element();
     if (value == undefined) {
+        _new = 0;
         load_title_op(current_operation, "");
         return;
     }
+    _new = 1;
     operation_id = value.ID;
     await load_title_op(value.NOM_OP, value.NOM_CLIENT);
     await load_form_generale_op([value.NOM_SITE, value.CATEGORIE_SITE, value.SOUS_CATEGORIE_SITE, value.COMPOSITION_SITE, value.LOCALISATION, value.ADRESSE, value.LONGITUDE, value.LATITUDE, value.DESCRIPTION, value.DATE_AO, value.TYPOLOGIE_MARCHE2, value.TYPOLOGIE_OPERATION]);
@@ -62,39 +69,41 @@ async function load_data() {
     httpRequest.open('POST', '/home/:operation/load_info_lot', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`id=${value.ID}`);
-    httpRequest.onreadystatechange = requete_entreprise;
-    httpRequest.open('POST', '/home/:operation/load_entreprise', false);
-    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    httpRequest.send();
     await load_lot(value);
     await load_totale_value_op();
-    console.log(article);
+    await load_element();
 }
 
-function load_totale_value_op() {
+async function load_totale_value_op() {
     var temp = 0;
     var montant_totale = 0;
     var liste_lot = document.getElementsByClassName("container form lot");
     var op = document.getElementById("container form operation");
-    var virgule = -1;
-    var string;
 
     for (i = 0; i < liste_lot.length; i++) {
-        temp = liste_lot[i].childNodes[3].childNodes[1].textContent;
+        temp = liste_lot[i].childNodes[3].childNodes[3].textContent;
         temp = temp.replace(' ', '');
         montant_totale = montant_totale + parseFloat(temp);
     }
     montant_totale = Math.round(montant_totale * 100) / 100;
-    op.childNodes[7].childNodes[3].textContent = montant_totale;
-    virgule = op.childNodes[7].childNodes[3].textContent.indexOf('.');
-    if (virgule != -1) {
-        for (i = virgule; i - 3 > 0; i = i - 3) {
-            string = op.childNodes[7].childNodes[3].textContent.substring(0, i - 3);
-            string = string + " ";
-            string = string + op.childNodes[7].childNodes[3].textContent.substring(i - 3);
-        }
+    temp = montant_totale.toString();
+    temp = await beautiful_number(temp);
+    op.childNodes[7].childNodes[3].textContent = temp;
+}
+
+async function load_totale_value_lot(container) {
+    var temp = 0;
+    var montant_totale = 0;
+
+    for (i = 0; i < container.childElementCount; i++) {
+        temp = container.childNodes[i].childNodes[5].childNodes[0].textContent;
+        temp = temp.replace(' ', '');
+        montant_totale = montant_totale + parseFloat(temp);
     }
-    op.childNodes[7].childNodes[3].textContent = string;
+    montant_totale = Math.round(montant_totale * 100) / 100;
+    temp = montant_totale.toString();
+    temp = await beautiful_number(temp);
+    container.parentNode.childNodes[3].childNodes[3].textContent = temp;
 }
 
 async function load_lot(value) {
@@ -256,6 +265,11 @@ async function requete_entreprise() {
 async function requete_arbre() {
     if (httpRequest.readyState == 4) {
         arbre = JSON.parse(httpRequest.response);
+    }
+}
+
+async function requete_nothing() {
+    if (httpRequest.readyState == 4) {
     }
 }
 
@@ -425,6 +439,7 @@ function slide_ajout() {
     var container = document.getElementById("recherche d'article");
 
     container.style.marginTop = "0px";
+    container.className = "recherche d'article " + this.parentNode.parentNode.id.substring(4);
 }
 
 function slide_ajout_entreprise() {
@@ -437,19 +452,59 @@ function slide_modif_article() {
     var container = document.getElementById("navigation d'ajout d'article");
 
     container.style.marginLeft = "1480px";
-    console.log(container.childNodes[3].childNodes);
+    container.childNodes[3].childNodes[1].childNodes[3].value = this.childNodes[1].childNodes[0].textContent;
+    container.childNodes[3].childNodes[3].childNodes[3].value = this.childNodes[2].childNodes[0].textContent;
+    container.childNodes[3].childNodes[5].childNodes[3].value = this.childNodes[3].childNodes[0].textContent;
+    container.childNodes[3].childNodes[7].childNodes[3].value = this.childNodes[4].childNodes[0].textContent;
+    container.childNodes[3].childNodes[9].childNodes[3].value = this.childNodes[5].childNodes[0].textContent;
+    container.childNodes[3].childNodes[11].childNodes[3].value = this.id.substring(8);
+    container.childNodes[3].childNodes[13].childNodes[3].value = this.childNodes[6].childNodes[0].textContent;
 }
 
 function cancel_slide() {
     var container = document.getElementById("recherche d'article");
+    var input = document.getElementById("search bar article");
+    var temp = document.getElementById("aborescence article");
+    var check = 0;
+    var height = 0;
 
     container.style.marginTop = "965px";
+    input.value = "";
+    for (i = 0; i < temp.childElementCount; i++) {
+        if (temp.childNodes[i].childNodes[0].childNodes[0].id == "moins") {
+            height = height + parseInt(temp.childNodes[i].style.height.substring(0, temp.childNodes[i].style.height.length - 1)) - 20;
+            temp.childNodes[i].childNodes[0].childNodes[0].id = "plus";
+            temp.childNodes[i].childNodes[0].childNodes[0].src = "/image/add_bis.png";
+            temp.childNodes[i].style.height = "20px";
+            temp.childNodes[i].childNodes[1].style.display = "none";
+            temp = temp.childNodes[i].childNodes[1];
+            i = -1;
+            check = 1;
+        }
+    }
+    temp = temp.parentNode;
+    if (check == 1) {
+        while (1) {
+            if (temp.className == "option filtrage section") {
+                break;
+            }
+            temp = temp.parentNode.parentNode;
+            temp.style.height = `${parseInt(temp.style.height.substring(0, temp.style.height.length - 1)) - height}px`;
+        }
+    }
+    for (i = 0; i < element_result.length; i++) {
+        element_result[i][7].style.display = "flex";
+        if (element_result[i][7].childNodes[2].childNodes[1].id == "select") {
+            element_result[i][7].childNodes[2].childNodes[1].click();
+        }
+    }
 }
 
 function cancel_slide_entreprise() {
     var container = document.getElementById("navigation d'ajout d'entreprise");
 
     container.style.marginLeft = "1920px";
+    container.childNodes[3].childNodes[1].childNodes[3].value = "";
 }
 
 function cancel_slide_modif_article() {
@@ -500,7 +555,6 @@ function deroule_form_2() {
     var box = document.getElementById("sous_categorie 2");
     var form = box.childNodes[3];
 
-    console.log(form);
     if (sous_categorie_2 == 0) {
         sous_categorie_2 = 1;
         form.style.display = "flex";
@@ -565,7 +619,6 @@ async function add_lot_to_operation(arg) {
         httpRequest.send();
         max = max_id[0]["MAX (ID)"] + 1;
         arg[2] = max;
-        console.log(arg[2]);
         httpRequest.open('POST', '/home/:operation/add_lot', false);
         httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         httpRequest.send(`id_lot=${arg[2]}&&id_op=${this.operation_id}`);
@@ -578,7 +631,7 @@ async function add_lot_to_operation(arg) {
     span.textContent = arg[0];
     del.src = "/image/bouton-de-suppression-de-la-poubelle.png";
     del.id = "del";
-    del.addEventListener('click', delete_lot);
+    del.addEventListener('click', get_valid);
     container.appendChild(image);
     container.appendChild(span);
     container.appendChild(del);
@@ -650,6 +703,7 @@ async function create_form_lot(arg) {
     input_numero_lot.value = arg[3];
     input_numero_lot.id = "numero_lot";
     input_numero_lot.className = "input generale";
+    input_numero_lot.addEventListener('keypress', function() { return verif_bis(event, '1234567890'); }, false);
     box_entreprise_lot.className = "2 input lot";
     span_entreprise_lot.id = "title input";
     span_entreprise_lot.textContent = "Entreprise";
@@ -664,6 +718,7 @@ async function create_form_lot(arg) {
     input_date_lot.value = arg[5];
     input_date_lot.id = "date_lot";
     input_date_lot.className = "input generale";
+    input_date_lot.addEventListener('keypress', function() { return verif_bis(event, '1234567890/'); }, false);
     container_champ.className = "container champ";
     box_prestation_champ.className = "champ";
     box_prestation_champ.id = "Prestation champ";
@@ -751,9 +806,9 @@ async function create_form_lot(arg) {
     httpRequest.open('POST', '/home/:operation/get_article', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`id_lot=${arg[2]}`);
-    for (i = 0; i < article.length; i++) {
+    for (i = 0; i < article.length; i = i + 1) {
         temp = await create_article(article[i], container_article);
-        temp = temp.replace(',', '.');
+        temp = temp.replace(' ', '');
         montant_totale = montant_totale + parseFloat(temp);
     }
     container_form.appendChild(container_submit);
@@ -763,16 +818,9 @@ async function create_form_lot(arg) {
     container_submit.appendChild(box_montant);
     container_submit.appendChild(button_submit);
     montant_totale = Math.round(montant_totale * 100) / 100;
-    box_montant.textContent = montant_totale;
-    virgule = box_montant.textContent.indexOf('.');
-    if (virgule != -1) {
-        for (i = virgule; i - 3 > 0; i = i - 3) {
-            string = box_montant.textContent.substring(0, i - 3);
-            string = string + " ";
-            string = string + box_montant.textContent.substring(i - 3)
-        }
-    }
-    box_montant.textContent = string;
+    temp = montant_totale.toString();
+    temp = await beautiful_number(temp);
+    box_montant.textContent = temp;
 }
 
 function create_option_entreprise(container, arg) {
@@ -797,9 +845,7 @@ function create_option_entreprise(container, arg) {
     }
 }
 
-function create_article(article, container) {
-    var virgule = -1;
-    var string;
+async function create_article(article, container) {
     var box_article = document.createElement('div');
     var champ_prestation = document.createElement('div');
     var champ_article = document.createElement('div');
@@ -816,8 +862,8 @@ function create_article(article, container) {
     var text_prix_totale = document.createElement('div');
     var text_tva = document.createElement('div');
 
-
     box_article.className = "box article";
+    box_article.id = "article " + article.ID;
     box_article.addEventListener('click', slide_modif_article);
     champ_prestation.id = "Prestation article";
     champ_prestation.className = "champ article";
@@ -842,11 +888,14 @@ function create_article(article, container) {
     text_tva.id = "text";
     text_article.textContent = article.ARTICLE;
     text_prestation.textContent = article.PRESTATION;
+    article.QTE = await beautiful_number(article.QTE);
     text_quantite.textContent = article.QTE;
+    article.TOTAL = await beautiful_number(article.TOTAL);
     text_prix_totale.textContent = article.TOTAL;
+    article.PU = await beautiful_number(article.PU);
     text_prix_unitaire.textContent = article.PU;
     text_unite.textContent = article.U;
-    text_tva.textContent = "20%";
+    text_tva.textContent = article.TVA;
 
     container.appendChild(box_article);
     box_article.appendChild(champ_prestation);
@@ -866,6 +915,41 @@ function create_article(article, container) {
     return article.TOTAL;
 }
 
+async function beautiful_number(string) {
+    var virgule = 0;
+    var result = "";
+
+    string = string.replace(' ', '');
+    if (string.includes(',') || string.includes('.')) {
+        if (string.includes(',')) {
+            virgule = string.indexOf(',');
+        }
+        if (string.includes('.')) {
+            virgule = string.indexOf('.');
+        }
+    }
+    else {
+        virgule = string.length;
+    }
+    result = await format_number(string, virgule);
+    return result;
+}
+
+function format_number(string, index) {
+    var result = "";
+
+    string = string.replace(',', '.');
+    if (index <= 3) {
+        return string;
+    }
+    for (; index > 3; index = index - 3) {
+        result = string.substring(0, index - 3);
+        result = result + " ";
+        result = result + string.substring(index - 3);
+    }
+    return result;
+}
+
 function select_categorie(value) {
     var containers = document.getElementsByClassName("input generale_bis");
     var select = document.getElementById("Categorie du site");
@@ -883,18 +967,20 @@ function select_categorie(value) {
     }
 }
 
-function delete_lot(e) {
-    var container = document.getElementById("lot " + this.parentNode.id);
+function delete_lot() {
+    var container = document.getElementById("lot " + id_delete_lot);
+    var container_bis = document.getElementById(id_delete_lot);
 
-    e.stopPropagation();
-    this.parentNode.remove();
+    container_bis.remove();
     container.remove();
     httpRequest = new XMLHttpRequest();
     if (!httpRequest)
             console.log("NO REQUEST");
+    httpRequest.onreadystatechange = requete_nothing;
     httpRequest.open('DELETE', '/home/:operation/del_lot', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    httpRequest.send(`id_lot=${this.parentNode.id}`);
+    httpRequest.send(`id_lot=${id_delete_lot}`);
+    cancel_sup();
 }
 
 function maj_nom_lot(e) {
@@ -915,6 +1001,7 @@ function update_lot(e) {
     httpRequest = new XMLHttpRequest();
     if (!httpRequest)
             console.log("NO REQUEST");
+    httpRequest.onreadystatechange = requete_nothing;
     httpRequest.open('POST', '/home/:operation/update_lot', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`id_lot=${this.parentNode.parentNode.id.substring(4)}&&nom=${nom}&&numero=${numero}&&entreprise=${entreprise}&&date=${date}`);
@@ -962,19 +1049,67 @@ function maj_op(e) {
     var emprise_facade = document.getElementsByName("Emprise_de_facade_totale")[0].value;
     var s_facade = document.getElementsByName("Dont_surface_de_facade_pleine")[0].value;
     var s_vitrage = document.getElementsByName("Dont_surface_de_vitrage")[0].value;
+    var check = 0;
 
     for (i = 0; i < sous_categorie.length; i++) {
         if (sous_categorie[i].style.display == "flex") {
             sous_categorie = sous_categorie[i].value;
+            check = 1;
             break;
         }
     }
+    if (check == 0)
+        sous_categorie = "";
     httpRequest = new XMLHttpRequest();
     if (!httpRequest)
             console.log("NO REQUEST");
-    httpRequest.open('POST', '/home/:operation/update_op', false);
+    if (_new == 0) {
+        httpRequest.onreadystatechange = requete_nothing;
+        httpRequest.open('POST', '/home/:operation/add_op', false);
+        httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        httpRequest.send(`id=${operation_id}&&nom_op=${nom_op}&&maitre=${maitre}&&nom_site=${nom_site}&&categorie=${categorie}&sous_categorie=${sous_categorie}&&composition=${composition}&&localisation=${localisation}&&adresse=${adresse}&&longitude=${longitude}&&latitude=${latitude}&&description=${description}&&date_ao=${date_ao}&&typologie_marche=${typologie_marche}&&typologie_operation=${typologie_operation}&&nb_eleve=${nb_eleve}&&nb_classe=${nb_classe}&&nb_salle=${nb_salle}&&nb_logement=${nb_logement}&&nb_bureaux=${nb_bureaux}&&nb_chambre=${nb_chambre}&&nb_commerce=${nb_commerce}&&nb_parking_infra=${nb_parking_infra}&&nb_parking_int_super=${nb_parking_int_super}&&nb_parking_ext=${nb_parking_ext}&&s_locaux_tech=${s_locaux_tech}&&s_locaux_annexe=${s_locaux_annexe}&&shab=${shab}&&su=${su}&&sdo=${sdo}&&sdp=${sdp}&&nb_niv_infra=${nb_niv_infra}&&nb_niv_super=${nb_niv_super}&&emprise_parcelle=${emprise_parcelle}&&s_espace_vert=${s_espace_vert}&&s_mineral=${s_minerale}&&emprise_sol=${emprise_sol}&&s_toiture=${s_toiture}&&emprise_facade=${emprise_facade}&&s_facade=${s_facade}&&s_vitrage=${s_vitrage}`);
+        _new = 1;
+    }
+    else {
+        httpRequest.onreadystatechange = requete_nothing;
+        httpRequest.open('POST', '/home/:operation/update_op', false);
+        httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        httpRequest.send(`id=${operation_id}&&nom_op=${nom_op}&&maitre=${maitre}&&nom_site=${nom_site}&&categorie=${categorie}&sous_categorie=${sous_categorie}&&composition=${composition}&&localisation=${localisation}&&adresse=${adresse}&&longitude=${longitude}&&latitude=${latitude}&&description=${description}&&date_ao=${date_ao}&&typologie_marche=${typologie_marche}&&typologie_operation=${typologie_operation}&&nb_eleve=${nb_eleve}&&nb_classe=${nb_classe}&&nb_salle=${nb_salle}&&nb_logement=${nb_logement}&&nb_bureaux=${nb_bureaux}&&nb_chambre=${nb_chambre}&&nb_commerce=${nb_commerce}&&nb_parking_infra=${nb_parking_infra}&&nb_parking_int_super=${nb_parking_int_super}&&nb_parking_ext=${nb_parking_ext}&&s_locaux_tech=${s_locaux_tech}&&s_locaux_annexe=${s_locaux_annexe}&&shab=${shab}&&su=${su}&&sdo=${sdo}&&sdp=${sdp}&&nb_niv_infra=${nb_niv_infra}&&nb_niv_super=${nb_niv_super}&&emprise_parcelle=${emprise_parcelle}&&s_espace_vert=${s_espace_vert}&&s_mineral=${s_minerale}&&emprise_sol=${emprise_sol}&&s_toiture=${s_toiture}&&emprise_facade=${emprise_facade}&&s_facade=${s_facade}&&s_vitrage=${s_vitrage}`);
+    }
+}
+
+async function add_modif_article() {
+    var container = document.getElementById("navigation d'ajout d'article");
+    var container_bis = document.getElementById("article " + container.childNodes[3].childNodes[11].childNodes[3].value);
+
+    if (!httpRequest)
+            console.log("NO REQUEST");
+    httpRequest.onreadystatechange = requete_nothing;
+    httpRequest.open('POST', '/home/:operation/modif_article', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    httpRequest.send(`id=${operation_id}&&nom_op=${nom_op}&&maitre=${maitre}&&nom_site=${nom_site}&&categorie=${categorie}&sous_categorie=${sous_categorie}&&composition=${composition}&&localisation=${localisation}&&adresse=${adresse}&&longitude=${longitude}&&latitude=${latitude}&&description=${description}&&date_ao=${date_ao}&&typologie_marche=${typologie_marche}&&typologie_operation=${typologie_operation}&&nb_eleve=${nb_eleve}&&nb_classe=${nb_classe}&&nb_salle=${nb_salle}&&nb_logement=${nb_logement}&&nb_bureaux=${nb_bureaux}&&nb_chambre=${nb_chambre}&&nb_commerce=${nb_commerce}&&nb_parking_infra=${nb_parking_infra}&&nb_parking_int_super=${nb_parking_int_super}&&nb_parking_ext=${nb_parking_ext}&&s_locaux_tech=${s_locaux_tech}&&s_locaux_annexe=${s_locaux_annexe}&&shab=${shab}&&su=${su}&&sdo=${sdo}&&sdp=${sdp}&&nb_niv_infra=${nb_niv_infra}&&nb_niv_super=${nb_niv_super}&&emprise_parcelle=${emprise_parcelle}&&s_espace_vert=${s_espace_vert}&&s_mineral=${s_minerale}&&emprise_sol=${emprise_sol}&&s_toiture=${s_toiture}&&emprise_facade=${emprise_facade}&&s_facade=${s_facade}&&s_vitrage=${s_vitrage}`);
+    httpRequest.send(`quantite=${container.childNodes[3].childNodes[5].childNodes[3].value}&&prix_u=${container.childNodes[3].childNodes[7].childNodes[3].value}&&prix_t=${container.childNodes[3].childNodes[9].childNodes[3].value}&&tva=${container.childNodes[3].childNodes[13].childNodes[3].value}&&id=${container.childNodes[3].childNodes[11].childNodes[3].value}`);
+    console.log(container_bis.childNodes[3].childNodes[0].textContent);
+    container_bis.childNodes[3].childNodes[0].textContent = container.childNodes[3].childNodes[5].childNodes[3].value;
+    container_bis.childNodes[4].childNodes[0].textContent = container.childNodes[3].childNodes[7].childNodes[3].value;
+    container_bis.childNodes[5].childNodes[0].textContent = container.childNodes[3].childNodes[9].childNodes[3].value;
+    container_bis.childNodes[6].childNodes[0].textContent = container.childNodes[3].childNodes[13].childNodes[3].value;
+    await load_totale_value_lot(container_bis.parentNode);
+    await load_totale_value_op();
+    cancel_slide_modif_article();
+    return;
+}
+
+function delete_article() {
+    var container = document.getElementById("navigation d'ajout d'article");
+    var container_bis = document.getElementById("article " + container.childNodes[3].childNodes[11].childNodes[3].value);
+
+    httpRequest.onreadystatechange = requete_nothing;
+    httpRequest.open('POST', '/home/:operation/del_article', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send(`id=${container.childNodes[3].childNodes[11].childNodes[3].value}`);
+    container_bis.remove();
+    cancel_slide_modif_article();
+    return;
 }
 
 function add_entreprise() {
@@ -982,6 +1117,7 @@ function add_entreprise() {
 
     if (!httpRequest)
             console.log("NO REQUEST");
+    httpRequest.onreadystatechange = requete_nothing;
     httpRequest.open('POST', '/home/:operation/add_entreprise', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`nom=${input.value}`);
@@ -1095,7 +1231,7 @@ function deploiement_arbre(e) {
                 temp.childNodes[i].style.height = "20px";
                 temp.childNodes[i].childNodes[1].style.display = "none";
                 temp = temp.childNodes[i].childNodes[1];
-                i = 0;
+                i = -1;
                 check = 1;
             }
         }
@@ -1139,7 +1275,7 @@ function deploiement_arbre(e) {
                 temp.childNodes[i].style.height = "20px";
                 temp.childNodes[i].childNodes[1].style.display = "none";
                 temp = temp.childNodes[i].childNodes[1];
-                i = 0;
+                i = -1;
             }
         }
         while (1) {
@@ -1156,10 +1292,20 @@ function deploiement_arbre(e) {
 function create_tram() {
     var container;
 
-    console.log(tram.length);
     for (i = 0; i < tram.length; i++) {
         container = create_element_tram(tram[i]);
         element_result.push([tram[i].ID, tram[i].ID_SECTION, tram[i].ID_THEME, tram[i].ID_CHAPITRE, tram[i].ID_SOUS_CHAPITRE, tram[i].ID_PRESTATION, tram[i].NOM, container]);
+    }
+}
+
+function select_article(e) {
+    e.stopPropagation();
+
+    if (this.id == "not") {
+        this.id = "select";
+    }
+    else {
+        this.id = "not";
     }
 }
 
@@ -1171,8 +1317,13 @@ function create_element_tram(values) {
     var button_of_article = document.createElement('div');
     var input = document.createElement('input');
     var label = document.createElement('label');
+    var test = document.createElement('div');
 
+    test.id = "test box hover";
+    test.textContent = "Aaaaaaaaaaaaa/Aaaaaaaaaaaaa/Aaaaaaaaaaaaa/Aaaaaaaaaaaaa/Aaaaaaaaaaaaa"; //13
     label.setAttribute("for", "switch " + values.ID);
+    label.id = "not";
+    label.addEventListener('click', select_article);
     input.type = "checkbox";
     input.id = "switch " + values.ID;
     button_of_article.className = "selection of article of liste";
@@ -1181,12 +1332,15 @@ function create_element_tram(values) {
     nom_of_article.textContent = values.NOM;
     article.className = "article of liste";
     article.id = "article of list " + values.ID;
+    article.addEventListener('mouseover', display_info_on);
+    article.addEventListener('mouseout', display_info_off);
 
     button_of_article.appendChild(input);
     button_of_article.appendChild(label);
     article.appendChild(nom_of_article);
     article.appendChild(unite_of_article);
     article.appendChild(button_of_article);
+    article.appendChild(test);
     container.appendChild(article);
     return article;
 }
@@ -1194,19 +1348,15 @@ function create_element_tram(values) {
 function maj_liste_article(container) {
     var check = document.getElementsByClassName("option filtrage section");
 
-    console.log(container.id.substring(0, 2));
     if (check[0].childNodes[0].childNodes[0].id == "plus" &&
         check[1].childNodes[0].childNodes[0].id == "plus" &&
         check[2].childNodes[0].childNodes[0].id == "plus") {
-
-        console.log("ALLLL");
         for (i = 0; i < element_result.length; i++) {
             element_result[i][7].style.display = "flex";
         }
         return;
     }
     if (container.id.substring(0, 2) == "Se") {
-        console.log(container.id.substring(8));
         for (i = 0; i < element_result.length; i++) {
             if (container.id.substring(8) == element_result[i][1]) {
                 element_result[i][7].style.display = "flex";
@@ -1217,7 +1367,6 @@ function maj_liste_article(container) {
         }
     }
     if (container.id.substring(0, 2) == "Th") {
-        console.log(container.id.substring(6));
         for (i = 0; i < element_result.length; i++) {
             if (container.id.substring(6) == element_result[i][2]) {
                 element_result[i][7].style.display = "flex";
@@ -1228,7 +1377,6 @@ function maj_liste_article(container) {
         }
     }
     if (container.id.substring(0, 2) == "Ch") {
-        console.log(container.id.substring(9));
         for (i = 0; i < element_result.length; i++) {
             if (container.id.substring(9) == element_result[i][3]) {
                 element_result[i][7].style.display = "flex";
@@ -1239,7 +1387,6 @@ function maj_liste_article(container) {
         }
     }
     if (container.id.substring(0, 2) == "So") {
-        console.log(container.id.substring(14));
         for (i = 0; i < element_result.length; i++) {
             if (container.id.substring(14) == element_result[i][4]) {
                 element_result[i][7].style.display = "flex";
@@ -1250,7 +1397,6 @@ function maj_liste_article(container) {
         }
     }
     if (container.id.substring(0, 2) == "Pr") {
-        console.log(container.id.substring(11));
         for (i = 0; i < element_result.length; i++) {
             if (container.id.substring(11) == element_result[i][5]) {
                 element_result[i][7].style.display = "flex";
@@ -1265,7 +1411,6 @@ function maj_liste_article(container) {
 function filtre_element_article() {
     var input = document.getElementById("search bar article").value;
 
-    console.log(input);
     for (i = 0; i < element_result.length; i++) {
         if (element_result[i][6].toLowerCase().includes(input.toLowerCase()))
           element_result[i][7].style.display = "flex";
@@ -1274,4 +1419,154 @@ function filtre_element_article() {
     }
 }
 
-// importer de la base untec champ unite. non modifiable
+function add_article_to_lot() {
+    var temp = document.getElementById("recherche d'article");
+    var container = document.getElementById("lot " + temp.className.substring(20));
+
+    for (i = 0; i < element_result.length; i++) {
+        if (element_result[i][7].childNodes[2].childNodes[1].id == "select") {
+            create_article_bis([element_result[i][7].id.substring(16), element_result[i][7].childNodes[0].textContent, "", "", "", "", "", ""], container.childNodes[2]);
+        }
+    }
+    cancel_slide();
+}
+
+function create_article_bis(article, container) {
+    var virgule = -1;
+    var string;
+    var box_article = document.createElement('div');
+    var champ_prestation = document.createElement('div');
+    var champ_article = document.createElement('div');
+    var champ_unite = document.createElement('div');
+    var champ_quantite = document.createElement('div');
+    var champ_prix_unitaire = document.createElement('div');
+    var champ_prix_totale = document.createElement('div');
+    var champ_tva = document.createElement('div');
+    var text_prestation = document.createElement('div');
+    var text_article = document.createElement('div');
+    var text_unite = document.createElement('div');
+    var text_quantite = document.createElement('div');
+    var text_prix_unitaire = document.createElement('div');
+    var text_prix_totale = document.createElement('div');
+    var text_tva = document.createElement('div');
+
+    box_article.className = "box article";
+    box_article.id = "article " + article[0];
+    box_article.addEventListener('click', slide_modif_article);
+    champ_prestation.id = "Prestation article";
+    champ_prestation.className = "champ article";
+    champ_article.id = "Article article";
+    champ_article.className = "champ article";
+    champ_unite.id = "Unite article";
+    champ_unite.className = "champ article";
+    champ_quantite.id = "Quantite article";
+    champ_quantite.className = "champ article";
+    champ_prix_unitaire.id = "Prix Unitaire article";
+    champ_prix_unitaire.className = "champ article";
+    champ_prix_totale.id = "Prix totale article";
+    champ_prix_totale.className = "champ article";
+    champ_tva.id = "TVA article";
+    champ_tva.className = "champ article";
+    text_article.id = "text";
+    text_prestation.id = "text";
+    text_quantite.id = "text";
+    text_prix_totale.id = "text";
+    text_prix_unitaire.id = "text";
+    text_unite.id = "text";
+    text_tva.id = "text";
+    text_article.textContent = article[1];
+    text_prestation.textContent = article[2];
+    text_quantite.textContent = article[3];
+    text_prix_totale.textContent = article[4];
+    text_prix_unitaire.textContent = article[5];
+    text_unite.textContent = article[6];
+    text_tva.textContent = article[7];
+
+    container.appendChild(box_article);
+    box_article.appendChild(champ_prestation);
+    box_article.appendChild(champ_article);
+    box_article.appendChild(champ_unite);
+    box_article.appendChild(champ_quantite);
+    box_article.appendChild(champ_prix_unitaire);
+    box_article.appendChild(champ_prix_totale);
+    box_article.appendChild(champ_tva);
+    champ_prestation.appendChild(text_prestation);
+    champ_article.appendChild(text_article);
+    champ_unite.appendChild(text_unite);
+    champ_quantite.appendChild(text_quantite);
+    champ_prix_unitaire.appendChild(text_prix_unitaire);
+    champ_prix_totale.appendChild(text_prix_totale);
+    champ_tva.appendChild(text_tva);
+    return article.TOTAL;
+}
+
+function get_valid() {
+    var container = document.getElementById("container validation");
+
+    id_delete_lot = this.parentNode.id;
+    container.style.display = "flex";
+}
+function cancel_sup() {
+    var update = document.getElementById("container validation");
+
+    update.style.display = "none";
+}
+
+function display_info_on(e) {
+    e.stopPropagation();
+
+    this.childNodes[3].style.display = "flex";
+}
+
+function display_info_off(e) {
+    e.stopPropagation();
+
+    this.childNodes[3].style.display = "none";
+}
+
+async function maj_totale_article() {
+    var quantite = document.getElementById("quantite modif article");
+    var prix_unitaire = document.getElementById("prix unitaire modif article");
+    var prix_totale = document.getElementById("prix totale modif article");
+    var nb = 0;
+    var string = "";
+
+    if (quantite.value != "" && prix_unitaire.value != "") {
+        nb = parseFloat(quantite.value.replace(' ', '')) * parseFloat(prix_unitaire.value.replace(' ', ''));
+        nb = Math.round(nb * 100) / 100;
+        string = nb.toString();
+        string = await beautiful_number(string);
+        prix_totale.value = string;
+    }
+    else {
+        prix_totale.value = "";
+    }
+}
+
+function verif(evt, accept) {
+    var keyCode = evt.which ? evt.which : evt.keyCode;
+    if (accept.indexOf(String.fromCharCode(keyCode)) >= 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function verif_bis(evt, accept) {
+    var keyCode = evt.which ? evt.which : evt.keyCode;
+
+    if (accept.indexOf(String.fromCharCode(keyCode)) >= 0) {
+        return true;
+    } else {
+        preventDefault(evt);
+        return false;
+    }
+}
+
+function preventDefault(e)
+{
+    e= e || event;
+    e.preventDefault? e.preventDefault() : e.returnValue = false;
+}
+
+// creer un identifiant a partir de l'aborescence (section, theme, chapitre, sous-chapitre) + identifiant unique

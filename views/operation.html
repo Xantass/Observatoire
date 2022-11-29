@@ -345,7 +345,7 @@
 
                       <span id="title input">Longitude</span>
 
-                      <input name="Longitude" value="" id="Longitude" class="input generale"/>
+                      <input name="Longitude" value="" id="Longitude" class="input generale" onkeypress="return verif(event, '.0123456789 ');"/>
 
                     </div>
 
@@ -353,7 +353,7 @@
 
                       <span id="title input">Latitude</span>
 
-                      <input name="Latitude" value="" id="Latitude" class="input generale"/>
+                      <input name="Latitude" value="" id="Latitude" class="input generale" onkeypress="return verif(event, '.0123456789 ');"/>
 
                     </div>
 
@@ -373,7 +373,7 @@
 
                       <span id="title input">Date AO</span>
 
-                      <input name="Date_AO" value="" id="Date AO" class="input generale"/>
+                      <input name="Date_AO" value="" id="Date AO" class="input generale" onkeypress="return verif(event, '0123456789/');"/>
 
                     </div>
 
@@ -453,7 +453,7 @@
 
                           <span id="title input">Nombre d'eleve</span>
 
-                          <input name="Nombre_d'eleve" value="" id="Nombre d'eleve" class="input generale"/>
+                          <input name="Nombre_d'eleve" value="" id="Nombre d'eleve" class="input generale" onkeypress="return verif(event, ',0123456789 ');"/>
 
                         </div>
 
@@ -461,7 +461,7 @@
 
                           <span id="title input">Nombre de classe (salle d'enseignement)</span>
 
-                          <input name="Nombre_de_classe_(salle_d'enseignement)" value="" id="Nombre de classe" class="input generale"/>
+                          <input name="Nombre_de_classe_(salle_d'enseignement)" value="" id="Nombre de classe" class="input generale" onkeypress="return verif(event, ',0123456789 ');"/>
 
                         </div>
 
@@ -473,7 +473,7 @@
 
                           <span id="title input">Nombre de salle (poly, spectacle, sport)</span>
 
-                          <input name="Nombre_de_salle_(poly_spectacle_sport)" value="" id="Nombre de salle" class="input generale"/>
+                          <input name="Nombre_de_salle_(poly_spectacle_sport)" value="" id="Nombre de salle" class="input generale" onkeypress="return verif(event, ',0123456789 ');"/>
 
                         </div>
 
@@ -481,7 +481,7 @@
 
                           <span id="title input">Nombre de logement</span>
 
-                          <input name="Nombre_de_logement" value="" id="Nombre de logement" class="input generale"/>
+                          <input name="Nombre_de_logement" value="" id="Nombre de logement" class="input generale" onkeypress="return verif(event, ',0123456789 ');"/>
 
                         </div>
 
@@ -493,7 +493,7 @@
 
                           <span id="title input">Nombre de bureaux / autres locaux</span>
 
-                          <input name="Nombre_de_bureaux_/_autres_locaux" value="" id="Nombre de bureaux / autres locaux" class="input generale"/>
+                          <input name="Nombre_de_bureaux_/_autres_locaux" value="" id="Nombre de bureaux / autres locaux" class="input generale" onkeypress="return verif(event, ',0123456789 ');"/>
 
                         </div>
 
@@ -501,7 +501,7 @@
 
                           <span id="title input">Nombre de chambre</span>
 
-                          <input name="Nombre_de_chambre" value="" id="Nombre de chambre" class="input generale"/>
+                          <input name="Nombre_de_chambre" value="" id="Nombre de chambre" class="input generale" onkeypress="return verif(event, ',0123456789 ');"/>
 
                         </div>
 
@@ -513,7 +513,7 @@
 
                           <span id="title input">Nombre de commerce</span>
 
-                          <input name="Nombre_de_commerce" value="" id="Nombre de commerce" class="input generale"/>
+                          <input name="Nombre_de_commerce" value="" id="Nombre de commerce" class="input generale" onkeypress="return verif(event, ',0123456789 ');"/>
 
                         </div>
 
@@ -521,7 +521,7 @@
 
                           <span id="title input">Nombre place de parking Infrastructure</span>
 
-                          <input name="Nombre_place_de_parking_Infrastructure" value="" id="Nombre place de parking Infrastructure" class="input generale"/>
+                          <input name="Nombre_place_de_parking_Infrastructure" value="" id="Nombre place de parking Infrastructure" class="input generale" onkeypress="return verif(event, ',0123456789 ');"/>
 
                         </div>
 
@@ -533,7 +533,7 @@
 
                           <span id="title input">Nombre de places de parking interieur dans la superstructure</span>
 
-                          <input name="Nombre_de_places_de_parking_interieur_dans_la_superstructure" value="" id="Nombre de places de parking interieur dans la superstructure" class="input generale"/>
+                          <input name="Nombre_de_places_de_parking_interieur_dans_la_superstructure" value="" id="Nombre de places de parking interieur dans la superstructure" class="input generale" onkeypress="return verif(event, ',0123456789 ');"/>
 
                         </div>
 
@@ -541,7 +541,7 @@
 
                           <span id="title input">Nombre de places de parking exterieur</span>
 
-                          <input name="Nombre_de_places_de_parking_exterieur" value="" id="Nombre de places de parking exterieur" class="input generale"/>
+                          <input name="Nombre_de_places_de_parking_exterieur" value="" id="Nombre de places de parking exterieur" class="input generale" onkeypress="return verif(event, ',0123456789 ');"/>
 
                         </div>
 
@@ -803,7 +803,7 @@
 
               <span id="title input">Unite de l'article</span>
 
-              <input name="unite article" value="" id="Categorie du site" class="ajout d'article"/>
+              <input name="unite article" value="" id="Categorie du site" class="ajout d'article" readonly/>
 
             </div>
 
@@ -811,7 +811,7 @@
 
               <span id="title input">Quantite de l'article</span>
 
-              <input name="quantite article" value="" id="Nom du site" class="ajout d'article"/>
+              <input name="quantite article" value="" id="quantite modif article" class="ajout d'article" onkeyup="maj_totale_article()" onkeypress="return verif(event, ',0123456789 ');"/>
 
             </div>
 
@@ -819,7 +819,7 @@
 
               <span id="title input">Prix unitaire de l'article</span>
 
-              <input name="prix unitaire article" value="" id="Categorie du site" class="ajout d'article"/>
+              <input name="prix unitaire article" value="" id="prix unitaire modif article" class="ajout d'article" onkeyup="maj_totale_article()" onkeypress="return verif(event, ',0123456789 ');"/>
 
             </div>
 
@@ -827,17 +827,33 @@
 
               <span id="title input">Prix totale de l'article</span>
 
-              <input name="prix totale article" value="" id="Categorie du site" class="ajout d'article" readonly/>
+              <input name="prix totale article" value="" id="prix totale modif article" class="ajout d'article" readonly/>
 
             </div>
 
-            <div class="input ajout d'article" style="display:none">
+            <div class="input ajout d'article" style="display: none">
 
-              <span id="title input">Prix totale de l'article</span>
+              <span id="title input"></span>
 
-              <input name="TEST" value="" id="Categorie du site" class="ajout d'article" readonly/>
+              <input name="prix totale article" value="" id="ID article" class="ajout d'article" readonly/>
 
             </div>
+
+            <div class="input ajout d'article">
+
+              <span id="title input">TVA</span>
+
+              <input name="prix totale article" value="" id="Categorie du site" class="ajout d'article" onkeypress="return verif(event, ',0123456789 %');"/>
+
+            </div>
+
+          </div>
+
+          <div id="container submit modif d'article">
+
+            <button type="button" class="button1" id="button modif article" onclick="delete_article();">Supprimer</button>
+
+            <button type="button" class="button1" id="button modif article" onclick="add_modif_article();">Sauvegarder</button>
 
           </div>
 
@@ -901,7 +917,7 @@
 
                   <div class="unite liste article">Unite</div>
 
-                  <div class="selection liste article">Selection</div>
+                  <div class="selection liste article" on>Selection</div>
 
                 </div>
 
@@ -919,11 +935,33 @@
 
               <button type="button" class="button1" id="button save article">Ajouter</button>
 
-              <button type="button" class="button1" id="button save article">Sauvegarder</button>
+              <button type="button" class="button1" id="button save article" onclick="add_article_to_lot();">Sauvegarder</button>
 
             </div>
 
           </div>
+
+        </div>
+
+      </div>
+
+      <div id="container validation">
+
+        <div id="box validation">
+
+            <div id="title box validation">
+
+              <div id="text title operation">Etes-vous sur de vouloir supprimer cette operation ?</div>
+
+            </div>
+
+            <div id="button form validation">
+
+              <button type="button" class="button2" onclick="cancel_sup();">Annuler</button>
+
+              <button type="submit" class="button2" onclick="delete_lot();">Valider</button>
+
+            </div>
 
         </div>
 

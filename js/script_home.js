@@ -53,7 +53,7 @@ async function create_element_html(nom, date, maj, createur, Id) {
 
   box.className = "Box Operation";
   box.id = `${box.className} N ${Id}`;
-  box.onclick = get_op;
+  box.addEventListener('click', get_op);
   box_color.id = "Box color";
   img.src = "/image/dossier.png";
   img.id = "dossier";
@@ -66,7 +66,7 @@ async function create_element_html(nom, date, maj, createur, Id) {
   CREATEUR.id = "Createur Operation";
   CREATEUR.textContent = createur;
   update.id = "Update Operation";
-  update.onclick = get_position;
+  update.addEventListener('click', get_position);
   img_bis.id = "point de suspension";
   img_bis.src = "/image/ellipse.png";
   ID.id = "ID Operation";
@@ -84,29 +84,31 @@ async function create_element_html(nom, date, maj, createur, Id) {
   return;
 }
 
-function get_op() {
+function get_op(e) {
+  e.stopPropagation();
   console.log(this.childNodes[2].textContent);
   window.location = `/home/${this.childNodes[2].textContent}`;
-  return;
 }
 
 function get_new_op() {
   window.location = `/home/Nouvelle Operation`;
-  return;
 }
 
-function get_position() {
+function get_position(e) {
+  e.stopPropagation();
   console.log(this);
   past = 1;
   let cord = this.getBoundingClientRect();
+  console.log(e.clientY);
   var box_update = document.getElementById("box update operation");
 
   name_operation = this.parentNode.childNodes[2].textContent;
   id_operation = this.parentNode.childNodes[7].textContent;
   console.log(id_operation);
-  box_update.style.left = cord.left + (-130) + "px";
-  box_update.style.top = cord.top + "px";
+  box_update.style.left = cord.x + (-130) + "px";
+  box_update.style.top = cord.y + "px";
   box_update.style.display = "flex";
+  console.log(box_update);
   return;
 }
 
@@ -343,15 +345,10 @@ function slide_right_dashboard () {
     }
   }
 
-  function reset_shadow_box() {
+  function reset_shadow_box(e) {
     var box_update = document.getElementById("box update operation");
 
-    if (past == 0) {
-      box_update.style.display = "none";
-    }
-    else {
-      past = 0;
-    }
+    box_update.style.display = "none";
   }
 
   function get_rename() {
@@ -414,4 +411,17 @@ function slide_right_dashboard () {
     httpRequest.send(`id=${id_operation}`);
     update_bis.style.display = "none";
     element.remove();
+    cancel_sup();
+  }
+  function get_valid() {
+    var container = document.getElementById("container validation");
+    var update_bis = document.getElementById("box update operation");
+
+    container.style.display = "flex";
+    update_bis.style.display = "none";
+  }
+  function cancel_sup() {
+    var update = document.getElementById("container validation");
+
+    update.style.display = "none";
   }
