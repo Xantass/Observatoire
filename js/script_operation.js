@@ -946,6 +946,7 @@ function format_number(string, index) {
         result = string.substring(0, index - 3);
         result = result + " ";
         result = result + string.substring(index - 3);
+        string = result;
     }
     return result;
 }
@@ -1081,6 +1082,7 @@ function maj_op(e) {
 async function add_modif_article() {
     var container = document.getElementById("navigation d'ajout d'article");
     var container_bis = document.getElementById("article " + container.childNodes[3].childNodes[11].childNodes[3].value);
+    var string = "";
 
     if (!httpRequest)
             console.log("NO REQUEST");
@@ -1089,10 +1091,14 @@ async function add_modif_article() {
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`quantite=${container.childNodes[3].childNodes[5].childNodes[3].value}&&prix_u=${container.childNodes[3].childNodes[7].childNodes[3].value}&&prix_t=${container.childNodes[3].childNodes[9].childNodes[3].value}&&tva=${container.childNodes[3].childNodes[13].childNodes[3].value}&&id=${container.childNodes[3].childNodes[11].childNodes[3].value}`);
     console.log(container_bis.childNodes[3].childNodes[0].textContent);
-    container_bis.childNodes[3].childNodes[0].textContent = container.childNodes[3].childNodes[5].childNodes[3].value;
-    container_bis.childNodes[4].childNodes[0].textContent = container.childNodes[3].childNodes[7].childNodes[3].value;
-    container_bis.childNodes[5].childNodes[0].textContent = container.childNodes[3].childNodes[9].childNodes[3].value;
-    container_bis.childNodes[6].childNodes[0].textContent = container.childNodes[3].childNodes[13].childNodes[3].value;
+    string = await beautiful_number(container.childNodes[3].childNodes[5].childNodes[3].value);
+    container_bis.childNodes[3].childNodes[0].textContent = string;
+    string = await beautiful_number(container.childNodes[3].childNodes[7].childNodes[3].value);
+    container_bis.childNodes[4].childNodes[0].textContent = string;
+    string = await beautiful_number(container.childNodes[3].childNodes[9].childNodes[3].value);
+    container_bis.childNodes[5].childNodes[0].textContent = string;
+    string = await beautiful_number(container.childNodes[3].childNodes[13].childNodes[3].value);
+    container_bis.childNodes[6].childNodes[0].textContent = string;
     await load_totale_value_lot(container_bis.parentNode);
     await load_totale_value_op();
     cancel_slide_modif_article();
@@ -1209,6 +1215,60 @@ async function create_arborescence() {
             liste.appendChild(options);
         }
     }
+    temp = document.getElementsByClassName("option filtrage chapitre");
+    for (i = 0; i < temp.length; i++) {
+        httpRequest.onreadystatechange = requete_arbre;
+        httpRequest.open('POST', '/home/:operation/get_sous_chapitre', false);
+        httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        httpRequest.send(`id=${temp[i].id.substring(9)}`);
+        liste = document.createElement('div');
+        liste.className = "liste options filtrage sous_chapitre";
+        temp[i].appendChild(liste);
+        for (j = 0; j < arbre.length; j++) {
+            options = document.createElement('div');
+            text = document.createElement('div');
+            img = document.createElement('img');
+            options.className = "option filtrage sous_chapitre";
+            text.className = "texte sous_chapitre";
+            img.src = "/image/add_bis.png";
+            img.className = "deploiement";
+            img.id = "plus";
+            options.id = "Sous_chapitre " + arbre[j].ID;
+            options.style.height = "20px";
+            text.appendChild(img);
+            text.innerHTML += arbre[j].NOM;
+            text.onclick = deploiement_arbre;
+            options.appendChild(text);
+            liste.appendChild(options);
+        }
+    }
+    temp = document.getElementsByClassName("option filtrage sous_chapitre");
+    for (i = 0; i < temp.length; i++) {
+        httpRequest.onreadystatechange = requete_arbre;
+        httpRequest.open('POST', '/home/:operation/get_prestation', false);
+        httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        httpRequest.send(`id=${temp[i].id.substring(14)}`);
+        liste = document.createElement('div');
+        liste.className = "liste options filtrage prestation";
+        temp[i].appendChild(liste);
+        for (j = 0; j < arbre.length; j++) {
+            options = document.createElement('div');
+            text = document.createElement('div');
+            img = document.createElement('img');
+            options.className = "option filtrage prestation";
+            text.className = "texte prestation";
+            img.src = "/image/add_bis.png";
+            img.className = "deploiement";
+            img.id = "plus";
+            options.id = "Prestation " + arbre[j].ID;
+            options.style.height = "20px";
+            text.appendChild(img);
+            text.innerHTML += arbre[j].NOM;
+            text.onclick = deploiement_arbre;
+            options.appendChild(text);
+            liste.appendChild(options);
+        }
+    }
 }
 
 function deploiement_arbre(e) {
@@ -1222,6 +1282,13 @@ function deploiement_arbre(e) {
     e.stopPropagation();
     container = this.parentNode;
     if (container.childNodes[0].childNodes[0].id == "plus") {
+        if (container.className == "option filtrage prestation") {
+            console.log(container);
+            container.childNodes[0].childNodes[0].id = "moins";
+            container.childNodes[0].childNodes[0].src = "/image/moins.png";
+            maj_liste_article(this.parentNode.parentNode.parentNode);
+            return;
+        }
         temp = container.parentNode;
         for (i = 0; i < temp.childElementCount; i++) {
             if (temp.childNodes[i].childNodes[0].childNodes[0].id == "moins") {
@@ -1260,7 +1327,15 @@ function deploiement_arbre(e) {
         maj_liste_article(this.parentNode);
     }
     else {
+        if (container.className == "option filtrage prestation") {
+            console.log(container);
+            container.childNodes[0].childNodes[0].id = "plus";
+            container.childNodes[0].childNodes[0].src = "/image/add_bis.png";
+            maj_liste_article(this.parentNode.parentNode.parentNode);
+            return;
+        }
         height = container.style.height.substring(0, container.style.height.length - 2);
+        console.log(height);
         container.style.height = `20px`;
         container.childNodes[container.childElementCount - 1].style.display = "none";
         container.childNodes[0].childNodes[0].id = "plus";

@@ -136,6 +136,22 @@ router.post("/home/:operation/get_chapitre", async (req, res) => {
   res.status('200').json(result);
 })
 
+router.post("/home/:operation/get_sous_chapitre", async (req, res) => {
+  var sql = "SELECT * FROM sous_chapitre WHERE ID_CHAPITRE = ?";
+  var result;
+
+  result = await query(sql, req.body.id);
+  res.status('200').json(result);
+})
+
+router.post("/home/:operation/get_prestation", async (req, res) => {
+  var sql = "SELECT * FROM prestation WHERE ID_SOUSCHAPITRE = ?";
+  var result;
+
+  result = await query(sql, req.body.id);
+  res.status('200').json(result);
+})
+
 router.post("/home/:operation/get_tram", async (req, res) => {
   var sql = "SELECT * FROM article";
   var result;

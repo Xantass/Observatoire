@@ -1381,7 +1381,7 @@ div[class="texte chapitre"] {
   height: 100%;
   flex-direction: row;
 }
-div[class="liste options filtrage sous-chapitre"] {
+div[class="liste options filtrage sous_chapitre"] {
   box-sizing: border-box;
   position: relative;
   display: none;
@@ -1389,7 +1389,7 @@ div[class="liste options filtrage sous-chapitre"] {
   height: 100%;
   flex-direction: column;
 }
-div[class="option filtrage sous-chapitre"] {
+div[class="option filtrage sous_chapitre"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
@@ -1401,7 +1401,7 @@ div[class="option filtrage sous-chapitre"] {
   flex-direction: column;
   align-items: center;
 }
-div[class="texte sous-chapitre"] {
+div[class="texte sous_chapitre"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
@@ -1449,7 +1449,7 @@ div[class="nom liste article"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
-  width: 33%;
+  width: 70%;
   height: 20px;
   margin-left: 30px;
 }
@@ -1457,7 +1457,7 @@ div[class="unite liste article"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
-  width: 33%;
+  width: 20%;
   height: 20px;
   margin-left: 30px;
 }
@@ -1465,7 +1465,7 @@ div[class="selection liste article"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
-  width: 33%;
+  width: 10%;
   height: 20px;
   margin-left: 30px;
 }
@@ -1483,7 +1483,7 @@ div[class="nom of article of liste"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
-  width: 33%;
+  width: 70%;
   height: 20px;
   margin-left: 30px;
 }
@@ -1491,7 +1491,7 @@ div[class="unite of article of liste"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
-  width: 33%;
+  width: 20%;
   height: 20px;
   margin-left: 30px;
 }
@@ -1499,7 +1499,7 @@ div[class="selection of article of liste"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
-  width: 33%;
+  width: 10%;
   height: 20px;
   margin-left: 30px;
 }
