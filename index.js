@@ -7,8 +7,10 @@
 const express = require('express');
 const path = require("path");
 const bodyParser = require('body-parser');
-var jsdom = require('jsdom');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const base64url = require('base64url');
+const crypto = require('crypto');
 
 /**
  * App Variables
@@ -20,6 +22,8 @@ const router = (global.router = (express.Router()));
 const login = require("./js/login.js");
 const home = require("./js/home.js");
 const operation = require("./js/operation.js");
+const indice = require("./js/indice_bt.js");
+const query = require('./js/db.js').query;
 
 /**
  *  App Configuration
@@ -33,18 +37,29 @@ app.set('view engine', 'html');
 app.use(express.static(path.join(__dirname, ".")));
 app.use('/login', login);
 app.use('/home', home);
+app.use('/indice_bt', indice);
 app.use('/home/rename', home);
 app.use('/home/duplicate', home);
 app.use('/home/delete', home);
 app.use('/home/direction', home);
 app.use('/home/:operation', operation);
 app.use(router);
+app.use(session({
+    secret: 'ssshhhhh',
+    saveUninitialized: true,
+    resave: true,
+}));
 
 /**
  * Routes Definitions
  */
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+    var sql = "DELETE FROM session WHERE TOKEN = ?"
+
+    console.log("YESSS");
+    await query(sql, req.session.id);
+    res.status("200");
     res.render('login');
 });
 

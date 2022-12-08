@@ -60,6 +60,9 @@ async function load_data() {
         load_title_op(current_operation, "");
         return;
     }
+    if (value.FINI == "select") {
+        document.getElementById("box validation de l'operation").childNodes[3].click();
+    }
     _new = 1;
     operation_id = value.ID;
     await load_title_op(value.NOM_OP, value.NOM_CLIENT);
@@ -98,7 +101,9 @@ async function load_totale_value_lot(container) {
     for (i = 0; i < container.childElementCount; i++) {
         temp = container.childNodes[i].childNodes[5].childNodes[0].textContent;
         temp = temp.replace(' ', '');
-        montant_totale = montant_totale + parseFloat(temp);
+        if (temp != "") {
+            montant_totale = montant_totale + parseFloat(temp);
+        }
     }
     montant_totale = Math.round(montant_totale * 100) / 100;
     temp = montant_totale.toString();
@@ -435,23 +440,38 @@ function slide() {
     }
 }
 
-function slide_ajout() {
+function slide_ajout(e) {
     var container = document.getElementById("recherche d'article");
+    var container_bis = document.getElementById("main box");
 
-    container.style.marginTop = "0px";
+    e.stopPropagation();
+    if (this.parentNode.parentNode.childNodes[0].childNodes[0].childNodes[4].childNodes[2].id == "select") {
+        return;
+    }
+    container.style.marginTop = `0px`;
     container.className = "recherche d'article " + this.parentNode.parentNode.id.substring(4);
+    container_bis.style.display = "none";
+    container.style.display = "flex";
 }
 
-function slide_ajout_entreprise() {
+function slide_ajout_entreprise(e) {
     var container = document.getElementById("navigation d'ajout d'entreprise");
 
-    container.style.marginLeft = "1480px";
+    e.stopPropagation();
+    if (this.parentNode.parentNode.childNodes[0].childNodes[0].childNodes[4].childNodes[2].id == "select") {
+        return;
+    }
+    container.style.marginLeft = `${window.innerWidth - 440}px`;
 }
 
-function slide_modif_article() {
+function slide_modif_article(e) {
     var container = document.getElementById("navigation d'ajout d'article");
 
-    container.style.marginLeft = "1480px";
+    if (this.parentNode.parentNode.childNodes[0].childNodes[0].childNodes[4].childNodes[2].id == "select") {
+        return;
+    }
+    e.stopPropagation();
+    container.style.marginLeft = `${window.innerWidth - 440}px`;
     container.childNodes[3].childNodes[1].childNodes[3].value = this.childNodes[1].childNodes[0].textContent;
     container.childNodes[3].childNodes[3].childNodes[3].value = this.childNodes[2].childNodes[0].textContent;
     container.childNodes[3].childNodes[5].childNodes[3].value = this.childNodes[3].childNodes[0].textContent;
@@ -461,14 +481,24 @@ function slide_modif_article() {
     container.childNodes[3].childNodes[13].childNodes[3].value = this.childNodes[6].childNodes[0].textContent;
 }
 
+function slide_add_article_tram() {
+    var container = document.getElementById("navigation d'ajout d'article a la tram");
+
+    container.style.display = "flex";
+    container.style.marginLeft = `${window.innerWidth - 440}px`;
+}
+
 function cancel_slide() {
     var container = document.getElementById("recherche d'article");
     var input = document.getElementById("search bar article");
     var temp = document.getElementById("aborescence article");
+    var container_bis = document.getElementById("main box");
     var check = 0;
     var height = 0;
 
-    container.style.marginTop = "965px";
+    container.style.display = "none";
+    container_bis.style.display = "flex";
+    container.style.marginTop = `${window.innerHeight}px`;
     input.value = "";
     for (i = 0; i < temp.childElementCount; i++) {
         if (temp.childNodes[i].childNodes[0].childNodes[0].id == "moins") {
@@ -493,9 +523,9 @@ function cancel_slide() {
         }
     }
     for (i = 0; i < element_result.length; i++) {
-        element_result[i][7].style.display = "flex";
-        if (element_result[i][7].childNodes[2].childNodes[1].id == "select") {
-            element_result[i][7].childNodes[2].childNodes[1].click();
+        element_result[i][8].style.display = "none";
+        if (element_result[i][8].childNodes[2].childNodes[1].id == "select") {
+            element_result[i][8].childNodes[2].childNodes[1].click();
         }
     }
 }
@@ -503,14 +533,44 @@ function cancel_slide() {
 function cancel_slide_entreprise() {
     var container = document.getElementById("navigation d'ajout d'entreprise");
 
-    container.style.marginLeft = "1920px";
+    container.style.marginLeft = `${window.innerWidth}px`;
     container.childNodes[3].childNodes[1].childNodes[3].value = "";
 }
 
-function cancel_slide_modif_article() {
+async function cancel_slide_modif_article() {
     var container = document.getElementById("navigation d'ajout d'article");
+    var container_bis = document.getElementById("article " + container.childNodes[3].childNodes[11].childNodes[3].value);
 
-    container.style.marginLeft = "1920px";
+    container.style.marginLeft = `${window.innerWidth}px`;
+    await load_totale_value_lot(container_bis.parentNode);
+    await load_totale_value_op();
+}
+
+function cancel_slide_add_article_tram() {
+    var container = document.getElementById("navigation d'ajout d'article a la tram");
+    var theme = document.getElementsByClassName("selection theme");
+    var chapitre = document.getElementsByClassName("selection chapitre");
+    var sous_chapitre = document.getElementsByClassName("selection sous_chapitre");
+    var prestation = document.getElementsByClassName("selection prestation");
+    var nom = document.getElementById("container selection nom");
+    var unite = document.getElementById("container selection unite");
+
+    nom.childNodes[3].value = "";
+    unite.childNodes[3].value = "";
+    container.style.marginLeft = `${window.innerWidth}px`;
+    container.style.display = "none";
+    for (i = 0; i < theme.length; i++) {
+        theme[i].style.display = "none";
+    }
+    for (i = 0; i < chapitre.length; i++) {
+        chapitre[i].style.display = "none";
+    }
+    for (i = 0; i < sous_chapitre.length; i++) {
+        sous_chapitre[i].style.display = "none";
+    }
+    for (i = 0; i < prestation.length; i++) {
+        prestation[i].style.display = "none";
+    }
 }
 
 function select_form_operation(e) {
@@ -660,6 +720,10 @@ async function create_form_lot(arg) {
     var box_date_lot = document.createElement('div');
     var span_date_lot = document.createElement('span');
     var input_date_lot = document.createElement('input');
+    var box_check_lot = document.createElement('div');
+    var span_check_lot = document.createElement('span');
+    var input_check_lot = document.createElement('input');
+    var label_check_lot = document.createElement('label');
     var container_champ = document.createElement('div');
     var box_prestation_champ = document.createElement('div');
     var text_prestation_champ= document.createElement('div');
@@ -694,7 +758,7 @@ async function create_form_lot(arg) {
     input_nom_lot.name = "nom_lot";
     input_nom_lot.value = arg[0];
     input_nom_lot.id = "nom_lot";
-    input_nom_lot.className = "input generale";
+    input_nom_lot.className = "input lot";
     input_nom_lot.addEventListener('keyup', maj_nom_lot);
     box_numero_lot.className = "2 input lot";
     span_numero_lot.id = "title input";
@@ -702,14 +766,14 @@ async function create_form_lot(arg) {
     input_numero_lot.name = "numero_lot";
     input_numero_lot.value = arg[3];
     input_numero_lot.id = "numero_lot";
-    input_numero_lot.className = "input generale";
+    input_numero_lot.className = "input lot";
     input_numero_lot.addEventListener('keypress', function() { return verif_bis(event, '1234567890'); }, false);
     box_entreprise_lot.className = "2 input lot";
     span_entreprise_lot.id = "title input";
     span_entreprise_lot.textContent = "Entreprise";
     input_entreprise_lot.name = "entreprise_lot";
     input_entreprise_lot.id = "entreprise_lot";
-    input_entreprise_lot.className = "input generale";
+    input_entreprise_lot.className = "input lot";
     create_option_entreprise(input_entreprise_lot, arg[4]);
     box_date_lot.className = "2 input lot";
     span_date_lot.id = "title input";
@@ -717,8 +781,16 @@ async function create_form_lot(arg) {
     input_date_lot.name = "date_lot";
     input_date_lot.value = arg[5];
     input_date_lot.id = "date_lot";
-    input_date_lot.className = "input generale";
+    input_date_lot.className = "input lot";
     input_date_lot.addEventListener('keypress', function() { return verif_bis(event, '1234567890/'); }, false);
+    box_check_lot.className = "3 input lot";
+    span_check_lot.id = "title input";
+    span_check_lot.textContent = "Lot validé";
+    label_check_lot.setAttribute("for", "switch " + values.ID);
+    label_check_lot.id = "not";
+    label_check_lot.addEventListener('click', select_lot);
+    input_check_lot.type = "checkbox";
+    input_check_lot.id = "switch " + values.ID;
     container_champ.className = "container champ";
     box_prestation_champ.className = "champ";
     box_prestation_champ.id = "Prestation champ";
@@ -743,7 +815,7 @@ async function create_form_lot(arg) {
     box_prix_totale_champ.className = "champ";
     box_prix_totale_champ.id = "Prix totale champ";
     text_prix_totale_champ.id = "text";
-    text_prix_totale_champ.textContent = "Prix Totale";
+    text_prix_totale_champ.textContent = "Prix Total (HT)";
     box_tva_champ.className = "champ";
     box_tva_champ.id = "TVA champ";
     text_tva_champ.id = "text";
@@ -751,7 +823,7 @@ async function create_form_lot(arg) {
     container_article.className = "container article";
     container_submit.id = "container submit";
     text_box_montant.id = "text montant totale lot";
-    text_box_montant.textContent = "Montant Totale du Lot :";
+    text_box_montant.textContent = "Montant Total du Lot (HT) :";
     box_montant.id = "box montant totale lot";
     button_submit.type = "button";
     button_submit.className = "button1";
@@ -775,6 +847,7 @@ async function create_form_lot(arg) {
     container_input_info_generale_lot.appendChild(box_numero_lot);
     container_input_info_generale_lot.appendChild(box_entreprise_lot);
     container_input_info_generale_lot.appendChild(box_date_lot);
+    container_input_info_generale_lot.appendChild(box_check_lot);
     box_nom_lot.appendChild(span_nom_lot);
     box_nom_lot.appendChild(input_nom_lot);
     box_numero_lot.appendChild(span_numero_lot);
@@ -783,6 +856,9 @@ async function create_form_lot(arg) {
     box_entreprise_lot.appendChild(input_entreprise_lot);
     box_date_lot.appendChild(span_date_lot);
     box_date_lot.appendChild(input_date_lot);
+    box_check_lot.appendChild(span_check_lot);
+    box_check_lot.appendChild(input_check_lot);
+    box_check_lot.appendChild(label_check_lot);
     container_form.appendChild(container_champ);
     container_champ.appendChild(box_prestation_champ);
     container_champ.appendChild(box_article_champ);
@@ -809,7 +885,9 @@ async function create_form_lot(arg) {
     for (i = 0; i < article.length; i = i + 1) {
         temp = await create_article(article[i], container_article);
         temp = temp.replace(' ', '');
-        montant_totale = montant_totale + parseFloat(temp);
+        if (temp != "") {
+            montant_totale = montant_totale + parseFloat(temp);
+        }
     }
     container_form.appendChild(container_submit);
     container_submit.appendChild(button_add_entreprise);
@@ -821,6 +899,11 @@ async function create_form_lot(arg) {
     temp = montant_totale.toString();
     temp = await beautiful_number(temp);
     box_montant.textContent = temp;
+    if (values.FINI == "select") {
+        label_check_lot.addEventListener('click', select_lot_bis(label_check_lot));
+        label_check_lot.click();
+        label_check_lot.addEventListener('click', select_lot);
+    }
 }
 
 function create_option_entreprise(container, arg) {
@@ -919,6 +1002,8 @@ async function beautiful_number(string) {
     var virgule = 0;
     var result = "";
 
+    if (string == "" || string == undefined)
+        return result;
     string = string.replace(' ', '');
     if (string.includes(',') || string.includes('.')) {
         if (string.includes(',')) {
@@ -997,6 +1082,7 @@ function update_lot(e) {
     var numero = container.childNodes[0].childNodes[0].childNodes[1].childNodes[1].value;
     var entreprise = container.childNodes[0].childNodes[0].childNodes[2].childNodes[1].value;
     var date = container.childNodes[0].childNodes[0].childNodes[3].childNodes[1].value;
+    var check = container.childNodes[0].childNodes[0].childNodes[4].childNodes[2].id;
 
     e.stopPropagation()
     httpRequest = new XMLHttpRequest();
@@ -1005,7 +1091,8 @@ function update_lot(e) {
     httpRequest.onreadystatechange = requete_nothing;
     httpRequest.open('POST', '/home/:operation/update_lot', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    httpRequest.send(`id_lot=${this.parentNode.parentNode.id.substring(4)}&&nom=${nom}&&numero=${numero}&&entreprise=${entreprise}&&date=${date}`);
+    console.log(check);
+    httpRequest.send(`id_lot=${this.parentNode.parentNode.id.substring(4)}&&nom=${nom}&&numero=${numero}&&entreprise=${entreprise}&&date=${date}&&fini=${check}`);
 }
 
 function maj_op(e) {
@@ -1051,6 +1138,7 @@ function maj_op(e) {
     var s_facade = document.getElementsByName("Dont_surface_de_facade_pleine")[0].value;
     var s_vitrage = document.getElementsByName("Dont_surface_de_vitrage")[0].value;
     var check = 0;
+    var finie = document.getElementById("box validation de l'operation").childNodes[3];
 
     for (i = 0; i < sous_categorie.length; i++) {
         if (sous_categorie[i].style.display == "flex") {
@@ -1068,14 +1156,14 @@ function maj_op(e) {
         httpRequest.onreadystatechange = requete_nothing;
         httpRequest.open('POST', '/home/:operation/add_op', false);
         httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        httpRequest.send(`id=${operation_id}&&nom_op=${nom_op}&&maitre=${maitre}&&nom_site=${nom_site}&&categorie=${categorie}&sous_categorie=${sous_categorie}&&composition=${composition}&&localisation=${localisation}&&adresse=${adresse}&&longitude=${longitude}&&latitude=${latitude}&&description=${description}&&date_ao=${date_ao}&&typologie_marche=${typologie_marche}&&typologie_operation=${typologie_operation}&&nb_eleve=${nb_eleve}&&nb_classe=${nb_classe}&&nb_salle=${nb_salle}&&nb_logement=${nb_logement}&&nb_bureaux=${nb_bureaux}&&nb_chambre=${nb_chambre}&&nb_commerce=${nb_commerce}&&nb_parking_infra=${nb_parking_infra}&&nb_parking_int_super=${nb_parking_int_super}&&nb_parking_ext=${nb_parking_ext}&&s_locaux_tech=${s_locaux_tech}&&s_locaux_annexe=${s_locaux_annexe}&&shab=${shab}&&su=${su}&&sdo=${sdo}&&sdp=${sdp}&&nb_niv_infra=${nb_niv_infra}&&nb_niv_super=${nb_niv_super}&&emprise_parcelle=${emprise_parcelle}&&s_espace_vert=${s_espace_vert}&&s_mineral=${s_minerale}&&emprise_sol=${emprise_sol}&&s_toiture=${s_toiture}&&emprise_facade=${emprise_facade}&&s_facade=${s_facade}&&s_vitrage=${s_vitrage}`);
+        httpRequest.send(`id=${operation_id}&&nom_op=${nom_op}&&maitre=${maitre}&&nom_site=${nom_site}&&categorie=${categorie}&sous_categorie=${sous_categorie}&&composition=${composition}&&localisation=${localisation}&&adresse=${adresse}&&longitude=${longitude}&&latitude=${latitude}&&description=${description}&&date_ao=${date_ao}&&typologie_marche=${typologie_marche}&&typologie_operation=${typologie_operation}&&nb_eleve=${nb_eleve}&&nb_classe=${nb_classe}&&nb_salle=${nb_salle}&&nb_logement=${nb_logement}&&nb_bureaux=${nb_bureaux}&&nb_chambre=${nb_chambre}&&nb_commerce=${nb_commerce}&&nb_parking_infra=${nb_parking_infra}&&nb_parking_int_super=${nb_parking_int_super}&&nb_parking_ext=${nb_parking_ext}&&s_locaux_tech=${s_locaux_tech}&&s_locaux_annexe=${s_locaux_annexe}&&shab=${shab}&&su=${su}&&sdo=${sdo}&&sdp=${sdp}&&nb_niv_infra=${nb_niv_infra}&&nb_niv_super=${nb_niv_super}&&emprise_parcelle=${emprise_parcelle}&&s_espace_vert=${s_espace_vert}&&s_mineral=${s_minerale}&&emprise_sol=${emprise_sol}&&s_toiture=${s_toiture}&&emprise_facade=${emprise_facade}&&s_facade=${s_facade}&&s_vitrage=${s_vitrage}&&fini=${finie.id}`);
         _new = 1;
     }
     else {
         httpRequest.onreadystatechange = requete_nothing;
         httpRequest.open('POST', '/home/:operation/update_op', false);
         httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        httpRequest.send(`id=${operation_id}&&nom_op=${nom_op}&&maitre=${maitre}&&nom_site=${nom_site}&&categorie=${categorie}&sous_categorie=${sous_categorie}&&composition=${composition}&&localisation=${localisation}&&adresse=${adresse}&&longitude=${longitude}&&latitude=${latitude}&&description=${description}&&date_ao=${date_ao}&&typologie_marche=${typologie_marche}&&typologie_operation=${typologie_operation}&&nb_eleve=${nb_eleve}&&nb_classe=${nb_classe}&&nb_salle=${nb_salle}&&nb_logement=${nb_logement}&&nb_bureaux=${nb_bureaux}&&nb_chambre=${nb_chambre}&&nb_commerce=${nb_commerce}&&nb_parking_infra=${nb_parking_infra}&&nb_parking_int_super=${nb_parking_int_super}&&nb_parking_ext=${nb_parking_ext}&&s_locaux_tech=${s_locaux_tech}&&s_locaux_annexe=${s_locaux_annexe}&&shab=${shab}&&su=${su}&&sdo=${sdo}&&sdp=${sdp}&&nb_niv_infra=${nb_niv_infra}&&nb_niv_super=${nb_niv_super}&&emprise_parcelle=${emprise_parcelle}&&s_espace_vert=${s_espace_vert}&&s_mineral=${s_minerale}&&emprise_sol=${emprise_sol}&&s_toiture=${s_toiture}&&emprise_facade=${emprise_facade}&&s_facade=${s_facade}&&s_vitrage=${s_vitrage}`);
+        httpRequest.send(`id=${operation_id}&&nom_op=${nom_op}&&maitre=${maitre}&&nom_site=${nom_site}&&categorie=${categorie}&sous_categorie=${sous_categorie}&&composition=${composition}&&localisation=${localisation}&&adresse=${adresse}&&longitude=${longitude}&&latitude=${latitude}&&description=${description}&&date_ao=${date_ao}&&typologie_marche=${typologie_marche}&&typologie_operation=${typologie_operation}&&nb_eleve=${nb_eleve}&&nb_classe=${nb_classe}&&nb_salle=${nb_salle}&&nb_logement=${nb_logement}&&nb_bureaux=${nb_bureaux}&&nb_chambre=${nb_chambre}&&nb_commerce=${nb_commerce}&&nb_parking_infra=${nb_parking_infra}&&nb_parking_int_super=${nb_parking_int_super}&&nb_parking_ext=${nb_parking_ext}&&s_locaux_tech=${s_locaux_tech}&&s_locaux_annexe=${s_locaux_annexe}&&shab=${shab}&&su=${su}&&sdo=${sdo}&&sdp=${sdp}&&nb_niv_infra=${nb_niv_infra}&&nb_niv_super=${nb_niv_super}&&emprise_parcelle=${emprise_parcelle}&&s_espace_vert=${s_espace_vert}&&s_mineral=${s_minerale}&&emprise_sol=${emprise_sol}&&s_toiture=${s_toiture}&&emprise_facade=${emprise_facade}&&s_facade=${s_facade}&&s_vitrage=${s_vitrage}&&fini=${finie.id}`);
     }
 }
 
@@ -1135,6 +1223,9 @@ async function create_arborescence() {
     var options = document.createElement('div');
     var text = document.createElement('div');
     var img = document.createElement('img');
+    var select = document.createElement('select');
+    var option_select = document.createElement('option');
+    var container_select;
     var liste;
     var temp;
 
@@ -1144,6 +1235,10 @@ async function create_arborescence() {
     httpRequest.open('POST', '/home/:operation/get_section', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send();
+    container_select = document.getElementById("container selection section");
+    select.className = "selection section";
+    select.addEventListener('click', selection_theme);
+    container_select.appendChild(select);
     for (i = 0; i < arbre.length; i++) {
         options = document.createElement('div');
         text = document.createElement('div');
@@ -1160,7 +1255,12 @@ async function create_arborescence() {
         options.appendChild(text);
         text.onclick = deploiement_arbre;
         container.appendChild(options);
+        option_select = document.createElement('option');
+        option_select.id = "selection section option " + arbre[i].ID;
+        option_select.textContent = arbre[i].NOM;
+        select.appendChild(option_select);
     }
+    container_select = document.getElementById("container selection theme");
     temp = document.getElementsByClassName("option filtrage section");
     for (i = 0; i < temp.length; i++) {
         httpRequest.onreadystatechange = requete_arbre;
@@ -1170,6 +1270,11 @@ async function create_arborescence() {
         liste = document.createElement('div');
         liste.className = "liste options filtrage theme";
         temp[i].appendChild(liste);
+        select = document.createElement('select');
+        select.className = "selection theme";
+        select.id = "select theme of section " + temp[i].id.substring(8);
+        select.addEventListener('click', selection_chapitre);
+        container_select.appendChild(select);
         for (j = 0; j < arbre.length; j++) {
             options = document.createElement('div');
             text = document.createElement('div');
@@ -1186,8 +1291,13 @@ async function create_arborescence() {
             text.onclick = deploiement_arbre;
             options.appendChild(text);
             liste.appendChild(options);
+            option_select = document.createElement('option');
+            option_select.id = "selection theme option " + arbre[j].ID;
+            option_select.textContent = arbre[j].NOM;
+            select.appendChild(option_select);
         }
     }
+    container_select = document.getElementById("container selection chapitre");
     temp = document.getElementsByClassName("option filtrage theme");
     for (i = 0; i < temp.length; i++) {
         httpRequest.onreadystatechange = requete_arbre;
@@ -1197,6 +1307,11 @@ async function create_arborescence() {
         liste = document.createElement('div');
         liste.className = "liste options filtrage chapitre";
         temp[i].appendChild(liste);
+        select = document.createElement('select');
+        select.className = "selection chapitre";
+        select.id = "select chapitre of theme " + temp[i].id.substring(6);
+        select.addEventListener('click', selection_sous_chapitre);
+        container_select.appendChild(select);
         for (j = 0; j < arbre.length; j++) {
             options = document.createElement('div');
             text = document.createElement('div');
@@ -1213,60 +1328,87 @@ async function create_arborescence() {
             text.onclick = deploiement_arbre;
             options.appendChild(text);
             liste.appendChild(options);
+            option_select = document.createElement('option');
+            option_select.id = "selection chapitre option " + arbre[j].ID;
+            option_select.textContent = arbre[j].NOM;
+            select.appendChild(option_select);
         }
     }
+    httpRequest.onreadystatechange = requete_arbre;
+    httpRequest.open('POST', '/home/:operation/get_sous_chapitre', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send();
     temp = document.getElementsByClassName("option filtrage chapitre");
+    container_select = document.getElementById("container selection sous_chapitre");
     for (i = 0; i < temp.length; i++) {
-        httpRequest.onreadystatechange = requete_arbre;
-        httpRequest.open('POST', '/home/:operation/get_sous_chapitre', false);
-        httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        httpRequest.send(`id=${temp[i].id.substring(9)}`);
         liste = document.createElement('div');
         liste.className = "liste options filtrage sous_chapitre";
         temp[i].appendChild(liste);
+        select = document.createElement('select');
+        select.className = "selection sous_chapitre";
+        select.id = "select sous_chapitre of chapitre " + temp[i].id.substring(9);
+        select.addEventListener('click', selection_prestation);
+        container_select.appendChild(select);
         for (j = 0; j < arbre.length; j++) {
-            options = document.createElement('div');
-            text = document.createElement('div');
-            img = document.createElement('img');
-            options.className = "option filtrage sous_chapitre";
-            text.className = "texte sous_chapitre";
-            img.src = "/image/add_bis.png";
-            img.className = "deploiement";
-            img.id = "plus";
-            options.id = "Sous_chapitre " + arbre[j].ID;
-            options.style.height = "20px";
-            text.appendChild(img);
-            text.innerHTML += arbre[j].NOM;
-            text.onclick = deploiement_arbre;
-            options.appendChild(text);
-            liste.appendChild(options);
+            if (arbre[j].ID_CHAPITRE == temp[i].id.substring(9)) {
+                options = document.createElement('div');
+                text = document.createElement('div');
+                img = document.createElement('img');
+                options.className = "option filtrage sous_chapitre";
+                text.className = "texte sous_chapitre";
+                img.src = "/image/add_bis.png";
+                img.className = "deploiement";
+                img.id = "plus";
+                options.id = "Sous_chapitre " + arbre[j].ID;
+                options.style.height = "20px";
+                text.appendChild(img);
+                text.innerHTML += arbre[j].NOM;
+                text.onclick = deploiement_arbre;
+                options.appendChild(text);
+                liste.appendChild(options);
+                option_select = document.createElement('option');
+                option_select.id = "selection sous_chapitre option " + arbre[j].ID;
+                option_select.textContent = arbre[j].NOM;
+                select.appendChild(option_select);
+            }
         }
     }
+    httpRequest.onreadystatechange = requete_arbre;
+    httpRequest.open('POST', '/home/:operation/get_prestation', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send();
     temp = document.getElementsByClassName("option filtrage sous_chapitre");
+    container_select = document.getElementById("container selection prestation");
     for (i = 0; i < temp.length; i++) {
-        httpRequest.onreadystatechange = requete_arbre;
-        httpRequest.open('POST', '/home/:operation/get_prestation', false);
-        httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        httpRequest.send(`id=${temp[i].id.substring(14)}`);
         liste = document.createElement('div');
         liste.className = "liste options filtrage prestation";
         temp[i].appendChild(liste);
+        select = document.createElement('select');
+        select.className = "selection prestation";
+        select.id = "select prestation of sous_chapitre " + temp[i].id.substring(14);
+        container_select.appendChild(select);
         for (j = 0; j < arbre.length; j++) {
-            options = document.createElement('div');
-            text = document.createElement('div');
-            img = document.createElement('img');
-            options.className = "option filtrage prestation";
-            text.className = "texte prestation";
-            img.src = "/image/add_bis.png";
-            img.className = "deploiement";
-            img.id = "plus";
-            options.id = "Prestation " + arbre[j].ID;
-            options.style.height = "20px";
-            text.appendChild(img);
-            text.innerHTML += arbre[j].NOM;
-            text.onclick = deploiement_arbre;
-            options.appendChild(text);
-            liste.appendChild(options);
+            if (arbre[j].ID_SOUSCHAPITRE == temp[i].id.substring(14)) {
+                options = document.createElement('div');
+                text = document.createElement('div');
+                img = document.createElement('img');
+                options.className = "option filtrage prestation";
+                text.className = "texte prestation";
+                img.src = "/image/add_bis.png";
+                img.className = "deploiement";
+                img.id = "plus";
+                options.id = "Prestation " + arbre[j].ID;
+                options.style.height = "20px";
+                text.appendChild(img);
+                text.innerHTML += arbre[j].NOM;
+                text.onclick = deploiement_arbre;
+                options.appendChild(text);
+                liste.appendChild(options);
+                option_select = document.createElement('option');
+                option_select.id = "selection prestation option " + arbre[j].ID;
+                option_select.textContent = arbre[j].NOM;
+                select.appendChild(option_select);
+            }
         }
     }
 }
@@ -1369,7 +1511,7 @@ function create_tram() {
 
     for (i = 0; i < tram.length; i++) {
         container = create_element_tram(tram[i]);
-        element_result.push([tram[i].ID, tram[i].ID_SECTION, tram[i].ID_THEME, tram[i].ID_CHAPITRE, tram[i].ID_SOUS_CHAPITRE, tram[i].ID_PRESTATION, tram[i].NOM, container]);
+        element_result.push([tram[i].ID, tram[i].ID_SECTION, tram[i].ID_THEME, tram[i].ID_CHAPITRE, tram[i].ID_SOUS_CHAPITRE, tram[i].ID_PRESTATION, tram[i].NOM, tram[i].PRESTATION, container, tram[i].U]);
     }
 }
 
@@ -1384,6 +1526,79 @@ function select_article(e) {
     }
 }
 
+function select_lot(e) {
+    var container = document.getElementById(this.parentNode.parentNode.parentNode.parentNode.id.substring(4));
+    var temp = this.parentNode.parentNode.parentNode.parentNode;
+    e.stopPropagation();
+
+    if (this.id == "not") {
+        this.id = "select";
+        container.childNodes[0].src = "/image/check_lot.png";
+        container.childNodes[2].style.display = "none";
+        temp.childNodes[0].childNodes[0].childNodes[0].childNodes[1].setAttribute('disabled', true);
+        temp.childNodes[0].childNodes[0].childNodes[1].childNodes[1].setAttribute('disabled', true);
+        temp.childNodes[0].childNodes[0].childNodes[2].childNodes[1].setAttribute('disabled', true);
+        temp.childNodes[0].childNodes[0].childNodes[3].childNodes[1].setAttribute('disabled', true);
+    }
+    else {
+        this.id = "not";
+        container.childNodes[0].src = "/image/lot.png";
+        container.childNodes[2].style.display = "flex";
+        temp.childNodes[0].childNodes[0].childNodes[0].childNodes[1].removeAttribute('disabled');
+        temp.childNodes[0].childNodes[0].childNodes[1].childNodes[1].removeAttribute('disabled');
+        temp.childNodes[0].childNodes[0].childNodes[2].childNodes[1].removeAttribute('disabled');
+        temp.childNodes[0].childNodes[0].childNodes[3].childNodes[1].removeAttribute('disabled');
+    }
+}
+
+function select_lot_bis(container_bis) {
+    var container = document.getElementById(container_bis.parentNode.parentNode.parentNode.parentNode.id.substring(4));
+    var temp = container_bis.parentNode.parentNode.parentNode.parentNode;
+
+    if (container_bis.id == "not") {
+        container_bis.id = "not";
+        container.childNodes[0].src = "/image/lot.png";
+        container.childNodes[2].style.display = "flex";
+        temp.childNodes[0].childNodes[0].childNodes[0].childNodes[1].setAttribute('disabled', true);
+        temp.childNodes[0].childNodes[0].childNodes[1].childNodes[1].setAttribute('disabled', true);
+        temp.childNodes[0].childNodes[0].childNodes[2].childNodes[1].setAttribute('disabled', true);
+        temp.childNodes[0].childNodes[0].childNodes[3].childNodes[1].setAttribute('disabled', true);
+    }
+    else {
+        container_bis.id = "select";
+        container.childNodes[0].src = "/image/check_lot.png";
+        container.childNodes[2].style.display = "none";
+    }
+}
+
+function select_operation(e) {
+    var container = document.getElementById("main information of the list of the operation");
+    var check = document.getElementById("box validation de l'operation").childNodes[3];
+    var temp = document.getElementsByClassName("input generale");
+    var temp_bis = document.getElementsByClassName("input generale_bis");
+
+    if (check.id == "not") {
+        check.id = "select";
+        container.childNodes[3].src = "/image/check_operation.png";
+        for (i = 0; i < temp.length; i++) {
+            temp[i].setAttribute('disabled', true);
+        }
+        for (i = 0; i < temp_bis.length; i++) {
+            temp_bis[i].setAttribute('disabled', true);
+        }
+    }
+    else {
+        check.id = "not";
+        container.childNodes[3].src = "/image/operation.png";
+        for (i = 0; i < temp.length; i++) {
+            temp[i].removeAttribute('disabled');
+        }
+        for (i = 0; i < temp_bis.length; i++) {
+            temp_bis[i].removeAttribute('disabled');
+        }
+    }
+}
+
 function create_element_tram(values) {
     var container = document.getElementById("liste article");
     var article = document.createElement('div');
@@ -1393,9 +1608,14 @@ function create_element_tram(values) {
     var input = document.createElement('input');
     var label = document.createElement('label');
     var test = document.createElement('div');
+    var section = document.getElementById("selection section option " + values.ID_SECTION).textContent;
+    var theme = document.getElementById("selection theme option " + values.ID_SECTION).textContent;
+    var chapitre = document.getElementById("selection chapitre option " + values.ID_SECTION).textContent;
+    var sous_chapitre = document.getElementById("selection sous_chapitre option " + values.ID_SECTION).textContent;
+    var prestation = document.getElementById("selection prestation option " + values.ID_SECTION).textContent;
 
     test.id = "test box hover";
-    test.textContent = "Aaaaaaaaaaaaa/Aaaaaaaaaaaaa/Aaaaaaaaaaaaa/Aaaaaaaaaaaaa/Aaaaaaaaaaaaa"; //13
+    test.textContent = section.substring(0, 13) + "/" + theme.substring(0, 13) + "/" + chapitre.substring(0, 13) + "/" + sous_chapitre.substring(0, 13) + "/" + prestation; //13
     label.setAttribute("for", "switch " + values.ID);
     label.id = "not";
     label.addEventListener('click', select_article);
@@ -1403,6 +1623,7 @@ function create_element_tram(values) {
     input.id = "switch " + values.ID;
     button_of_article.className = "selection of article of liste";
     unite_of_article.className = "unite of article of liste";
+    unite_of_article.textContent = values.U;
     nom_of_article.className = "nom of article of liste";
     nom_of_article.textContent = values.NOM;
     article.className = "article of liste";
@@ -1427,57 +1648,57 @@ function maj_liste_article(container) {
         check[1].childNodes[0].childNodes[0].id == "plus" &&
         check[2].childNodes[0].childNodes[0].id == "plus") {
         for (i = 0; i < element_result.length; i++) {
-            element_result[i][7].style.display = "flex";
+            element_result[i][8].style.display = "none";
         }
         return;
     }
     if (container.id.substring(0, 2) == "Se") {
         for (i = 0; i < element_result.length; i++) {
             if (container.id.substring(8) == element_result[i][1]) {
-                element_result[i][7].style.display = "flex";
+                element_result[i][8].style.display = "flex";
             }
             else {
-                element_result[i][7].style.display = "none";
+                element_result[i][8].style.display = "none";
             }
         }
     }
     if (container.id.substring(0, 2) == "Th") {
         for (i = 0; i < element_result.length; i++) {
             if (container.id.substring(6) == element_result[i][2]) {
-                element_result[i][7].style.display = "flex";
+                element_result[i][8].style.display = "flex";
             }
             else {
-                element_result[i][7].style.display = "none";
+                element_result[i][8].style.display = "none";
             }
         }
     }
     if (container.id.substring(0, 2) == "Ch") {
         for (i = 0; i < element_result.length; i++) {
             if (container.id.substring(9) == element_result[i][3]) {
-                element_result[i][7].style.display = "flex";
+                element_result[i][8].style.display = "flex";
             }
             else {
-                element_result[i][7].style.display = "none";
+                element_result[i][8].style.display = "none";
             }
         }
     }
     if (container.id.substring(0, 2) == "So") {
         for (i = 0; i < element_result.length; i++) {
             if (container.id.substring(14) == element_result[i][4]) {
-                element_result[i][7].style.display = "flex";
+                element_result[i][8].style.display = "flex";
             }
             else {
-                element_result[i][7].style.display = "none";
+                element_result[i][8].style.display = "none";
             }
         }
     }
     if (container.id.substring(0, 2) == "Pr") {
         for (i = 0; i < element_result.length; i++) {
             if (container.id.substring(11) == element_result[i][5]) {
-                element_result[i][7].style.display = "flex";
+                element_result[i][8].style.display = "flex";
             }
             else {
-                element_result[i][7].style.display = "none";
+                element_result[i][8].style.display = "none";
             }
         }
     }
@@ -1488,9 +1709,9 @@ function filtre_element_article() {
 
     for (i = 0; i < element_result.length; i++) {
         if (element_result[i][6].toLowerCase().includes(input.toLowerCase()))
-          element_result[i][7].style.display = "flex";
+          element_result[i][8].style.display = "flex";
         else
-          element_result[i][7].style.display = "none";
+          element_result[i][8].style.display = "none";
     }
 }
 
@@ -1498,9 +1719,14 @@ function add_article_to_lot() {
     var temp = document.getElementById("recherche d'article");
     var container = document.getElementById("lot " + temp.className.substring(20));
 
+    console.log(element_result);
     for (i = 0; i < element_result.length; i++) {
-        if (element_result[i][7].childNodes[2].childNodes[1].id == "select") {
-            create_article_bis([element_result[i][7].id.substring(16), element_result[i][7].childNodes[0].textContent, "", "", "", "", "", ""], container.childNodes[2]);
+        if (element_result[i][8].childNodes[2].childNodes[1].id == "select") {
+            create_article_bis([element_result[i][8].id.substring(16), element_result[i][8].childNodes[0].textContent, element_result[i][7], "", "", "", element_result[i][9], "20%"], container.childNodes[2]);
+            httpRequest.onreadystatechange = requete_nothing;
+            httpRequest.open('POST', '/home/:operation/add_article_to_lot', false);
+            httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            httpRequest.send(`id_article=${element_result[i][0]}&&prestation=${element_result[i][7]}&&nom=${element_result[i][8].childNodes[0].textContent}&&id_lot=${temp.className.substring(20)}&&unite=${element_result[i][9]}&&tva=20%`);
         }
     }
     cancel_slide();
@@ -1644,4 +1870,160 @@ function preventDefault(e)
     e.preventDefault? e.preventDefault() : e.returnValue = false;
 }
 
+function selection_theme(e) {
+    var temp;
+    var theme = document.getElementsByClassName("selection theme");
+    var chapitre = document.getElementsByClassName("selection chapitre");
+    var sous_chapitre = document.getElementsByClassName("selection sous_chapitre");
+    var prestation = document.getElementsByClassName("selection prestation");
+
+    e.stopPropagation();
+    for (i = 0; i < theme.length; i++) {
+        theme[i].style.display = "none";
+    }
+    for (i = 0; i < chapitre.length; i++) {
+        chapitre[i].style.display = "none";
+    }
+    for (i = 0; i < sous_chapitre.length; i++) {
+        sous_chapitre[i].style.display = "none";
+    }
+    for (i = 0; i < prestation.length; i++) {
+        prestation[i].style.display = "none";
+    }
+    for (i = 0; i < this.childElementCount; i++) {
+        if (this.childNodes[i].selected) {
+            temp = document.getElementById("select theme of section " + this.childNodes[i].id.substring(25));
+            temp.style.display = "flex";
+        }
+        else {
+            temp = document.getElementById("select theme of section " + this.childNodes[i].id.substring(25));
+            temp.style.display = "none";
+        }
+    }
+}
+
+function selection_chapitre(e) {
+    var temp;
+    var chapitre = document.getElementsByClassName("selection chapitre");
+    var sous_chapitre = document.getElementsByClassName("selection sous_chapitre");
+    var prestation = document.getElementsByClassName("selection prestation");
+
+    e.stopPropagation();
+    for (i = 0; i < chapitre.length; i++) {
+        chapitre[i].style.display = "none";
+    }
+    for (i = 0; i < sous_chapitre.length; i++) {
+        sous_chapitre[i].style.display = "none";
+    }
+    for (i = 0; i < prestation.length; i++) {
+        prestation[i].style.display = "none";
+    }
+    for (i = 0; i < this.childElementCount; i++) {
+        if (this.childNodes[i].selected) {
+            temp = document.getElementById("select chapitre of theme " + this.childNodes[i].id.substring(23));
+            temp.style.display = "flex";
+        }
+        else {
+            temp = document.getElementById("select chapitre of theme " + this.childNodes[i].id.substring(23));
+            temp.style.display = "none";
+        }
+    }
+}
+
+function selection_sous_chapitre(e) {
+    var temp;
+    var sous_chapitre = document.getElementsByClassName("selection sous_chapitre");
+    var prestation = document.getElementsByClassName("selection prestation");
+
+    e.stopPropagation();
+    for (i = 0; i < sous_chapitre.length; i++) {
+        sous_chapitre[i].style.display = "none";
+    }
+    for (i = 0; i < prestation.length; i++) {
+        prestation[i].style.display = "none";
+    }
+    for (i = 0; i < this.childElementCount; i++) {
+        if (this.childNodes[i].selected) {
+            temp = document.getElementById("select sous_chapitre of chapitre " + this.childNodes[i].id.substring(26));
+            temp.style.display = "flex";
+        }
+        else {
+            temp = document.getElementById("select sous_chapitre of chapitre " + this.childNodes[i].id.substring(26));
+            temp.style.display = "none";
+        }
+    }
+}
+
+function selection_prestation(e) {
+    var temp;
+    var prestation = document.getElementsByClassName("selection prestation");
+
+    e.stopPropagation();
+    for (i = 0; i < prestation.length; i++) {
+        prestation[i].style.display = "none";
+    }
+    for (i = 0; i < this.childElementCount; i++) {
+        if (this.childNodes[i].selected) {
+            temp = document.getElementById("select prestation of sous_chapitre " + this.childNodes[i].id.substring(31));
+            temp.style.display = "flex";
+        }
+        else {
+            temp = document.getElementById("select prestation of sous_chapitre " + this.childNodes[i].id.substring(31));
+            temp.style.display = "none";
+        }
+    }
+}
+
+function add_article_tram() {
+    var section = document.getElementsByClassName("selection section");
+    var section_nom;
+    var theme;
+    var theme_nom;
+    var chapitre;
+    var chapitre_nom;
+    var sous_chapitre;
+    var sous_chapitre_nom;
+    var prestation;
+    var prestation_nom;
+    var nom = document.getElementById("container selection nom").childNodes[3].value;
+    var unite = document.getElementById("container selection unite").childNodes[3].value;
+
+    for (i = 0; i < section[0].childElementCount; i++) {
+        if (section[0].childNodes[i].selected) {
+            section_nom = section[0].childNodes[i].textContent;
+            theme = document.getElementById("select theme of section " + section[0].childNodes[i].id.substring(25));
+            break;
+        }
+    }
+    for (i = 0; i < theme.childElementCount; i++) {
+        if (theme.childNodes[i].selected) {
+            theme_nom = theme.childNodes[i].textContent;
+            chapitre = document.getElementById("select chapitre of theme " + theme.childNodes[i].id.substring(23));
+            break;
+        }
+    }
+    for (i = 0; i < chapitre.childElementCount; i++) {
+        if (chapitre.childNodes[i].selected) {
+            chapitre_nom = chapitre.childNodes[i].textContent;
+            sous_chapitre = document.getElementById("select sous_chapitre of chapitre " + chapitre.childNodes[i].id.substring(26));
+            break;
+        }
+    }
+    for (i = 0; i < sous_chapitre.childElementCount; i++) {
+        if (sous_chapitre.childNodes[i].selected) {
+            sous_chapitre_nom = sous_chapitre.childNodes[i].textContent;
+            prestation = document.getElementById("select prestation of sous_chapitre " + sous_chapitre.childNodes[i].id.substring(31));
+            break;
+        }
+    }
+    for (i = 0; i < prestation.childElementCount; i++) {
+        if (prestation.childNodes[i].selected) {
+            prestation_nom = prestation.childNodes[i].textContent;
+            break;
+        }
+    }
+    cancel_slide_add_article_tram();
+}
+
 // creer un identifiant a partir de l'aborescence (section, theme, chapitre, sous-chapitre) + identifiant unique
+// creer une page pour l'incrementation de l'indice bt

@@ -1,0 +1,611 @@
+html {
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+  body {
+    /*color: #45BAB8;*/
+    font-family: Roboto, sans-serif;
+    color:#22334d;
+    box-sizing: border-box;
+    display: block;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+  div[id="container"] {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  nav[id="shadow Dashboard"] {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background:#22334d;
+    width: 275px;
+    height: 100%;
+    transition-delay: 0s;
+    transition-duration: 0.2s;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    pointer-events: auto;
+    position: fixed;
+    transform: translateX(-203px);
+    -webkit-transform: translateX(-203px);
+    -moz-transform: translateX(-203px);
+    -ms-transform: translateX(-203px);
+    -o-transform: translateX(-203px);
+    z-index: 2;
+}
+  div[id="liste text button"] {
+    box-sizing: border-box;
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    height: 171px;
+    width: 201px;
+    margin-top: 150px;
+    margin-left: 72px;
+  }
+  div[id="container text button"] {
+    box-sizing: border-box;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    padding: 19px;
+    border-bottom: 1px solid;
+    border-bottom-color: white;
+    cursor: pointer;
+    height: 57px;
+  }
+  a[id="text button"] {
+    align-self: center;
+    color: white;
+    text-decoration: none;
+  }
+  nav[id="box Dashboard"] {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background:#22334d;
+    width: 72px;
+    height: 100%;
+    pointer-events: auto;
+    position: fixed;
+    z-index: 3;
+  }
+  nav[id="box Dashboard"]:hover::after {
+    width: 275px;
+  }
+  div[id="container image"] {
+    box-sizing: border-box;
+    display: block;
+    height: 0px;
+    width: 60px;
+  }
+  img[id="logo simonneau"] {
+    position: fixed;
+    display: flex;
+    z-index: 2;
+    width: 48px;
+    height: 72px;
+    margin-top: 16px;
+    margin-left: 12px;
+  }
+  img[id="logo simonneau avec ecriture"] {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    width: 260px;
+    height: 72px;
+    margin-top: 16px;
+    margin-left: 12px;
+  }
+  div[id="container liste button"] {
+    box-sizing: border-box;
+    position: static;
+    display: block;
+    width: 72px;
+    height: 187px;
+    margin-top: 150px;
+    padding-bottom: 8px;
+  }
+  div[id="liste button"] {
+    box-sizing: border-box;
+    display: block;
+    position: relative;
+    flex-basis: auto;
+    flex-grow: 0;
+    flex-shrink: 1;
+    position: relative;
+    height: 171px;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+  a[id="home page"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    justify-content: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    width: 72px;
+    height: 57px;
+    border-bottom: 1px solid;
+    position: relative;
+    border-bottom-color: white;
+  }
+  a[id="bt page"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    justify-content: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    width: 72px;
+    height: 57px;
+    border-bottom: 1px solid;
+    position: relative;
+    border-bottom-color: #45BAB8;
+  }
+  div[id="box button"] {
+    align-self: flex-start;
+    box-sizing: border-box;
+    display: flex;
+    height: 24px;
+    margin-bottom: 16px;
+    margin-top: 16px;
+    min-width: 24px;
+    width: 24px;
+  }
+  img[id="home button"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    position: relative;
+  }
+  img[id="bt button"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    position: relative;
+  }
+  div[id="home text"] {
+    align-self: center;
+    box-sizing: border-box;
+    display: none;
+    right: 150px;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 19.1875px;
+    width: 161px;
+  }
+  div[id="bt text"] {
+    align-self: center;
+    box-sizing: border-box;
+    display: none;
+    right: 150px;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 19.1875px;
+    width: 161px;
+    color: #45BAB8;
+  }
+  a[id="compte page"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    justify-content: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    width: 72px;
+    height: 57px;
+    border-bottom: 1px solid;
+    position: relative;
+    border-bottom-color: white;
+  }
+  img[id="compte button"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    position: relative;
+  }
+  div[id="compte text"] {
+    align-self: center;
+    box-sizing: border-box;
+    display: none;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 19.1875px;
+    width: 161px;
+    color: white;
+  }
+  a[id="login page"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 57px;
+    justify-content: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    position: relative;
+    border-bottom: 1px solid;
+    border-bottom-color: white;
+  }
+  img[id="deconnexion button"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    position: relative;
+  }
+  div[id="login text"] {
+    align-self: center;
+    box-sizing: border-box;
+    display: none;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 19.1875px;
+    width: 161px;
+    color: white;
+  }
+  div[id="container text button indice_bt"] {
+    box-sizing: border-box;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    padding: 19px;
+    border-bottom: 1px solid;
+    border-bottom-color: #45BAB8;
+    cursor: pointer;
+    height: 57px;
+  }
+  a[id="text button indice_bt"] {
+    color: #45BAB8;
+    text-decoration: none;
+  }
+  div[id="main box"] {
+    box-sizing: border-box;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    flex-basis: auto;
+    flex-grow: 1;
+    flex-shrink: 0;
+    height: 100%;
+    width: 90%;
+    padding-left: 72px;
+    transition-delay: 0s;
+    transition-duration: 0.2s;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+div[id="main_wrap"] {
+  box-sizing: border-box;
+  display: block;
+  flex-basis: auto;
+  flex-shrink: 1;
+  flex-grow: 1;
+  height: 100%;
+  max-width: 100%;
+  position: relative;
+}
+div[id="body"] {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100%;
+  width: 100%
+}
+div[id="main_container"] {
+  box-sizing: border-box;
+  display: block;
+  flex-basis: 0%;
+  flex-shrink: 1;
+  flex-grow: 1;
+  height: 100%;
+  max-width: 100%;
+  width: 100%;
+}
+header[id="header main box"] {
+  box-sizing: border-box;
+  display: flex;
+  position: sticky;
+  width: 100%;
+  height: 15%;
+  background-color: #e8f2f2;
+  margin-bottom: 53.333px;
+}
+div[id="box header main box"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 110px;
+  padding: 10px;
+  align-items: center;
+}
+div[id="Title"] {
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: normal;
+  line-height: 47px;
+  word-break: normal;
+  margin-left: 50px;
+  width: 50%;
+}
+div[id="container Indice"] {
+  align-content: flex-start;
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  flex-basis: auto;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  flex-shrink: 1;
+  margin-bottom: -12px;
+  margin-left: 20px;
+  margin-top: -12px;
+  margin-right: 20px;
+  width: 97.7%;
+  height: 70%;
+}
+div[id="Box container Indice"] {
+  box-sizing: border-box;
+  display: block;
+  flex-basis: 100%;
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: 100%;
+  max-width: 100%;
+  padding: 12px;
+  width: 100%;
+}
+div[id="Box content Indice"] {
+  box-sizing: border-box;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+div[id="container sorters"] {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  margin-left: 40vw;
+  width: 15%;
+  height: 13%;
+}
+div[id="indice filter"] {
+  box-sizing: border-box;
+  display: flex;
+  height: 100%;
+  width: 50%;
+  color: #929292;
+}
+div[id="date filter"] {
+  box-sizing: border-box;
+  display: flex;
+  height: 100%;
+  width: 50%;
+  color: #929292;
+}
+div[id="text"] {
+  box-sizing: border-box;
+  display: flex;
+  margin-top: 3px;
+}
+div[id="List Indice"] {
+  box-sizing: border-box;
+  display: block;
+  flex-basis: auto;
+  flex-grow: 0;
+  flex-shrink: 1;
+  max-width: 100%;
+  position: relative;
+  height: 88.5%;
+  width: 15%;
+  margin-left: 38vw;
+  overflow-y: auto;
+}
+div[id="List Indice"]::-webkit-scrollbar {
+  width: 0px;
+}
+div[class="Box Indice"] {
+  box-sizing: border-box;
+  display: flex;
+  height: 30px;
+  width: 100%;
+  border: 1px solid;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-color: #929292;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+div[class="text indice"] {
+  margin-left: 40px;
+}
+div[class="text date"] {
+  margin-right: 30px;
+}
+div[id="container submit"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 15%;
+}
+div[id="box submit"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  width: 400px;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 76%
+}
+.button1::after {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.button1 {
+  background: #45bab8;
+  border: 1px solid #45bab8;
+  border-radius: 10px;
+  color: #fff;
+  display: block;
+  font-size: large;
+  font-weight: bold;
+  margin: 10px auto;
+  position: relative;
+  text-transform: uppercase;
+  width: 110px;
+  height: 40px;
+}
+.button1::before,
+.button1::after {
+  background: #fff;
+  content: "";
+  position: absolute;
+  z-index: -1;
+}
+.button1:hover {
+  background: #43a092;
+}
+.button1::after {
+  height: 100%;
+  left: 0;
+  top: 0;
+  width: 0;
+}
+.button1:hover:after {
+  width: 100%;
+}
+button[id="button indice_bt"] {
+  width: 170px;
+}
+button[id="button ajout indice"] {
+  width: 170px;
+}
+nav[id="navigation d'ajout d'indice"] {
+  box-sizing: border-box;
+  display: flex;
+  position: absolute;
+  height: 100%;
+  width: 440px;
+  margin-left: 100vw;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #fff;
+  flex-direction: column;
+  z-index: 7;
+}
+div[id="cancel add"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  height: 5%;
+  width: 100%;
+  margin-top: 10px;
+  align-items: center;
+}
+img[id="cancel"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  height: 24px;
+  width: 24px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+div[id="container input ajout d'indice"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  margin-top: 30px;
+  margin-left: 20px;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+span[id="title input"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: auto;
+  opacity: 0.3;
+}
+div[class="input ajout d'indice"] {
+  box-sizing: border-box;
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  margin-top: 20px;
+  width: 400px;
+  height: 10%;
+  flex-direction: column;
+}
+input[class="ajout d'indice"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+  border: none;
+  outline: none;
+  font-size: large;
+  padding-bottom: 10px;
+  border-bottom: 1px solid;
+}

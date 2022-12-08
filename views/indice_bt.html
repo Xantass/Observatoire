@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <meta charset="utf-8">
+
+        <title>Observatoire</title>
+
+        <link rel="stylesheet" href="/css/indice_bt.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"/>
+        <link rel="website icon" type="png" href="/image/logo_simonneau.png">
+
+    </head>
+
+    <body onload="load();">
+
+      <div id="container">
+
+        <nav id="shadow Dashboard">
+
+          <div id="liste text button">
+
+            <div id="container text button">
+
+              <a id="text button" href="/home">Mes Operations</a>
+
+            </div>
+
+            <div id="container text button indice_bt">
+
+              <a id="text button indice_bt" href="/indice_bt">Indice BT</a>
+
+            </div>
+
+            <div id="container text button">
+
+              <a id="text button">Mon compte</a>
+
+            </div>
+
+            <div id="container text button">
+
+              <a id="text button" href="/">Se deconnecter</a>
+
+            </div>
+
+          </div>
+
+        </nav>
+
+        <nav id="box Dashboard" onmouseover="slide_right_dashboard();">
+
+          <div id="container image">
+
+            <img id="logo simonneau" src="/image/logo_simonneau.png" alt="simonneau logo"/>
+            <img id="logo simonneau avec ecriture" src="/image/logo_simoneau_avec_ecriture.png" alt="simonneau logo" hidden/>
+
+          </div>
+
+          <div id="container liste button">
+
+            <div id="liste button">
+
+              <a id="home page" href="/home">
+
+                <div id="box button">
+
+                  <img id="home button" src="/image/home.png" alt="home page"/>
+
+                </div>
+
+                <div id="home text">Mes Operations</div>
+
+              </a>
+
+              <a id="bt page" href="/indice_bt">
+
+                <div id="box button">
+
+                  <img id="bt button" src="/image/statistique_color.png" alt="indice_bt page">
+
+                </div>
+
+                <div id="bt text">Indice BT</div>
+
+              </a>
+
+              <a id="compte page">
+
+                <div id="box button">
+
+                  <img id="compte button" src="/image/compte.png" alt="compte page">
+
+                </div>
+
+                <div id="compte text">Mon compte</div>
+
+              </a>
+
+              <a id="login page" href="/">
+
+                <div id="box button">
+
+                  <img id="deconnexion button" src="/image/deconnexion.png" alt="login page">
+
+                </div>
+
+                <div id="login text">Se deconnecter</div>
+
+              </a>
+
+            </div>
+
+          </div>
+
+        </nav>
+
+        <div id="main box" onmouseover="slide_left_dashboard();">
+
+            <div id="main_wrap">
+
+                <div id="body">
+
+                  <div id="main_container">
+
+                    <header id="header main box">
+
+                      <div id="box header main box">
+
+                        <div id="Title">Indice BT</div>
+
+                      </div>
+
+                    </header>
+
+                    <div id="container Indice">
+
+                        <div id="Box container Indice">
+
+                            <div id="Box content Indice">
+
+                                <div id="container sorters">
+
+                                  <div id="indice filter">
+
+                                     <div id="text">Indice</div>
+
+                                  </div>
+
+                                  <div id="date filter">
+
+                                    <div id="text">Date</div>
+
+                                  </div>
+
+                                </div>
+
+                                <div id="List Indice"></div>
+
+                            </div>
+
+                          </div>
+
+                    </div>
+
+                    <div id="container submit">
+
+                        <div id="box submit">
+
+                            <button type="button" class="button1" id="button indice_bt" onclick="slide_indice();">Ajouter</button>
+
+                        </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+        </div>
+
+        <nav id="navigation d'ajout d'indice">
+
+            <div id="cancel add">
+
+              <img src="/image/close.png" id="cancel" onclick="cancel_slide_indice();"/>
+
+            </div>
+
+            <div id="container input ajout d'indice">
+
+              <div class="input ajout d'indice">
+
+                <span id="title input">Indice</span>
+
+                <input name="TEST" value="" id="indice" class="ajout d'indice"/>
+
+              </div>
+
+              <div class="input ajout d'indice">
+
+                <span id="title input">Date Parution</span>
+
+                <input name="TEST" value="" id="date parution" class="ajout d'indice"/>
+
+              </div>
+
+              <div class="input ajout d'indice">
+
+                <span id="title input">Date BT</span>
+
+                <input name="TEST" value="" id="date bt" class="ajout d'indice"/>
+
+              </div>
+
+             </div>
+
+            <div id="container submit">
+
+              <button type="button" class="button1" id="button ajout indice" onclick="ajout_indice();">Sauvegarder</button>
+
+            </div>
+
+        </nav>
+
+       </div>
+
+       <script type="application/json" src="/index.js" async></script>
+       <script src="/js/script_indice_bt.js" async></script>
+
+    </body>
+
+</html>

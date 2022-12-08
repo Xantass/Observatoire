@@ -39,10 +39,6 @@ const host_azure = "i2bat.mysql.database.azure.com";
 const user_azure = "I2bat";
 const password_azure = "dz7@8#%PYP2b";
 const database_azure = "observatoire";
-const host_aws = "observatoire.c0ye4oevn1yn.eu-west-3.rds.amazonaws.com";
-const user_aws = "admin";
-const password_aws = "2Avril2002";
-const database_aws = "Observatoire";
 const port = "3306";
 
 const connection = mysql.createConnection({

@@ -22,8 +22,17 @@
    * Routes Definitions
    */
 
-router.get("/home", (req, res) => {
-  res.render('home');
+router.get("/home", async (req, res) => {
+  var sql = "SELECT * FROM session WHERE TOKEN = ?";
+  var result;
+
+  result = await query(sql, req.cookies['connect.sid'].substring(2, 34));
+  if (result[0] == undefined) {
+    res.redirect('/');
+  }
+  else {
+    res.render('home');
+  }
 })
 
 router.post("/home:id", async (req, res) => {

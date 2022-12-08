@@ -26,7 +26,13 @@
 
             <div id="container text button">
 
-              <a id="text button" href="http://localhost:3000/home">Mes Operations</a>
+              <a id="text button" href="/home">Mes Operations</a>
+
+            </div>
+
+            <div id="container text button">
+
+              <a id="text button" href="/indice_bt">Indice BT</a>
 
             </div>
 
@@ -38,7 +44,7 @@
 
             <div id="container text button">
 
-              <a id="text button" href="http://localhost:3000">Se deconnecter</a>
+              <a id="text button" href="/">Se deconnecter</a>
 
             </div>
 
@@ -59,7 +65,7 @@
 
             <div id="liste button">
 
-              <a id="home page" href="http://localhost:3000/home">
+              <a id="home page" href="/home">
 
                 <div id="box button">
 
@@ -68,6 +74,18 @@
                 </div>
 
                 <div id="home text">Mes Operations</div>
+
+              </a>
+
+              <a id="bt page" href="/indice_bt">
+
+                <div id="box button">
+
+                  <img id="bt button" src="/image/statistique.png" alt="bt page"/>
+
+                </div>
+
+                <div id="bt text">Indice BT</div>
 
               </a>
 
@@ -83,7 +101,7 @@
 
               </a>
 
-              <a id="login page" href="http://localhost:3000">
+              <a id="login page" href="/">
 
                 <div id="box button">
 
@@ -101,7 +119,7 @@
 
         </nav>
 
-        <main id="main box" onmouseover="slide_left_dashboard();">
+        <div id="main box" onmouseover="slide_left_dashboard();">
 
             <header id="header of the main box">
 
@@ -190,6 +208,14 @@
                     <div id="box button info dimensionnelle">
 
                       <button class="button info" id="button info dimensionnelle">DIMENSIONNELLE</button>
+
+                    </div>
+
+                    <div id="box validation de l'operation">
+
+                      <input type="checkbox" id="switch operation"/>
+
+                      <label for="switch operation" id="not" onclick="select_operation(event);"></label>
 
                     </div>
 
@@ -767,7 +793,7 @@
 
                 <div id="container submit">
 
-                  <div id="text montant totale lot">Montant Totale de l'Operation :</div>
+                  <div id="text montant totale lot">Montant Total de l'Operation (HT) :</div>
 
                   <div id="box montant totale lot"></div>
 
@@ -779,7 +805,7 @@
 
             </div>
 
-        </main>
+        </div>
 
         <nav id="navigation d'ajout d'article">
 
@@ -933,15 +959,77 @@
 
               <button type="button" class="button1" id="button save article" onclick="cancel_slide();">Quitter</button>
 
-              <button type="button" class="button1" id="button save article">Ajouter</button>
+              <button type="button" class="button1" id="button save article" onclick="slide_add_article_tram();">Creer</button>
 
-              <button type="button" class="button1" id="button save article" onclick="add_article_to_lot();">Sauvegarder</button>
+              <button type="button" class="button1" id="button save article" onclick="add_article_to_lot();">Ajouter</button>
 
             </div>
 
           </div>
 
         </div>
+
+        <nav id="navigation d'ajout d'article a la tram">
+
+          <div id="cancel add">
+
+            <img src="/image/close.png" id="cancel" onclick="cancel_slide_add_article_tram();"/>
+
+          </div>
+
+          <div id="container selection section">
+
+            <span class="title container selection">Section</span>
+
+          </div>
+
+          <div id="container selection theme">
+
+            <span class="title container selection">Theme</span>
+
+          </div>
+
+          <div id="container selection chapitre">
+
+            <span class="title container selection">Chapitre</span>
+
+          </div>
+
+          <div id="container selection sous_chapitre">
+
+            <span class="title container selection">Sous-chapitre</span>
+
+          </div>
+
+          <div id="container selection prestation">
+
+            <span class="title container selection">Prestation</span>
+
+          </div>
+
+          <div id="container selection nom">
+
+            <span class="title container selection">Nom</span>
+
+            <input class="ajout d'article">
+
+          </div>
+
+          <div id="container selection unite">
+
+            <span class="title container selection">Unite</span>
+
+            <input class="ajout d'article">
+
+          </div>
+
+          <div id="container submit ajout d'article a la tram">
+
+            <button type="button" class="button1" id="button modif article" onclick="add_article_tram();">Sauvegarder</button>
+
+          </div>
+
+        </nav>
 
       </div>
 
@@ -967,7 +1055,7 @@
 
       </div>
 
-      <script src="/index.js" async></script>
+      <script type="application/json" src="/index.js" async></script>
       <script src="/js/script_operation.js" async></script>
 
     </body>
