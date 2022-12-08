@@ -86,7 +86,6 @@ async function create_element_html(nom, date, maj, createur, Id) {
 
 function get_op(e) {
   e.stopPropagation();
-  console.log(this.childNodes[2].textContent);
   window.location = `/home/${this.childNodes[2].textContent}`;
 }
 
@@ -96,19 +95,15 @@ function get_new_op() {
 
 function get_position(e) {
   e.stopPropagation();
-  console.log(this);
   past = 1;
   let cord = this.getBoundingClientRect();
-  console.log(e.clientY);
   var box_update = document.getElementById("box update operation");
 
   name_operation = this.parentNode.childNodes[2].textContent;
   id_operation = this.parentNode.childNodes[7].textContent;
-  console.log(id_operation);
   box_update.style.left = cord.x + (-130) + "px";
   box_update.style.top = cord.y + "px";
   box_update.style.display = "flex";
-  console.log(box_update);
   return;
 }
 

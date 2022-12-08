@@ -2,17 +2,12 @@
  * Required External Modules
  */
 
- const express = require('express');
- const path = require("path");
- const connection = require('./db.js').connection;
  const query = require('./db.js').query;
- const util = require('util');
 
  /**
    * App Variables
    */
 
- const app = express();
  const router = global.router;
  /**
    *  App Configuration
@@ -43,7 +38,6 @@ router.post("/home:id", async (req, res) => {
   for (element of content_operation) {
     value.push(await get_value_operation(element, 1));
   }
-  //console.log(value);
   res.status('200').json(value);
 })
 

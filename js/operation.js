@@ -2,19 +2,12 @@
  * Required External Modules
  */
 
- const { Console } = require('console');
-const express = require('express');
- const path = require("path");
-const { nextTick } = require('process');
- const connection = require('./db.js').connection;
  const query = require('./db.js').query;
- const util = require('util');
 
  /**
    * App Variables
    */
 
- const app = express();
  const router = global.router;
  /**
    *  App Configuration
@@ -180,7 +173,6 @@ router.post("/home/:operation/get_tram_untec", async (req, res) => {
   var sql = "SELECT * FROM article";
   var result;
 
-  console.log(req.body);
   res.status('200').json(result);
 })
 

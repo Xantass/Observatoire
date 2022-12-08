@@ -196,19 +196,16 @@ function load_form_generale_op(values) {
             two = document.getElementById(containers[i - 1].id);
         }
     }
-    //one.value = values[1];
     for (i = 0; i < two.childElementCount; i++) {
         if (two[i].id.toLowerCase().trim() == values[2].toLowerCase().trim()) {
             two[i].selected = true;
         }
     }
-    //two.value = values[2];
     for (i = 0; i < three.childElementCount; i++) {
         if (three[i].id.toLowerCase().trim() == values[3].toLowerCase().trim()) {
             three[i].selected = true;
         }
     }
-    //three.value = values[3];
     four.value = values[4];
     five.value = values[5];
     six.value = values[6];
@@ -220,13 +217,11 @@ function load_form_generale_op(values) {
             ten[i].selected = true;
         }
     }
-    //ten.value = values[10];
     for (i = 0; i < eleven.childElementCount; i++) {
         if (eleven[i].id.toLowerCase().trim() == values[11].toLowerCase().trim()) {
             eleven[i].selected = true;
         }
     }
-    //eleven.value = values[11];
 }
 
 function load_title_op(_nom_op, _nom_maitre) {
@@ -337,7 +332,6 @@ function reset () {
     var box_title = document.getElementById("shape_nom");
     var box_title_bis = document.getElementById("shape_maitre");
 
-    console.log("RESET");
     if (past == 0) {
         box_title.style.strokeWidth = "5px";
         box_title.style.strokeDashoffset = "1050";
@@ -1091,7 +1085,6 @@ function update_lot(e) {
     httpRequest.onreadystatechange = requete_nothing;
     httpRequest.open('POST', '/home/:operation/update_lot', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    console.log(check);
     httpRequest.send(`id_lot=${this.parentNode.parentNode.id.substring(4)}&&nom=${nom}&&numero=${numero}&&entreprise=${entreprise}&&date=${date}&&fini=${check}`);
 }
 
@@ -1178,7 +1171,6 @@ async function add_modif_article() {
     httpRequest.open('POST', '/home/:operation/modif_article', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`quantite=${container.childNodes[3].childNodes[5].childNodes[3].value}&&prix_u=${container.childNodes[3].childNodes[7].childNodes[3].value}&&prix_t=${container.childNodes[3].childNodes[9].childNodes[3].value}&&tva=${container.childNodes[3].childNodes[13].childNodes[3].value}&&id=${container.childNodes[3].childNodes[11].childNodes[3].value}`);
-    console.log(container_bis.childNodes[3].childNodes[0].textContent);
     string = await beautiful_number(container.childNodes[3].childNodes[5].childNodes[3].value);
     container_bis.childNodes[3].childNodes[0].textContent = string;
     string = await beautiful_number(container.childNodes[3].childNodes[7].childNodes[3].value);
@@ -1425,7 +1417,6 @@ function deploiement_arbre(e) {
     container = this.parentNode;
     if (container.childNodes[0].childNodes[0].id == "plus") {
         if (container.className == "option filtrage prestation") {
-            console.log(container);
             container.childNodes[0].childNodes[0].id = "moins";
             container.childNodes[0].childNodes[0].src = "/image/moins.png";
             maj_liste_article(this.parentNode.parentNode.parentNode);
@@ -1470,14 +1461,12 @@ function deploiement_arbre(e) {
     }
     else {
         if (container.className == "option filtrage prestation") {
-            console.log(container);
             container.childNodes[0].childNodes[0].id = "plus";
             container.childNodes[0].childNodes[0].src = "/image/add_bis.png";
             maj_liste_article(this.parentNode.parentNode.parentNode);
             return;
         }
         height = container.style.height.substring(0, container.style.height.length - 2);
-        console.log(height);
         container.style.height = `20px`;
         container.childNodes[container.childElementCount - 1].style.display = "none";
         container.childNodes[0].childNodes[0].id = "plus";
@@ -1719,7 +1708,6 @@ function add_article_to_lot() {
     var temp = document.getElementById("recherche d'article");
     var container = document.getElementById("lot " + temp.className.substring(20));
 
-    console.log(element_result);
     for (i = 0; i < element_result.length; i++) {
         if (element_result[i][8].childNodes[2].childNodes[1].id == "select") {
             create_article_bis([element_result[i][8].id.substring(16), element_result[i][8].childNodes[0].textContent, element_result[i][7], "", "", "", element_result[i][9], "20%"], container.childNodes[2]);
