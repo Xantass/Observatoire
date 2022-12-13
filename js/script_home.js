@@ -420,3 +420,10 @@ function slide_right_dashboard () {
 
     update.style.display = "none";
   }
+  function log_out() {
+    if (!httpRequest)
+      console.log("NO REQUEST");
+    httpRequest.open('POST', '/home/log_out', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send();
+  }

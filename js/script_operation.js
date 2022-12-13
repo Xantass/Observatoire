@@ -21,6 +21,7 @@ var liste_entreprise;
 var arbre;
 var _new;
 var id_delete_lot = 0;
+var client;
 let lot_e;
 let projet_e;
 let image_e;
@@ -44,11 +45,16 @@ async function load_data() {
     httpRequest.open('POST', '/home/:operation/load_entreprise', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send();
+    httpRequest.onreadystatechange = requete_client;
+    httpRequest.open('POST', '/home/:operation/load_client', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send();
     httpRequest.onreadystatechange = requete;
     httpRequest.open('POST', '/home/:operation/load_info_generale', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`operation=${current_operation}`);
     await create_arborescence();
+    await load_client();
     httpRequest.onreadystatechange = requete_tram;
     httpRequest.open('POST', '/home/:operation/get_tram', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -58,6 +64,12 @@ async function load_data() {
     if (value == undefined) {
         _new = 0;
         load_title_op(current_operation, "");
+        httpRequest.onreadystatechange = requete_operation;
+        httpRequest.open('POST', '/home/:operation/get_max_id_operation', false);
+        httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        httpRequest.send();
+        operation_id = operation_id[0]["MAX (ID)"] + 1;
+        console.log(operation_id);
         return;
     }
     if (value.FINI == "select") {
@@ -75,6 +87,18 @@ async function load_data() {
     await load_lot(value);
     await load_totale_value_op();
     await load_element();
+}
+
+function load_client() {
+    var container = document.getElementById("maitre ouvrage select");
+    var option;
+
+    for(i = 0; i < client.length; i++) {
+        option = document.createElement('option');
+        option.textContent = client[i].NOM;
+        option.id = "client " + client[i].ID;
+        container.appendChild(option);
+    }
 }
 
 async function load_totale_value_op() {
@@ -113,7 +137,7 @@ async function load_totale_value_lot(container) {
 
 async function load_lot(value) {
     for (values of value) {
-        await add_lot_to_operation([values.NOM, "none", values.ID, values.NUMERO, values.ENTREPRISE, values.DATE]);
+        await add_lot_to_operation([values.NOM, "none", values.ID, values.NUMERO, values.ENTREPRISE, values.DATE, values.FINI]);
     }
 }
 
@@ -196,9 +220,11 @@ function load_form_generale_op(values) {
             two = document.getElementById(containers[i - 1].id);
         }
     }
-    for (i = 0; i < two.childElementCount; i++) {
-        if (two[i].id.toLowerCase().trim() == values[2].toLowerCase().trim()) {
-            two[i].selected = true;
+    if (two != undefined) {
+        for (i = 0; i < two.childElementCount; i++) {
+            if (two[i].id.toLowerCase().trim() == values[2].toLowerCase().trim()) {
+                two[i].selected = true;
+            }
         }
     }
     for (i = 0; i < three.childElementCount; i++) {
@@ -212,24 +238,22 @@ function load_form_generale_op(values) {
     seven.value = values[7];
     height.value = values[8];
     nine.value = values[9];
-    for (i = 0; i < ten.childElementCount; i++) {
-        if (ten[i].id.toLowerCase().trim() == values[10].toLowerCase().trim()) {
-            ten[i].selected = true;
+    for (i = 0; i < eleven.childElementCount; i++) {
+        if (eleven[i].id.toLowerCase().trim() == values[10].toLowerCase().trim()) {
+            eleven[i].selected = true;
         }
     }
-    for (i = 0; i < eleven.childElementCount; i++) {
-        if (eleven[i].id.toLowerCase().trim() == values[11].toLowerCase().trim()) {
-            eleven[i].selected = true;
+    for (i = 0; i < ten.childElementCount; i++) {
+        if (ten[i].id.toLowerCase().trim() == values[11].toLowerCase().trim()) {
+            ten[i].selected = true;
         }
     }
 }
 
 function load_title_op(_nom_op, _nom_maitre) {
     var nom_op = document.getElementById("text nom title header of the main box");
-    var nom_maitre = document.getElementById("text maitre title header of the main box");
 
     nom_op.value = _nom_op;
-    nom_maitre.value = _nom_maitre;
 }
 
 async function requete() {
@@ -265,6 +289,18 @@ async function requete_entreprise() {
 async function requete_arbre() {
     if (httpRequest.readyState == 4) {
         arbre = JSON.parse(httpRequest.response);
+    }
+}
+
+async function requete_operation() {
+    if (httpRequest.readyState == 4) {
+        operation_id = JSON.parse(httpRequest.response);
+    }
+}
+
+async function requete_client() {
+    if (httpRequest.readyState == 4) {
+        client = JSON.parse(httpRequest.response);
     }
 }
 
@@ -330,15 +366,11 @@ function get_focus_bis() {
 
 function reset () {
     var box_title = document.getElementById("shape_nom");
-    var box_title_bis = document.getElementById("shape_maitre");
 
     if (past == 0) {
         box_title.style.strokeWidth = "5px";
         box_title.style.strokeDashoffset = "1050";
         box_title.style.strokeDasharray = "740 1240";
-        box_title_bis.style.strokeWidth = "5px";
-        box_title_bis.style.strokeDashoffset = "1050";
-        box_title_bis.style.strokeDasharray = "740 1240";
     }
     else {
         past = 0;
@@ -518,8 +550,8 @@ function cancel_slide() {
     }
     for (i = 0; i < element_result.length; i++) {
         element_result[i][8].style.display = "none";
-        if (element_result[i][8].childNodes[2].childNodes[1].id == "select") {
-            element_result[i][8].childNodes[2].childNodes[1].click();
+        if (element_result[i][8].childNodes[0].childNodes[1].id == "select") {
+            element_result[i][8].childNodes[0].childNodes[1].click();
         }
     }
 }
@@ -673,9 +705,10 @@ async function add_lot_to_operation(arg) {
         httpRequest.send();
         max = max_id[0]["MAX (ID)"] + 1;
         arg[2] = max;
+        console.log(operation_id);
         httpRequest.open('POST', '/home/:operation/add_lot', false);
         httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        httpRequest.send(`id_lot=${arg[2]}&&id_op=${this.operation_id}`);
+        httpRequest.send(`id_lot=${arg[2]}&&id_op=${operation_id}`);
     }
     container.id = arg[2];
     container.style.display = arg[1];
@@ -780,11 +813,11 @@ async function create_form_lot(arg) {
     box_check_lot.className = "3 input lot";
     span_check_lot.id = "title input";
     span_check_lot.textContent = "Lot validé";
-    label_check_lot.setAttribute("for", "switch " + values.ID);
+    label_check_lot.setAttribute("for", "switch lot " + arg[2]);
     label_check_lot.id = "not";
     label_check_lot.addEventListener('click', select_lot);
     input_check_lot.type = "checkbox";
-    input_check_lot.id = "switch " + values.ID;
+    input_check_lot.id = "switch lot " + arg[2];
     container_champ.className = "container champ";
     box_prestation_champ.className = "champ";
     box_prestation_champ.id = "Prestation champ";
@@ -893,7 +926,7 @@ async function create_form_lot(arg) {
     temp = montant_totale.toString();
     temp = await beautiful_number(temp);
     box_montant.textContent = temp;
-    if (values.FINI == "select") {
+    if (arg[6] == "select") {
         label_check_lot.addEventListener('click', select_lot_bis(label_check_lot));
         label_check_lot.click();
         label_check_lot.addEventListener('click', select_lot);
@@ -1145,6 +1178,7 @@ function maj_op(e) {
     httpRequest = new XMLHttpRequest();
     if (!httpRequest)
             console.log("NO REQUEST");
+    console.log(description);
     if (_new == 0) {
         httpRequest.onreadystatechange = requete_nothing;
         httpRequest.open('POST', '/home/:operation/add_op', false);
@@ -1598,13 +1632,13 @@ function create_element_tram(values) {
     var label = document.createElement('label');
     var test = document.createElement('div');
     var section = document.getElementById("selection section option " + values.ID_SECTION).textContent;
-    var theme = document.getElementById("selection theme option " + values.ID_SECTION).textContent;
-    var chapitre = document.getElementById("selection chapitre option " + values.ID_SECTION).textContent;
-    var sous_chapitre = document.getElementById("selection sous_chapitre option " + values.ID_SECTION).textContent;
-    var prestation = document.getElementById("selection prestation option " + values.ID_SECTION).textContent;
+    var theme = document.getElementById("selection theme option " + values.ID_THEME).textContent;
+    var chapitre = document.getElementById("selection chapitre option " + values.ID_CHAPITRE).textContent;
+    var sous_chapitre = document.getElementById("selection sous_chapitre option " + values.ID_SOUS_CHAPITRE).textContent;
+    var prestation = document.getElementById("selection prestation option " + values.ID_PRESTATION).textContent;
 
     test.id = "test box hover";
-    test.textContent = section.substring(0, 13) + "/" + theme.substring(0, 13) + "/" + chapitre.substring(0, 13) + "/" + sous_chapitre.substring(0, 13) + "/" + prestation; //13
+    test.textContent = section.substring(0, 23) + "/" + theme.substring(0, 23) + "/" + chapitre.substring(0, 23) + "/" + sous_chapitre.substring(0, 23) + "/" + prestation; //13
     label.setAttribute("for", "switch " + values.ID);
     label.id = "not";
     label.addEventListener('click', select_article);
@@ -1622,9 +1656,9 @@ function create_element_tram(values) {
 
     button_of_article.appendChild(input);
     button_of_article.appendChild(label);
+    article.appendChild(button_of_article);
     article.appendChild(nom_of_article);
     article.appendChild(unite_of_article);
-    article.appendChild(button_of_article);
     article.appendChild(test);
     container.appendChild(article);
     return article;
@@ -1709,12 +1743,12 @@ function add_article_to_lot() {
     var container = document.getElementById("lot " + temp.className.substring(20));
 
     for (i = 0; i < element_result.length; i++) {
-        if (element_result[i][8].childNodes[2].childNodes[1].id == "select") {
-            create_article_bis([element_result[i][8].id.substring(16), element_result[i][8].childNodes[0].textContent, element_result[i][7], "", "", "", element_result[i][9], "20%"], container.childNodes[2]);
+        if (element_result[i][8].childNodes[0].childNodes[1].id == "select") {
+            create_article_bis([element_result[i][8].id.substring(16), element_result[i][8].childNodes[1].textContent, element_result[i][7], "", "", "", element_result[i][9], "20%"], container.childNodes[2]);
             httpRequest.onreadystatechange = requete_nothing;
             httpRequest.open('POST', '/home/:operation/add_article_to_lot', false);
             httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            httpRequest.send(`id_article=${element_result[i][0]}&&prestation=${element_result[i][7]}&&nom=${element_result[i][8].childNodes[0].textContent}&&id_lot=${temp.className.substring(20)}&&unite=${element_result[i][9]}&&tva=20%`);
+            httpRequest.send(`id_article=${element_result[i][0]}&&prestation=${element_result[i][7]}&&nom=${element_result[i][8].childNodes[1].textContent}&&id_lot=${temp.className.substring(20)}&&unite=${element_result[i][9]}&&tva=20%`);
         }
     }
     cancel_slide();
@@ -1739,6 +1773,7 @@ function create_article_bis(article, container) {
     var text_prix_totale = document.createElement('div');
     var text_tva = document.createElement('div');
 
+    console.log(article);
     box_article.className = "box article";
     box_article.id = "article " + article[0];
     box_article.addEventListener('click', slide_modif_article);
@@ -1973,6 +2008,7 @@ function add_article_tram() {
     var sous_chapitre_nom;
     var prestation;
     var prestation_nom;
+    var last;
     var nom = document.getElementById("container selection nom").childNodes[3].value;
     var unite = document.getElementById("container selection unite").childNodes[3].value;
 
@@ -2007,11 +2043,23 @@ function add_article_tram() {
     for (i = 0; i < prestation.childElementCount; i++) {
         if (prestation.childNodes[i].selected) {
             prestation_nom = prestation.childNodes[i].textContent;
+            last = prestation.childNodes[i].id.substring(28);
             break;
         }
     }
+    httpRequest.onreadystatechange = requete_nothing;
+    httpRequest.open('POST', '/home/:operation/add_article_to_tram_untec', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send(`id_section=${theme}&&id_theme=${chapitre}&&id_chapitre=${sous_chapitre}&&id_sous_chapitre=${prestation}&&id_prestation=${last }&&prestation=${prestation_nom}&&nom=${nom}&&unite=${unite}`);
     cancel_slide_add_article_tram();
 }
 
+function log_out() {
+    if (!httpRequest)
+      console.log("NO REQUEST");
+    httpRequest.open('POST', '/home/:operation/log_out', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send();
+}
 // creer un identifiant a partir de l'aborescence (section, theme, chapitre, sous-chapitre) + identifiant unique
 // creer une page pour l'incrementation de l'indice bt

@@ -31,6 +31,14 @@ router.get("/indice_bt", async (req, res) => {
   }
 })
 
+router.post("/indice_bt/log_out", async (req, res) => {
+  var sql = "DELETE FROM session WHERE TOKEN = ?";
+  var result;
+
+  result = await query(sql, req.cookies['connect.sid'].substring(2, 34));
+  res.status('200').json(result);
+})
+
 router.post("/indice_bt/get_indice", async (req, res) => {
   var sql = "SELECT * FROM indice_bt";
   var result;

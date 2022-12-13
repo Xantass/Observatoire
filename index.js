@@ -55,9 +55,8 @@ app.use(session({
  */
 
 app.get("/", async (req, res) => {
-    var sql = "DELETE FROM session WHERE TOKEN = ?"
+    var sql = "DELETE FROM session WHERE TOKEN = ?";
 
-    console.log("YESSS");
     await query(sql, req.session.id);
     res.status("200");
     res.render('login');

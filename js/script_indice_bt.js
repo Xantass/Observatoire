@@ -76,3 +76,10 @@ async function requete() {
         value = JSON.parse(httpRequest.response);
     }
 }
+function log_out() {
+    if (!httpRequest)
+      console.log("NO REQUEST");
+    httpRequest.open('POST', '/indice_bt/log_out', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send();
+}
