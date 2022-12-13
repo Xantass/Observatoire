@@ -1230,6 +1230,21 @@ nav[id="navigation d'ajout d'entreprise"] {
   flex-direction: column;
   z-index: 7;
 }
+nav[id="navigation d'ajout de maitre"] {
+  box-sizing: border-box;
+  display: flex;
+  position: absolute;
+  height: 100%;
+  width: 440px;
+  margin-left: 100vw;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #fff;
+  flex-direction: column;
+  z-index: 7;
+}
 div[id="container input ajout d'entreprise"] {
   box-sizing: border-box;
   display: flex;
@@ -1885,4 +1900,14 @@ select[id="maitre ouvrage select"] {
   outline: none;
   border: none;
   background-color: #fff;
+}
+div[id="add maitre ouvrage"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  margin-right: 100px;
+  margin-top: 30px;
+  cursor: pointer;
 }

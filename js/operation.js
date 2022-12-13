@@ -108,10 +108,18 @@ router.post("/home/:operation/load_entreprise", async (req, res) => {
 })
 
 router.post("/home/:operation/add_entreprise", async (req, res) => {
-  var sql = "INSERT INTO entreprise (NOM) VALUES (?)";
+  var sql = "INSERT INTO entreprise (NOM, ADRESSE) VALUES (?, ?)";
   var result;
 
-  result = await query(sql, req.body.nom);
+  result = await query(sql, [req.body.nom, req.body.adresse]);
+  res.status('200').json(result);
+})
+
+router.post("/home/:operation/add_maitre", async (req, res) => {
+  var sql = "INSERT INTO entreprise (NOM, ADRESSE, ABREVIATION, URL) VALUES (?, ?, ?, ?)";
+  var result;
+
+  result = await query(sql, [req.body.nom, req.body.adresse, req.body.abreviation, req.body.url]);
   res.status('200').json(result);
 })
 

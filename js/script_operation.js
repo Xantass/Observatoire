@@ -252,8 +252,14 @@ function load_form_generale_op(values) {
 
 function load_title_op(_nom_op, _nom_maitre) {
     var nom_op = document.getElementById("text nom title header of the main box");
+    var container = document.getElementById("maitre ouvrage select");
 
     nom_op.value = _nom_op;
+    for (i = 0; i < container.childNodes.length; i++) {
+        if (container.childNodes[i].textContent == _nom_maitre) {
+            container.childNodes[i].selected = true;
+        }
+    }
 }
 
 async function requete() {
@@ -490,6 +496,12 @@ function slide_ajout_entreprise(e) {
     container.style.marginLeft = `${window.innerWidth - 440}px`;
 }
 
+function slide_maitre(e) {
+    var container = document.getElementById("navigation d'ajout de maitre");
+
+    container.style.marginLeft = `${window.innerWidth - 440}px`;
+}
+
 function slide_modif_article(e) {
     var container = document.getElementById("navigation d'ajout d'article");
 
@@ -558,6 +570,13 @@ function cancel_slide() {
 
 function cancel_slide_entreprise() {
     var container = document.getElementById("navigation d'ajout d'entreprise");
+
+    container.style.marginLeft = `${window.innerWidth}px`;
+    container.childNodes[3].childNodes[1].childNodes[3].value = "";
+}
+
+function cancel_slide_maitre() {
+    var container = document.getElementById("navigation d'ajout de maitre");
 
     container.style.marginLeft = `${window.innerWidth}px`;
     container.childNodes[3].childNodes[1].childNodes[3].value = "";
@@ -1166,6 +1185,7 @@ function maj_op(e) {
     var check = 0;
     var finie = document.getElementById("box validation de l'operation").childNodes[3];
 
+    console.log(maitre);
     for (i = 0; i < sous_categorie.length; i++) {
         if (sous_categorie[i].style.display == "flex") {
             sous_categorie = sous_categorie[i].value;
@@ -1234,13 +1254,29 @@ function delete_article() {
 
 function add_entreprise() {
     var input = document.getElementById("Nom entreprise");
+    var input_bis = document.getElementById("Adresse entreprise");
 
     if (!httpRequest)
             console.log("NO REQUEST");
     httpRequest.onreadystatechange = requete_nothing;
     httpRequest.open('POST', '/home/:operation/add_entreprise', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    httpRequest.send(`nom=${input.value}`);
+    httpRequest.send(`nom=${input.value}&&adresse=${input_bis.value}`);
+    cancel_slide_entreprise();
+}
+
+function add_maitre() {
+    var nom = document.getElementById("Nom maitre").value;
+    var abreviation = document.getElementById("Abreviation maitre").value;
+    var adresse = document.getElementById("Adresse maitre").value;
+    var url = document.getElementById("url logo").value;
+
+    if (!httpRequest)
+            console.log("NO REQUEST");
+    httpRequest.onreadystatechange = requete_nothing;
+    httpRequest.open('POST', '/home/:operation/add_maitre', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send(`nom=${nom}&&adresse=${adresse}&&abreviation=${abreviation}&&url=${url}`);
     cancel_slide_entreprise();
 }
 
@@ -2052,14 +2088,6 @@ function add_article_tram() {
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`id_section=${theme}&&id_theme=${chapitre}&&id_chapitre=${sous_chapitre}&&id_sous_chapitre=${prestation}&&id_prestation=${last }&&prestation=${prestation_nom}&&nom=${nom}&&unite=${unite}`);
     cancel_slide_add_article_tram();
-}
-
-function log_out() {
-    if (!httpRequest)
-      console.log("NO REQUEST");
-    httpRequest.open('POST', '/home/:operation/log_out', false);
-    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    httpRequest.send();
 }
 // creer un identifiant a partir de l'aborescence (section, theme, chapitre, sous-chapitre) + identifiant unique
 // creer une page pour l'incrementation de l'indice bt

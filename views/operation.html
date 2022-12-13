@@ -145,6 +145,12 @@
 
               </div>
 
+              <div id="add maitre ouvrage" onclick="slide_maitre(event)">
+
+                <img id="plus maitre" src="/image/add_bis.png"/>
+
+              </div>
+
             </header>
 
             <div id="container main information">
@@ -901,11 +907,71 @@
 
             </div>
 
+            <div class="input ajout d'entreprise">
+
+              <span id="title input">Adresse de l'entreprise</span>
+
+              <input name="TEST" value="" id="Adresse entreprise" class="ajout d'entreprise"/>
+
+            </div>
+
           </div>
 
           <div id="container submit">
 
             <button type="button" class="button1" id="button entreprise" onclick="add_entreprise();">Sauvegarder</button>
+
+          </div>
+
+        </nav>
+
+        <nav id="navigation d'ajout de maitre">
+
+          <div id="cancel add">
+
+            <img src="/image/close.png" id="cancel" onclick="cancel_slide_maitre();"/>
+
+          </div>
+
+          <div id="container input ajout d'entreprise">
+
+            <div class="input ajout d'entreprise">
+
+              <span id="title input">Nom du maitre</span>
+
+              <input name="TEST" value="" id="Nom maitre" class="ajout d'entreprise"/>
+
+            </div>
+
+            <div class="input ajout d'entreprise">
+
+              <span id="title input">Abreviation</span>
+
+              <input name="TEST" value="" id="Abreviation maitre" class="ajout d'entreprise"/>
+
+            </div>
+
+            <div class="input ajout d'entreprise">
+
+              <span id="title input">Adresse</span>
+
+              <input name="TEST" value="" id="Adresse maitre" class="ajout d'entreprise"/>
+
+            </div>
+
+            <div class="input ajout d'entreprise">
+
+              <span id="title input">URL Logo</span>
+
+              <input name="TEST" value="" id="Adresse maitre" class="ajout d'entreprise"/>
+
+            </div>
+
+          </div>
+
+          <div id="container submit">
+
+            <button type="button" class="button1" id="button entreprise" onclick="add_maitre();">Sauvegarder</button>
 
           </div>
 
