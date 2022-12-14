@@ -7,7 +7,7 @@
 
         <title>Observatoire</title>
 
-        <link rel="stylesheet" href="/css/indice_bt.css">
+        <link rel="stylesheet" href="/css/entreprise.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"/>
         <link rel="website icon" type="png" href="/image/logo_simonneau.png">
@@ -28,15 +28,15 @@
 
             </div>
 
-            <div id="container text button indice_bt">
+            <div id="container text button">
 
-              <a id="text button indice_bt" href="/indice_bt">Indice BT</a>
+              <a id="text button" href="/indice_bt">Indice BT</a>
 
             </div>
 
-            <div id="container text button">
+            <div id="container text button entreprise">
 
-              <a id="text button" href="/entreprise">Entreprise</a>
+              <a id="text button entreprise" href="/entreprise">Entreprise</a>
 
             </div>
 
@@ -91,7 +91,7 @@
 
                 <div id="box button">
 
-                  <img id="bt button" src="/image/statistique_color.png" alt="indice_bt page">
+                  <img id="bt button" src="/image/statistique.png" alt="indice_bt page">
 
                 </div>
 
@@ -103,7 +103,7 @@
 
                 <div id="box button">
 
-                  <img id="entreprise button" src="/image/entreprise.png" alt="entreprise page">
+                  <img id="entreprise button" src="/image/entreprise_color.png" alt="entreprise page">
 
                 </div>
 
@@ -165,35 +165,35 @@
 
                       <div id="box header main box">
 
-                        <div id="Title">Indice BT</div>
+                        <div id="Title">Entreprises</div>
 
                       </div>
 
                     </header>
 
-                    <div id="container Indice">
+                    <div id="container Entreprise">
 
-                        <div id="Box container Indice">
+                        <div id="Box container Entreprise">
 
-                            <div id="Box content Indice">
+                            <div id="Box content Entreprise">
 
                                 <div id="container sorters">
 
-                                  <div id="indice filter">
+                                  <div id="nom filter">
 
-                                     <div id="text">Indice</div>
+                                     <div id="text">Nom</div>
 
                                   </div>
 
-                                  <div id="date filter">
+                                  <div id="adresse filter">
 
-                                    <div id="text">Date</div>
+                                    <div id="text">Adresse</div>
 
                                   </div>
 
                                 </div>
 
-                                <div id="List Indice"></div>
+                                <div id="List Entreprise"></div>
 
                             </div>
 
@@ -205,7 +205,7 @@
 
                         <div id="box submit">
 
-                            <button type="button" class="button1" id="button indice_bt" onclick="slide_indice();">Ajouter</button>
+                            <button type="button" class="button1" id="button entreprise" onclick="slide_entreprise();">Ajouter</button>
 
                         </div>
 
@@ -219,37 +219,29 @@
 
         </div>
 
-        <nav id="navigation d'ajout d'indice">
+        <nav id="navigation d'ajout d'entreprise">
 
             <div id="cancel add">
 
-              <img src="/image/close.png" id="cancel" onclick="cancel_slide_indice();"/>
+              <img src="/image/close.png" id="cancel" onclick="cancel_slide_entreprise();"/>
 
             </div>
 
-            <div id="container input ajout d'indice">
+            <div id="container input ajout d'entreprise">
 
-              <div class="input ajout d'indice">
+              <div class="input ajout d'entreprise">
 
-                <span id="title input">Indice</span>
+                <span id="title input">Nom</span>
 
-                <input name="TEST" value="" id="indice" class="ajout d'indice"/>
-
-              </div>
-
-              <div class="input ajout d'indice">
-
-                <span id="title input">Date Parution</span>
-
-                <input name="TEST" value="" id="date parution" class="ajout d'indice"/>
+                <input name="TEST" value="" id="nom" class="ajout d'entreprise"/>
 
               </div>
 
-              <div class="input ajout d'indice">
+              <div class="input ajout d'entreprise">
 
-                <span id="title input">Date BT</span>
+                <span id="title input">Adresse</span>
 
-                <input name="TEST" value="" id="date bt" class="ajout d'indice"/>
+                <input name="TEST" value="" id="adresse" class="ajout d'entreprise"/>
 
               </div>
 
@@ -257,7 +249,7 @@
 
             <div id="container submit">
 
-              <button type="button" class="button1" id="button ajout indice" onclick="ajout_indice();">Sauvegarder</button>
+              <button type="button" class="button1" id="button ajout entreprise" onclick="ajout_entreprise();">Sauvegarder</button>
 
             </div>
 
@@ -266,7 +258,7 @@
        </div>
 
        <script type="application/json" src="/index.js" async></script>
-       <script src="/js/script_indice_bt.js" async></script>
+       <script src="/js/script_entreprise.js" async></script>
 
     </body>
 

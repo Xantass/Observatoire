@@ -23,6 +23,8 @@ const login = require("./js/login.js");
 const home = require("./js/home.js");
 const operation = require("./js/operation.js");
 const indice = require("./js/indice_bt.js");
+const entreprise = require("./js/entreprise.js");
+const client = require("./js/client.js");
 const query = require('./js/db.js').query;
 
 /**
@@ -38,6 +40,8 @@ app.use(express.static(path.join(__dirname, ".")));
 app.use('/login', login);
 app.use('/home', home);
 app.use('/indice_bt', indice);
+app.use('/entreprise', entreprise);
+app.use('/client', client);
 app.use('/home/rename', home);
 app.use('/home/duplicate', home);
 app.use('/home/delete', home);

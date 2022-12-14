@@ -18,7 +18,7 @@
    * Routes Definitions
    */
 
-router.get("/indice_bt", async (req, res) => {
+router.get("/client", async (req, res) => {
   var sql = "SELECT * FROM session WHERE TOKEN = ?";
   var result;
 
@@ -27,23 +27,23 @@ router.get("/indice_bt", async (req, res) => {
     res.redirect('/');
   }
   else {
-    res.render('indice_bt');
+    res.render('client');
   }
 })
 
-router.post("/indice_bt/get_indice", async (req, res) => {
-  var sql = "SELECT * FROM indice_bt";
+router.post("/client/get_client", async (req, res) => {
+  var sql = "SELECT * FROM maitre_ouvrage";
   var result;
 
   result = await query(sql);
   res.status('200').json(result);
 })
 
-router.post("/indice_bt/add_indice", async (req, res) => {
-  var sql = "INSERT INTO indice_bt (BT_DATE, BT_INDICE, BT_PARUTION) VALUES (?, ?, ?)";
+router.post("/client/add_client", async (req, res) => {
+  var sql = "INSERT INTO maitre_ouvrage (NOM, ADRESSE, ABREVIATION) VALUES (?, ?, ?)";
   var result;
 
-  result = await query(sql, [req.body.date_bt, req.body.indice, req.body.date_parution]);
+  result = await query(sql, [req.body.nom, req.body.adresse, req.body.abreviation]);
   res.status('200').json(result);
 })
 
@@ -51,4 +51,4 @@ router.post("/indice_bt/add_indice", async (req, res) => {
    * Server Activation
    */
 
- module.exports = router;
+module.exports = router;

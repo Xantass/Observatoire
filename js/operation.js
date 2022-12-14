@@ -116,10 +116,12 @@ router.post("/home/:operation/add_entreprise", async (req, res) => {
 })
 
 router.post("/home/:operation/add_maitre", async (req, res) => {
-  var sql = "INSERT INTO entreprise (NOM, ADRESSE, ABREVIATION, URL) VALUES (?, ?, ?, ?)";
+  var sql = "INSERT INTO maitre_ouvrage (NOM, ADRESSE, ABREVIATION) VALUES (?, ?, ?)";
   var result;
 
-  result = await query(sql, [req.body.nom, req.body.adresse, req.body.abreviation, req.body.url]);
+  result = await query(sql, [req.body.nom, req.body.adresse, req.body.abreviation]);
+  sql = "SELECT * FROM maitre_ouvrage WHERE ID = ?";
+  result = await query(sql, [result.insertId]);
   res.status('200').json(result);
 })
 
@@ -195,10 +197,12 @@ router.post("/home/:operation/get_tram_untec", async (req, res) => {
 })
 
 router.post("/home/:operation/add_article_to_tram_untec", async (req, res) => {
-  var sql = "INSERT INTO tram_untec (ID_SECTION, ID_THEME, ID_CHAPITRE, ID_SOUS_CHAPITRE, ID_PRESTATION, PRESTATION, NOM, U) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  var sql = "INSERT INTO article (ID_SECTION, ID_THEME, ID_CHAPITRE, ID_SOUS_CHAPITRE, ID_PRESTATION, PRESTATION, NOM, U) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   var result;
 
   result = await query(sql, [req.body.id_section, req.body.id_theme, req.body.id_chapitre, req.body.id_sous_chapitre, req.body.id_prestation, req.body.prestation, req.body.nom, req.body.unite]);
+  sql = "SELECT * FROM article WHERE ID = ?";
+  result = await query(sql, [result.insertId]);
   res.status('200').json(result);
 })
 
@@ -206,7 +210,7 @@ router.post("/home/:operation/add_article_to_lot", async (req, res) => {
   var sql = "INSERT INTO tram_untec (PRESTATION, ARTICLE, U, ID_LOT, ID_ARTICLE, TVA) VALUES (?, ?, ?, ?, ?, ?)";
   var result;
 
-  result = await query(sql, [req.body.prestation, req.body.nom, req.body.unite, req.body.id_lot, req.body.id, req.body.tva]);
+  result = await query(sql, [req.body.prestation, req.body.nom, req.body.unite, req.body.id_lot, req.body.id_article, req.body.tva]);
   res.status('200').json(result);
 })
 

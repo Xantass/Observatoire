@@ -19,58 +19,58 @@ function load() {
     if (!httpRequest)
       console.log("NO REQUEST");
     httpRequest.onreadystatechange = requete;
-    httpRequest.open('POST', '/indice_bt/get_indice', false);
+    httpRequest.open('POST', '/entreprise/get_entreprise', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send();
     for (i = 0; i < value.length; i++) {
-        create_box_indice(value[i]);
+        create_box_entreprise(value[i]);
     }
 }
 
-function slide_indice() {
-    var container = document.getElementById("navigation d'ajout d'indice");
+function slide_entreprise() {
+    var container = document.getElementById("navigation d'ajout d'entreprise");
 
     container.style.marginLeft = `${window.innerWidth - 440}px`;
 }
 
-function cancel_slide_indice() {
-    var container = document.getElementById("navigation d'ajout d'indice");
+function cancel_slide_entreprise() {
+    var container = document.getElementById("navigation d'ajout d'entreprise");
 
     container.style.marginLeft = `${window.innerWidth}px`;
     container.childNodes[3].childNodes[1].childNodes[3].value = "";
 }
 
-function ajout_indice() {
-    var indice = document.getElementById("indice").value;
-    var date_parution = document.getElementById("date parution").value;
-    var date_bt = document.getElementById("date bt").value;
+function ajout_entreprise() {
+    var nom = document.getElementById("nom").value;
+    var adresse = document.getElementById("adresse").value;
 
     if (!httpRequest)
       console.log("NO REQUEST");
     httpRequest.onreadystatechange = requete;
-    httpRequest.open('POST', '/indice_bt/add_indice', false);
+    httpRequest.open('POST', '/entreprise/add_entreprise', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    httpRequest.send(`indice=${indice}&&date_parution=${date_parution}&&date_bt=${date_bt}`);
-    cancel_slide_indice();
+    httpRequest.send(`nom=${nom}&&adresse=${adresse}`);
+    cancel_slide_entreprise();
 }
 
-function create_box_indice(values) {
-    var container = document.getElementById("List Indice");
+function create_box_entreprise(values) {
+    var container = document.getElementById("List Entreprise");
     var box = document.createElement('div');
-    var text_indice = document.createElement('div');
-    var text_date = document.createElement('div');
+    var text_nom = document.createElement('div');
+    var text_adresse = document.createElement('div');
     var img = document.createElement('img');
 
-    box.className = "Box Indice";
-    text_indice.className = "text indice";
-    text_indice.textContent = values.BT_INDICE;
-    text_date.className = "text date";
-    text_date.textContent = values.BT_PARUTION;
+    box.className = "Box Entreprise";
+    text_nom.className = "text entreprise";
+    text_nom.textContent = values.NOM;
+    text_adresse.className = "text adresse";
+    text_adresse.textContent = values.ADRESSE;
     img.src = "/image/bouton-de-suppression-de-la-poubelle.png";
     img.id = "del";
 
-    box.appendChild(text_indice);
-    box.appendChild(text_date);
+    box.appendChild(text_nom);
+    box.appendChild(text_adresse);
+    box.appendChild(img);
     container.appendChild(box);
 }
 

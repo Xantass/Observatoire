@@ -160,7 +160,7 @@ html {
     height: 57px;
     border-bottom: 1px solid;
     position: relative;
-    border-bottom-color: #45BAB8;
+    border-bottom-color: #fff;
   }
   a[id="entreprise page"] {
     align-items: center;
@@ -192,7 +192,7 @@ html {
     height: 57px;
     border-bottom: 1px solid;
     position: relative;
-    border-bottom-color: #fff;
+    border-bottom-color: #45BAB8;
   }
   div[id="box button"] {
     align-self: flex-start;
@@ -358,7 +358,7 @@ html {
     width: 161px;
     color: white;
   }
-  div[id="container text button indice_bt"] {
+  div[id="container text button client"] {
     box-sizing: border-box;
     display: flex;
     align-self: center;
@@ -369,7 +369,7 @@ html {
     cursor: pointer;
     height: 57px;
   }
-  a[id="text button indice_bt"] {
+  a[id="text button client"] {
     color: #45BAB8;
     text-decoration: none;
   }
@@ -447,7 +447,7 @@ div[id="Title"] {
   margin-left: 50px;
   width: 50%;
 }
-div[id="container Indice"] {
+div[id="container Client"] {
   align-content: flex-start;
   box-sizing: border-box;
   display: flex;
@@ -463,7 +463,7 @@ div[id="container Indice"] {
   width: 97.7%;
   height: 70%;
 }
-div[id="Box container Indice"] {
+div[id="Box container Client"] {
   box-sizing: border-box;
   display: block;
   flex-basis: 100%;
@@ -474,7 +474,7 @@ div[id="Box container Indice"] {
   padding: 12px;
   width: 100%;
 }
-div[id="Box content Indice"] {
+div[id="Box content Client"] {
   box-sizing: border-box;
   display: block;
   height: 100%;
@@ -483,23 +483,33 @@ div[id="Box content Indice"] {
 div[id="container sorters"] {
   align-items: center;
   box-sizing: border-box;
+  justify-content: space-between;
   display: flex;
-  margin-left: 40vw;
-  width: 15%;
+  margin-left: 33vw;
+  width: 50%;
   height: 13%;
 }
-div[id="indice filter"] {
+div[id="nom filter"] {
   box-sizing: border-box;
   display: flex;
   height: 100%;
-  width: 50%;
+  width: 45%;
   color: #929292;
 }
-div[id="date filter"] {
+div[id="abreviation filter"] {
   box-sizing: border-box;
   display: flex;
   height: 100%;
-  width: 50%;
+  width: 10%;
+  margin-right: 30px;
+  color: #929292;
+}
+div[id="adresse filter"] {
+  box-sizing: border-box;
+  display: flex;
+  height: 100%;
+  width: 45%;
+  margin-right: 60px;
   color: #929292;
 }
 div[id="text"] {
@@ -507,7 +517,7 @@ div[id="text"] {
   display: flex;
   margin-top: 3px;
 }
-div[id="List Indice"] {
+div[id="List Client"] {
   box-sizing: border-box;
   display: block;
   flex-basis: auto;
@@ -516,14 +526,14 @@ div[id="List Indice"] {
   max-width: 100%;
   position: relative;
   height: 88.5%;
-  width: 15%;
-  margin-left: 38vw;
+  width: 50%;
+  margin-left: 30vw;
   overflow-y: auto;
 }
-div[id="List Indice"]::-webkit-scrollbar {
+div[id="List Client"]::-webkit-scrollbar {
   width: 0px;
 }
-div[class="Box Indice"] {
+div[class="Box Client"] {
   box-sizing: border-box;
   display: flex;
   height: 30px;
@@ -540,11 +550,15 @@ div[class="Box Indice"] {
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
 }
-div[class="text indice"] {
-  margin-left: 40px;
+div[class="text client"] {
+  width: 40%;
+  margin-left: 50px;
 }
-div[class="text date"] {
-  margin-right: 30px;
+div[class="text adresse"] {
+  width: 40%;
+}
+div[class="text abreviation"] {
+  width: 10%;
 }
 div[id="container submit"] {
   box-sizing: border-box;
@@ -603,13 +617,13 @@ div[id="box submit"] {
 .button1:hover:after {
   width: 100%;
 }
-button[id="button indice_bt"] {
+button[id="button client"] {
   width: 170px;
 }
-button[id="button ajout indice"] {
+button[id="button ajout client"] {
   width: 170px;
 }
-nav[id="navigation d'ajout d'indice"] {
+nav[id="navigation d'ajout d'client"] {
   box-sizing: border-box;
   display: flex;
   position: absolute;
@@ -642,7 +656,7 @@ img[id="cancel"] {
   margin-left: 20px;
   cursor: pointer;
 }
-div[id="container input ajout d'indice"] {
+div[id="container input ajout d'client"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
@@ -660,7 +674,7 @@ span[id="title input"] {
   height: auto;
   opacity: 0.3;
 }
-div[class="input ajout d'indice"] {
+div[class="input ajout d'client"] {
   box-sizing: border-box;
   box-sizing: border-box;
   display: flex;
@@ -670,7 +684,7 @@ div[class="input ajout d'indice"] {
   height: 10%;
   flex-direction: column;
 }
-input[class="ajout d'indice"] {
+input[class="ajout d'client"] {
   box-sizing: border-box;
   display: flex;
   position: relative;
@@ -683,3 +697,13 @@ input[class="ajout d'indice"] {
   padding-bottom: 10px;
   border-bottom: 1px solid;
 }
+img[id="del"] {
+    box-sizing: border-box;
+    display: flex;
+    position: absolute;
+    right: 15px;
+    width: 16px;
+    height: 16px;
+    border: none;
+    cursor: pointer;
+  }

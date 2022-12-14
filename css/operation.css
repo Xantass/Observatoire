@@ -162,6 +162,38 @@ html {
     position: relative;
     border-bottom-color: white;
   }
+  a[id="entreprise page"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    justify-content: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    width: 72px;
+    height: 57px;
+    border-bottom: 1px solid;
+    position: relative;
+    border-bottom-color: white;
+  }
+  a[id="client page"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    justify-content: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    width: 72px;
+    height: 57px;
+    border-bottom: 1px solid;
+    position: relative;
+    border-bottom-color: white;
+  }
   div[id="box button"] {
     align-self: flex-start;
     box-sizing: border-box;
@@ -190,6 +222,24 @@ html {
     justify-content: center;
     position: relative;
   }
+  img[id="entreprise button"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    position: relative;
+  }
+  img[id="client button"] {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    position: relative;
+  }
   div[id="home text"] {
     align-self: center;
     box-sizing: border-box;
@@ -203,6 +253,29 @@ html {
     color: #45BAB8;
   }
   div[id="bt text"] {
+    align-self: center;
+    box-sizing: border-box;
+    display: none;
+    right: 150px;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 19.1875px;
+    width: 161px;
+    color: #45BAB8;
+  }
+  div[id="entreprise text"] {
+    align-self: center;
+    box-sizing: border-box;
+    display: none;
+    right: 150px;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 19.1875px;
+    width: 161px;
+    color: #45BAB8;
+  }div[id="client text"] {
     align-self: center;
     box-sizing: border-box;
     display: none;
@@ -1707,7 +1780,7 @@ div[id="test box hover"] {
   height: 15px;
   width: 820px;
   margin-bottom: 30px;
-  margin-left: 30px;
+  margin-left: 140px;
   border: 1px solid;
   border-color: #22334d;
   color: #929292;

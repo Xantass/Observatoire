@@ -22,6 +22,7 @@ var arbre;
 var _new;
 var id_delete_lot = 0;
 var client;
+var nothing;
 let lot_e;
 let projet_e;
 let image_e;
@@ -78,7 +79,7 @@ async function load_data() {
     _new = 1;
     operation_id = value.ID;
     await load_title_op(value.NOM_OP, value.NOM_CLIENT);
-    await load_form_generale_op([value.NOM_SITE, value.CATEGORIE_SITE, value.SOUS_CATEGORIE_SITE, value.COMPOSITION_SITE, value.LOCALISATION, value.ADRESSE, value.LONGITUDE, value.LATITUDE, value.DESCRIPTION, value.DATE_AO, value.TYPOLOGIE_MARCHE2, value.TYPOLOGIE_OPERATION]);
+    await load_form_generale_op([value.NOM_SITE, value.CATEGORIE_SITE, value.SOUS_CATEGORIE_SITE, value.COMPOSITION_SITE, value.LOCALISATION, value.ADRESSE, value.LONGITUDE, value.LATITUDE, value.DESCRIPTION, value.DATE_AO, value.TYPOLOGIE_MARCHE2, value.TYPOLOGIE_OPERATION, value.PERF_ENVIRONNEMENTALE, value.NIVEAU_PERF, value.PERF_THERMIQUE]);
     await load_form_dimension_op([value.NBR_ELEVE, value.NBR_CLASSE, value.NBR_SALLE, value.NBR_LOGEMENT, value.NBR_BUREAUX, value.NBR_CHAMBRE, value.NBR_COMMERCE, value.NBR_PARKING_INFRA, value.NBR_PARKING_INT_SUPERSTRUCT, value.NBR_PARKING_EXT, value.S_LOCAUX_TECHNIQUE, value.S_GARAGE_LOCAUX_ANNEXES, value.SHAB, value.SU, value.SDO, value.SDP, value.NBR_NIV_INFRA, value.NBR_NIV_SUPERSTRUCT, value.PARCELLE, value.ESPACE_VERT, value.S_MINERALE, value.EMPRISE_SOL, value.S_TOITURE, value.S_FACADE, value.S_FACADE_PLEINE, value.S_VITRAGE]);
     httpRequest.onreadystatechange = requete;
     httpRequest.open('POST', '/home/:operation/load_info_lot', false);
@@ -210,6 +211,9 @@ function load_form_generale_op(values) {
     var nine = document.getElementById("Date AO");
     var ten = document.getElementById("Typologie d'operation");
     var eleven = document.getElementById("Typologie de marche");
+    var twelve = document.getElementById("Exigence Environnementale");
+    var thirteen = document.getElementById("Niveau Performance Environnementale");
+    var fourteen = document.getElementById("Niveau Performance Thermique");
     var containers = document.getElementsByClassName("input generale_bis");
 
     zero.value = values[0];
@@ -248,6 +252,9 @@ function load_form_generale_op(values) {
             ten[i].selected = true;
         }
     }
+    twelve.value = values[12];
+    thirteen.value = values[13];
+    fourteen.value = values[14];
 }
 
 function load_title_op(_nom_op, _nom_maitre) {
@@ -312,6 +319,7 @@ async function requete_client() {
 
 async function requete_nothing() {
     if (httpRequest.readyState == 4) {
+        nothing = JSON.parse(httpRequest.response);
     }
 }
 
@@ -582,12 +590,18 @@ function cancel_slide_maitre() {
     container.childNodes[3].childNodes[1].childNodes[3].value = "";
 }
 
-async function cancel_slide_modif_article() {
+async function cancel_slide_modif_article(arg) {
     var container = document.getElementById("navigation d'ajout d'article");
     var container_bis = document.getElementById("article " + container.childNodes[3].childNodes[11].childNodes[3].value);
 
+    if (container_bis == null)
+        container_bis = arg;
+    else {
+        container_bis = container_bis.parentNode;
+    }
+    console.log(container_bis);
     container.style.marginLeft = `${window.innerWidth}px`;
-    await load_totale_value_lot(container_bis.parentNode);
+    await load_totale_value_lot(container_bis);
     await load_totale_value_op();
 }
 
@@ -1185,7 +1199,6 @@ function maj_op(e) {
     var check = 0;
     var finie = document.getElementById("box validation de l'operation").childNodes[3];
 
-    console.log(maitre);
     for (i = 0; i < sous_categorie.length; i++) {
         if (sous_categorie[i].style.display == "flex") {
             sous_categorie = sous_categorie[i].value;
@@ -1247,8 +1260,9 @@ function delete_article() {
     httpRequest.open('POST', '/home/:operation/del_article', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`id=${container.childNodes[3].childNodes[11].childNodes[3].value}`);
+    var temp = container_bis.parentNode;
     container_bis.remove();
-    cancel_slide_modif_article();
+    cancel_slide_modif_article(temp);
     return;
 }
 
@@ -1269,15 +1283,19 @@ function add_maitre() {
     var nom = document.getElementById("Nom maitre").value;
     var abreviation = document.getElementById("Abreviation maitre").value;
     var adresse = document.getElementById("Adresse maitre").value;
-    var url = document.getElementById("url logo").value;
+    var container = document.getElementById("maitre ouvrage select");
 
     if (!httpRequest)
             console.log("NO REQUEST");
     httpRequest.onreadystatechange = requete_nothing;
     httpRequest.open('POST', '/home/:operation/add_maitre', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    httpRequest.send(`nom=${nom}&&adresse=${adresse}&&abreviation=${abreviation}&&url=${url}`);
-    cancel_slide_entreprise();
+    httpRequest.send(`nom=${nom}&&adresse=${adresse}&&abreviation=${abreviation}`);
+    var option = document.createElement('option');
+    option.textContent = nothing[0].NOM;
+    option.id = "client " + nothing[0].ID;
+    container.appendChild(option);
+    cancel_slide_maitre();
 }
 
 async function create_arborescence() {
@@ -1780,11 +1798,12 @@ function add_article_to_lot() {
 
     for (i = 0; i < element_result.length; i++) {
         if (element_result[i][8].childNodes[0].childNodes[1].id == "select") {
-            create_article_bis([element_result[i][8].id.substring(16), element_result[i][8].childNodes[1].textContent, element_result[i][7], "", "", "", element_result[i][9], "20%"], container.childNodes[2]);
             httpRequest.onreadystatechange = requete_nothing;
             httpRequest.open('POST', '/home/:operation/add_article_to_lot', false);
             httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             httpRequest.send(`id_article=${element_result[i][0]}&&prestation=${element_result[i][7]}&&nom=${element_result[i][8].childNodes[1].textContent}&&id_lot=${temp.className.substring(20)}&&unite=${element_result[i][9]}&&tva=20%`);
+            console.log(nothing);
+            create_article_bis([nothing.insertId, element_result[i][8].childNodes[1].textContent, element_result[i][7], "", "", "", element_result[i][9], "20%"], container.childNodes[2]);
         }
     }
     cancel_slide();
@@ -2035,6 +2054,10 @@ function selection_prestation(e) {
 
 function add_article_tram() {
     var section = document.getElementsByClassName("selection section");
+    var id_section;
+    var id_theme;
+    var id_chapitre;
+    var id_sous_chapitre;
     var section_nom;
     var theme;
     var theme_nom;
@@ -2052,6 +2075,7 @@ function add_article_tram() {
         if (section[0].childNodes[i].selected) {
             section_nom = section[0].childNodes[i].textContent;
             theme = document.getElementById("select theme of section " + section[0].childNodes[i].id.substring(25));
+            id_section = section[0].childNodes[i].id.substring(25);
             break;
         }
     }
@@ -2059,6 +2083,7 @@ function add_article_tram() {
         if (theme.childNodes[i].selected) {
             theme_nom = theme.childNodes[i].textContent;
             chapitre = document.getElementById("select chapitre of theme " + theme.childNodes[i].id.substring(23));
+            id_theme = theme.childNodes[i].id.substring(23);
             break;
         }
     }
@@ -2066,6 +2091,7 @@ function add_article_tram() {
         if (chapitre.childNodes[i].selected) {
             chapitre_nom = chapitre.childNodes[i].textContent;
             sous_chapitre = document.getElementById("select sous_chapitre of chapitre " + chapitre.childNodes[i].id.substring(26));
+            id_chapitre = chapitre.childNodes[i].id.substring(26);
             break;
         }
     }
@@ -2073,6 +2099,7 @@ function add_article_tram() {
         if (sous_chapitre.childNodes[i].selected) {
             sous_chapitre_nom = sous_chapitre.childNodes[i].textContent;
             prestation = document.getElementById("select prestation of sous_chapitre " + sous_chapitre.childNodes[i].id.substring(31));
+            id_sous_chapitre = sous_chapitre.childNodes[i].id.substring(31);
             break;
         }
     }
@@ -2083,10 +2110,17 @@ function add_article_tram() {
             break;
         }
     }
+    console.log(id_section);
+    console.log(id_theme);
+    console.log(id_chapitre);
+    console.log(id_sous_chapitre);
+    console.log(last);
     httpRequest.onreadystatechange = requete_nothing;
     httpRequest.open('POST', '/home/:operation/add_article_to_tram_untec', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    httpRequest.send(`id_section=${theme}&&id_theme=${chapitre}&&id_chapitre=${sous_chapitre}&&id_sous_chapitre=${prestation}&&id_prestation=${last }&&prestation=${prestation_nom}&&nom=${nom}&&unite=${unite}`);
+    httpRequest.send(`id_section=${id_section}&&id_theme=${id_theme}&&id_chapitre=${id_chapitre}&&id_sous_chapitre=${id_sous_chapitre}&&id_prestation=${last}&&prestation=${prestation_nom}&&nom=${nom}&&unite=${unite}`);
+    console.log(nothing);
+    create_element_tram(nothing[0]);
     cancel_slide_add_article_tram();
 }
 // creer un identifiant a partir de l'aborescence (section, theme, chapitre, sous-chapitre) + identifiant unique
