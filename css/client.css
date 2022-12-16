@@ -707,3 +707,88 @@ img[id="del"] {
     border: none;
     cursor: pointer;
   }
+  div[id="container validation"] {
+    box-sizing: border-box;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.459);
+    width: 100%;
+    height: 100%;
+    z-index: 202;
+  }
+  div[id="box validation"] {
+    box-sizing: border-box;
+    display: flex;
+    position: relative;
+    background-color: #fff;
+    flex-direction: column;
+    margin-left: 38%;
+    width: 500px;
+    height: 219px;
+  }
+  div[id="title box validation"] {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    width: 100%
+  }
+  img[id="poubelle_bis"] {
+    box-sizing: border-box;
+    display: flex;
+    width: 24px;
+    height: 24px;
+    margin-left: 30px;
+  }
+  div[id="button form validation"] {
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    height: 30%;
+    margin-top: 60px;
+    flex-direction: row;
+    align-items: center;
+  }
+  .button2::after {
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+  }
+  .button2 {
+    background: white;
+    border: 1px solid rgb(37, 37, 37);
+    border-radius: 10px;
+    color: rgb(37, 37, 37);
+    display: block;
+    font-size: large;
+    font-weight: bold;
+    margin: 10px auto;
+    position: relative;
+    text-transform: uppercase;
+    width: 110px;
+    height: 40px;
+  }
+  .button2::before,
+  .button2::after {
+    background: #fff;
+    content: "";
+    position: absolute;
+    z-index: -1;
+  }
+  .button2:hover {
+    background: rgb(228, 227, 227);
+  }
+  .button2::after {
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 0;
+  }
+  .button2:hover:after {
+    width: 100%;
+  }

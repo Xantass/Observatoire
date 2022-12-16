@@ -47,6 +47,14 @@ router.post("/client/add_client", async (req, res) => {
   res.status('200').json(result);
 })
 
+router.post("/client/delete_client", async (req, res) => {
+  var sql = "INSERT INTO maitre_ouvrage (NOM, ADRESSE, ABREVIATION) VALUES (?, ?, ?)";
+  var result;
+
+  result = await query(sql, [req.body.nom, req.body.adresse, req.body.abreviation]);
+  res.status('200').json(result);
+})
+
  /**
    * Server Activation
    */

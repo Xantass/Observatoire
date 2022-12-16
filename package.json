@@ -31,7 +31,11 @@
     "mssql": "^9.0.1",
     "mysql": "^2.18.1",
     "path": "^0.12.7",
+    "react-bootstrap-sweetalert": "^5.2.0",
     "redis": "^4.5.1",
+    "requirejs": "^2.3.6",
+    "sweetalert": "^2.1.2",
+    "sweetalert2": "^11.4.8",
     "swig": "^0.14.0",
     "tedious": "^15.1.0",
     "util": "^0.12.5"

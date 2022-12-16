@@ -29,7 +29,6 @@ let image_e;
 let button_e;
 let current_operation = "";
 
-
 async function load_data() {
     var urlcourante = document.location.href;
     var queue_url;
@@ -534,6 +533,20 @@ function slide_add_article_tram() {
     container.style.marginLeft = `${window.innerWidth - 440}px`;
 }
 
+function slide_prestation() {
+    var container = document.getElementById("navigation d'ajout prestation a la tram");
+
+    container.style.display = "flex";
+    container.style.marginLeft = `${window.innerWidth - 440}px`;
+}
+
+function slide_sous_chapitre() {
+    var container = document.getElementById("navigation d'ajout sous-chapitre a la tram");
+
+    container.style.display = "flex";
+    container.style.marginLeft = `${window.innerWidth - 440}px`;
+}
+
 function cancel_slide() {
     var container = document.getElementById("recherche d'article");
     var input = document.getElementById("search bar article");
@@ -547,11 +560,12 @@ function cancel_slide() {
     container.style.marginTop = `${window.innerHeight}px`;
     input.value = "";
     for (i = 0; i < temp.childElementCount; i++) {
-        if (temp.childNodes[i].childNodes[0].childNodes[0].id == "moins") {
+        if (temp.childNodes[i].childNodes[0].childNodes[0].id == "moins" && temp.childNodes[i].childNodes[1] != undefined) {
             height = height + parseInt(temp.childNodes[i].style.height.substring(0, temp.childNodes[i].style.height.length - 1)) - 20;
             temp.childNodes[i].childNodes[0].childNodes[0].id = "plus";
             temp.childNodes[i].childNodes[0].childNodes[0].src = "/image/add_bis.png";
             temp.childNodes[i].style.height = "20px";
+            console.log(temp.childNodes[i].childNodes[1]);
             temp.childNodes[i].childNodes[1].style.display = "none";
             temp = temp.childNodes[i].childNodes[1];
             i = -1;
@@ -630,6 +644,20 @@ function cancel_slide_add_article_tram() {
     for (i = 0; i < prestation.length; i++) {
         prestation[i].style.display = "none";
     }
+}
+
+function cancel_slide_add_prestation_tram() {
+    var container = document.getElementById("navigation d'ajout prestation a la tram");
+
+    container.style.marginLeft = `${window.innerWidth}px`;
+    container.style.display = "none";
+}
+
+function cancel_slide_add_sous_chapitre_tram() {
+    var container = document.getElementById("navigation d'ajout sous-chapitre a la tram");
+
+    container.style.marginLeft = `${window.innerWidth}px`;
+    container.style.display = "none";
 }
 
 function select_form_operation(e) {
@@ -848,7 +876,6 @@ async function create_form_lot(arg) {
     span_check_lot.textContent = "Lot validé";
     label_check_lot.setAttribute("for", "switch lot " + arg[2]);
     label_check_lot.id = "not";
-    label_check_lot.addEventListener('click', select_lot);
     input_check_lot.type = "checkbox";
     input_check_lot.id = "switch lot " + arg[2];
     container_champ.className = "container champ";
@@ -962,8 +989,9 @@ async function create_form_lot(arg) {
     if (arg[6] == "select") {
         label_check_lot.addEventListener('click', select_lot_bis(label_check_lot));
         label_check_lot.click();
-        label_check_lot.addEventListener('click', select_lot);
+        label_check_lot.removeEventListener('click', select_lot_bis(label_check_lot));
     }
+    label_check_lot.addEventListener('click', select_lot);
 }
 
 function create_option_entreprise(container, arg) {
@@ -1127,6 +1155,7 @@ function delete_lot() {
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`id_lot=${id_delete_lot}`);
     cancel_sup();
+    Swal.fire({icon: 'error', title: 'Lot supprimer', showConfirmButton: false, timer: 1200});
 }
 
 function maj_nom_lot(e) {
@@ -1152,6 +1181,7 @@ function update_lot(e) {
     httpRequest.open('POST', '/home/:operation/update_lot', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`id_lot=${this.parentNode.parentNode.id.substring(4)}&&nom=${nom}&&numero=${numero}&&entreprise=${entreprise}&&date=${date}&&fini=${check}`);
+    Swal.fire({icon: 'success', title: 'Lot Sauvegarder', showConfirmButton: false, timer: 1200});
 }
 
 function maj_op(e) {
@@ -1198,6 +1228,10 @@ function maj_op(e) {
     var s_vitrage = document.getElementsByName("Dont_surface_de_vitrage")[0].value;
     var check = 0;
     var finie = document.getElementById("box validation de l'operation").childNodes[3];
+    var exigence_environnementale = document.getElementsByName("Exigence_Environnementale")[0].value;
+    var niveau_performance_environnementale = document.getElementsByName("Niveau_Performance_Environnementale")[0].value;
+    var niveau_performance_thermique = document.getElementsByName("Niveau_Performance_Thermique")[0].value;
+    var id_op_bis = document.getElementsByName("ID_OP")[0].value;
 
     for (i = 0; i < sous_categorie.length; i++) {
         if (sous_categorie[i].style.display == "flex") {
@@ -1216,15 +1250,16 @@ function maj_op(e) {
         httpRequest.onreadystatechange = requete_nothing;
         httpRequest.open('POST', '/home/:operation/add_op', false);
         httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        httpRequest.send(`id=${operation_id}&&nom_op=${nom_op}&&maitre=${maitre}&&nom_site=${nom_site}&&categorie=${categorie}&sous_categorie=${sous_categorie}&&composition=${composition}&&localisation=${localisation}&&adresse=${adresse}&&longitude=${longitude}&&latitude=${latitude}&&description=${description}&&date_ao=${date_ao}&&typologie_marche=${typologie_marche}&&typologie_operation=${typologie_operation}&&nb_eleve=${nb_eleve}&&nb_classe=${nb_classe}&&nb_salle=${nb_salle}&&nb_logement=${nb_logement}&&nb_bureaux=${nb_bureaux}&&nb_chambre=${nb_chambre}&&nb_commerce=${nb_commerce}&&nb_parking_infra=${nb_parking_infra}&&nb_parking_int_super=${nb_parking_int_super}&&nb_parking_ext=${nb_parking_ext}&&s_locaux_tech=${s_locaux_tech}&&s_locaux_annexe=${s_locaux_annexe}&&shab=${shab}&&su=${su}&&sdo=${sdo}&&sdp=${sdp}&&nb_niv_infra=${nb_niv_infra}&&nb_niv_super=${nb_niv_super}&&emprise_parcelle=${emprise_parcelle}&&s_espace_vert=${s_espace_vert}&&s_mineral=${s_minerale}&&emprise_sol=${emprise_sol}&&s_toiture=${s_toiture}&&emprise_facade=${emprise_facade}&&s_facade=${s_facade}&&s_vitrage=${s_vitrage}&&fini=${finie.id}`);
+        httpRequest.send(`id=${operation_id}&&nom_op=${nom_op}&&maitre=${maitre}&&nom_site=${nom_site}&&categorie=${categorie}&sous_categorie=${sous_categorie}&&composition=${composition}&&localisation=${localisation}&&adresse=${adresse}&&longitude=${longitude}&&latitude=${latitude}&&description=${description}&&date_ao=${date_ao}&&typologie_marche=${typologie_marche}&&typologie_operation=${typologie_operation}&&nb_eleve=${nb_eleve}&&nb_classe=${nb_classe}&&nb_salle=${nb_salle}&&nb_logement=${nb_logement}&&nb_bureaux=${nb_bureaux}&&nb_chambre=${nb_chambre}&&nb_commerce=${nb_commerce}&&nb_parking_infra=${nb_parking_infra}&&nb_parking_int_super=${nb_parking_int_super}&&nb_parking_ext=${nb_parking_ext}&&s_locaux_tech=${s_locaux_tech}&&s_locaux_annexe=${s_locaux_annexe}&&shab=${shab}&&su=${su}&&sdo=${sdo}&&sdp=${sdp}&&nb_niv_infra=${nb_niv_infra}&&nb_niv_super=${nb_niv_super}&&emprise_parcelle=${emprise_parcelle}&&s_espace_vert=${s_espace_vert}&&s_mineral=${s_minerale}&&emprise_sol=${emprise_sol}&&s_toiture=${s_toiture}&&emprise_facade=${emprise_facade}&&s_facade=${s_facade}&&s_vitrage=${s_vitrage}&&fini=${finie.id}&&perf_environnementale=${exigence_environnementale}&&niveau_perf=${niveau_performance_environnementale}&&perf_thermique=${niveau_performance_thermique}&&id_op=${id_op_bis}`);
         _new = 1;
     }
     else {
         httpRequest.onreadystatechange = requete_nothing;
         httpRequest.open('POST', '/home/:operation/update_op', false);
         httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        httpRequest.send(`id=${operation_id}&&nom_op=${nom_op}&&maitre=${maitre}&&nom_site=${nom_site}&&categorie=${categorie}&sous_categorie=${sous_categorie}&&composition=${composition}&&localisation=${localisation}&&adresse=${adresse}&&longitude=${longitude}&&latitude=${latitude}&&description=${description}&&date_ao=${date_ao}&&typologie_marche=${typologie_marche}&&typologie_operation=${typologie_operation}&&nb_eleve=${nb_eleve}&&nb_classe=${nb_classe}&&nb_salle=${nb_salle}&&nb_logement=${nb_logement}&&nb_bureaux=${nb_bureaux}&&nb_chambre=${nb_chambre}&&nb_commerce=${nb_commerce}&&nb_parking_infra=${nb_parking_infra}&&nb_parking_int_super=${nb_parking_int_super}&&nb_parking_ext=${nb_parking_ext}&&s_locaux_tech=${s_locaux_tech}&&s_locaux_annexe=${s_locaux_annexe}&&shab=${shab}&&su=${su}&&sdo=${sdo}&&sdp=${sdp}&&nb_niv_infra=${nb_niv_infra}&&nb_niv_super=${nb_niv_super}&&emprise_parcelle=${emprise_parcelle}&&s_espace_vert=${s_espace_vert}&&s_mineral=${s_minerale}&&emprise_sol=${emprise_sol}&&s_toiture=${s_toiture}&&emprise_facade=${emprise_facade}&&s_facade=${s_facade}&&s_vitrage=${s_vitrage}&&fini=${finie.id}`);
+        httpRequest.send(`id=${operation_id}&&nom_op=${nom_op}&&maitre=${maitre}&&nom_site=${nom_site}&&categorie=${categorie}&sous_categorie=${sous_categorie}&&composition=${composition}&&localisation=${localisation}&&adresse=${adresse}&&longitude=${longitude}&&latitude=${latitude}&&description=${description}&&date_ao=${date_ao}&&typologie_marche=${typologie_marche}&&typologie_operation=${typologie_operation}&&nb_eleve=${nb_eleve}&&nb_classe=${nb_classe}&&nb_salle=${nb_salle}&&nb_logement=${nb_logement}&&nb_bureaux=${nb_bureaux}&&nb_chambre=${nb_chambre}&&nb_commerce=${nb_commerce}&&nb_parking_infra=${nb_parking_infra}&&nb_parking_int_super=${nb_parking_int_super}&&nb_parking_ext=${nb_parking_ext}&&s_locaux_tech=${s_locaux_tech}&&s_locaux_annexe=${s_locaux_annexe}&&shab=${shab}&&su=${su}&&sdo=${sdo}&&sdp=${sdp}&&nb_niv_infra=${nb_niv_infra}&&nb_niv_super=${nb_niv_super}&&emprise_parcelle=${emprise_parcelle}&&s_espace_vert=${s_espace_vert}&&s_mineral=${s_minerale}&&emprise_sol=${emprise_sol}&&s_toiture=${s_toiture}&&emprise_facade=${emprise_facade}&&s_facade=${s_facade}&&s_vitrage=${s_vitrage}&&fini=${finie.id}&&perf_environnementale=${exigence_environnementale}&&niveau_perf=${niveau_performance_environnementale}&&perf_thermique=${niveau_performance_thermique}&&id_op=${id_op_bis}`);
     }
+    Swal.fire({icon: 'success', title: 'Operation Sauvegarder', showConfirmButton: false, timer: 1200});
 }
 
 async function add_modif_article() {
@@ -1237,7 +1272,7 @@ async function add_modif_article() {
     httpRequest.onreadystatechange = requete_nothing;
     httpRequest.open('POST', '/home/:operation/modif_article', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    httpRequest.send(`quantite=${container.childNodes[3].childNodes[5].childNodes[3].value}&&prix_u=${container.childNodes[3].childNodes[7].childNodes[3].value}&&prix_t=${container.childNodes[3].childNodes[9].childNodes[3].value}&&tva=${container.childNodes[3].childNodes[13].childNodes[3].value}&&id=${container.childNodes[3].childNodes[11].childNodes[3].value}`);
+    httpRequest.send(`quantite=${container.childNodes[3].childNodes[5].childNodes[3].value.replace('.', ',')}&&prix_u=${container.childNodes[3].childNodes[7].childNodes[3].value.replace('.', ',')}&&prix_t=${container.childNodes[3].childNodes[9].childNodes[3].value.replace('.', ',')}&&tva=${container.childNodes[3].childNodes[13].childNodes[3].value.replace('.', ',')}&&id=${container.childNodes[3].childNodes[11].childNodes[3].value}`);
     string = await beautiful_number(container.childNodes[3].childNodes[5].childNodes[3].value);
     container_bis.childNodes[3].childNodes[0].textContent = string;
     string = await beautiful_number(container.childNodes[3].childNodes[7].childNodes[3].value);
@@ -1562,7 +1597,7 @@ function deploiement_arbre(e) {
         temp = container;
         temp = temp.childNodes[1];
         for (i = 0; i < temp.childElementCount; i++) {
-            if (temp.childNodes[i].childNodes[0].childNodes[0].id == "moins") {
+            if (temp.childNodes[i].childNodes[0].childNodes[0].id == "moins" && temp.childNodes[i].childNodes[1] != undefined) {
                 temp.style.display = "none";
                 temp.childNodes[i].childNodes[0].childNodes[0].id = "plus";
                 temp.childNodes[i].childNodes[0].childNodes[0].src = "/image/add_bis.png";
@@ -1616,6 +1651,7 @@ function select_lot(e) {
         temp.childNodes[0].childNodes[0].childNodes[1].childNodes[1].setAttribute('disabled', true);
         temp.childNodes[0].childNodes[0].childNodes[2].childNodes[1].setAttribute('disabled', true);
         temp.childNodes[0].childNodes[0].childNodes[3].childNodes[1].setAttribute('disabled', true);
+        Swal.fire({icon: 'warning', title: 'Lot Bloquer', showConfirmButton: false, timer: 1200});
     }
     else {
         this.id = "not";
@@ -1625,6 +1661,7 @@ function select_lot(e) {
         temp.childNodes[0].childNodes[0].childNodes[1].childNodes[1].removeAttribute('disabled');
         temp.childNodes[0].childNodes[0].childNodes[2].childNodes[1].removeAttribute('disabled');
         temp.childNodes[0].childNodes[0].childNodes[3].childNodes[1].removeAttribute('disabled');
+        Swal.fire({icon: 'warning', title: 'Lot Debloquer', showConfirmButton: false, timer: 1200});
     }
 }
 
@@ -1632,20 +1669,13 @@ function select_lot_bis(container_bis) {
     var container = document.getElementById(container_bis.parentNode.parentNode.parentNode.parentNode.id.substring(4));
     var temp = container_bis.parentNode.parentNode.parentNode.parentNode;
 
-    if (container_bis.id == "not") {
-        container_bis.id = "not";
-        container.childNodes[0].src = "/image/lot.png";
-        container.childNodes[2].style.display = "flex";
-        temp.childNodes[0].childNodes[0].childNodes[0].childNodes[1].setAttribute('disabled', true);
-        temp.childNodes[0].childNodes[0].childNodes[1].childNodes[1].setAttribute('disabled', true);
-        temp.childNodes[0].childNodes[0].childNodes[2].childNodes[1].setAttribute('disabled', true);
-        temp.childNodes[0].childNodes[0].childNodes[3].childNodes[1].setAttribute('disabled', true);
-    }
-    else {
-        container_bis.id = "select";
-        container.childNodes[0].src = "/image/check_lot.png";
-        container.childNodes[2].style.display = "none";
-    }
+    container.childNodes[0].src = "/image/check_lot.png";
+    container.childNodes[2].style.display = "none";
+    container_bis.id = "select";
+    temp.childNodes[0].childNodes[0].childNodes[0].childNodes[1].setAttribute('disabled', true);
+    temp.childNodes[0].childNodes[0].childNodes[1].childNodes[1].setAttribute('disabled', true);
+    temp.childNodes[0].childNodes[0].childNodes[2].childNodes[1].setAttribute('disabled', true);
+    temp.childNodes[0].childNodes[0].childNodes[3].childNodes[1].setAttribute('disabled', true);
 }
 
 function select_operation(e) {
@@ -1663,6 +1693,7 @@ function select_operation(e) {
         for (i = 0; i < temp_bis.length; i++) {
             temp_bis[i].setAttribute('disabled', true);
         }
+        Swal.fire({icon: 'warning', title: 'Operation Bloquer', showConfirmButton: false, timer: 1200});
     }
     else {
         check.id = "not";
@@ -1673,6 +1704,7 @@ function select_operation(e) {
         for (i = 0; i < temp_bis.length; i++) {
             temp_bis[i].removeAttribute('disabled');
         }
+        Swal.fire({icon: 'warning', title: 'Operation Debloquer', showConfirmButton: false, timer: 1200});
     }
 }
 
@@ -1806,6 +1838,7 @@ function add_article_to_lot() {
             create_article_bis([nothing.insertId, element_result[i][8].childNodes[1].textContent, element_result[i][7], "", "", "", element_result[i][9], "20%"], container.childNodes[2]);
         }
     }
+    Swal.fire({icon: 'success', title: 'Article ajouter au Lot', showConfirmButton: false, timer: 1200});
     cancel_slide();
 }
 
@@ -2070,6 +2103,7 @@ function add_article_tram() {
     var last;
     var nom = document.getElementById("container selection nom").childNodes[3].value;
     var unite = document.getElementById("container selection unite").childNodes[3].value;
+    var article;
 
     for (i = 0; i < section[0].childElementCount; i++) {
         if (section[0].childNodes[i].selected) {
@@ -2110,18 +2144,155 @@ function add_article_tram() {
             break;
         }
     }
-    console.log(id_section);
-    console.log(id_theme);
-    console.log(id_chapitre);
-    console.log(id_sous_chapitre);
-    console.log(last);
+    console.log(nom);
+    if (id_section == undefined || id_theme == undefined || id_chapitre == undefined || id_sous_chapitre == undefined || last == undefined || nom == "" || unite == "") {
+        Swal.fire({icon: 'warning', title: 'Mauvais renseignement'});
+        return;
+    }
     httpRequest.onreadystatechange = requete_nothing;
     httpRequest.open('POST', '/home/:operation/add_article_to_tram_untec', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`id_section=${id_section}&&id_theme=${id_theme}&&id_chapitre=${id_chapitre}&&id_sous_chapitre=${id_sous_chapitre}&&id_prestation=${last}&&prestation=${prestation_nom}&&nom=${nom}&&unite=${unite}`);
     console.log(nothing);
-    create_element_tram(nothing[0]);
+    article = create_element_tram(nothing[0]);
+    article.style.display = "flex";
+    element_result.push([nothing[0].ID, nothing[0].ID_SECTION, nothing[0].ID_THEME, nothing[0].ID_CHAPITRE, nothing[0].ID_SOUS_CHAPITRE, nothing[0].ID_PRESTATION, nothing[0].NOM, nothing[0].PRESTATION, article, nothing[0].U]);
     cancel_slide_add_article_tram();
 }
-// creer un identifiant a partir de l'aborescence (section, theme, chapitre, sous-chapitre) + identifiant unique
-// creer une page pour l'incrementation de l'indice bt
+
+function add_prestation_tram() {
+    var section = document.getElementsByClassName("selection section");
+    var id_sous_chapitre;
+    var theme;
+    var chapitre;
+    var sous_chapitre;
+    var nom = document.getElementById("nom prestation").value;
+    var container;
+    var select;
+    var box = document.createElement('div');
+    var text = document.createElement('div');
+    var img = document.createElement('img');
+    var option = document.createElement('option');
+
+    for (i = 0; i < section[0].childElementCount; i++) {
+        if (section[0].childNodes[i].selected) {
+            theme = document.getElementById("select theme of section " + section[0].childNodes[i].id.substring(25));
+            break;
+        }
+    }
+    for (i = 0; i < theme.childElementCount; i++) {
+        if (theme.childNodes[i].selected) {
+            chapitre = document.getElementById("select chapitre of theme " + theme.childNodes[i].id.substring(23));
+            break;
+        }
+    }
+    for (i = 0; i < chapitre.childElementCount; i++) {
+        if (chapitre.childNodes[i].selected) {
+            sous_chapitre = document.getElementById("select sous_chapitre of chapitre " + chapitre.childNodes[i].id.substring(26));
+            break;
+        }
+    }
+    for (i = 0; i < sous_chapitre.childElementCount; i++) {
+        if (sous_chapitre.childNodes[i].selected) {
+            id_sous_chapitre = sous_chapitre.childNodes[i].id.substring(31);
+            break;
+        }
+    }
+    if (id_sous_chapitre == undefined || nom == "") {
+        Swal.fire({icon: 'warning', title: 'Mauvais renseignement'});
+        return;
+    }
+    httpRequest.onreadystatechange = requete_nothing;
+    httpRequest.open('POST', '/home/:operation/add_prestation_to_tram_untec', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send(`id_sous_chapitre=${id_sous_chapitre}&&nom=${nom}`);
+    select = document.getElementById("select prestation of sous_chapitre " + id_sous_chapitre);
+    option.id = "selection prestation option " + nothing[0].ID;
+    option.textContent = nom;
+    select.appendChild(option);
+    container = document.getElementById("Sous_chapitre " + id_sous_chapitre).childNodes[1];
+    box.className = "option filtrage prestation";
+    box.id = "Prestation " + nothing[0].ID;
+    box.style.height = "20px";
+    text.className = "text prestation";
+    img.src = "/image/add_bis.png";
+    img.id = "plus";
+    img.className = "deploiement";
+    text.appendChild(img);
+    text.innerHTML += nom;
+    box.appendChild(text);
+    container.appendChild(box);
+    cancel_slide_add_prestation_tram();
+}
+
+function add_sous_chapitre_tram() {
+    var section = document.getElementsByClassName("selection section");
+    var id_chapitre;
+    var theme;
+    var chapitre;
+    var nom = document.getElementById("nom sous chapitre").value;
+    var container;
+    var container_bis;
+    var select;
+    var box = document.createElement('div');
+    var text = document.createElement('div');
+    var img = document.createElement('img');
+    var liste = document.createElement('div');
+    var option = document.createElement('option');
+    var select_bis = document.createElement('select');
+    var id_last_sous_chapitre;
+    var sous_chapitre;
+
+    for (i = 0; i < section[0].childElementCount; i++) {
+        if (section[0].childNodes[i].selected) {
+            theme = document.getElementById("select theme of section " + section[0].childNodes[i].id.substring(25));
+            break;
+        }
+    }
+    for (i = 0; i < theme.childElementCount; i++) {
+        if (theme.childNodes[i].selected) {
+            chapitre = document.getElementById("select chapitre of theme " + theme.childNodes[i].id.substring(23));
+            break;
+        }
+    }
+    for (i = 0; i < chapitre.childElementCount; i++) {
+        if (chapitre.childNodes[i].selected) {
+            id_chapitre = chapitre.childNodes[i].id.substring(26);
+            sous_chapitre = document.getElementById("select sous_chapitre of chapitre " + chapitre.childNodes[i].id.substring(26));
+            break;
+        }
+    }
+    if (id_chapitre == undefined || nom == "") {
+        Swal.fire({icon: 'warning', title: 'Mauvais renseignement'});
+        return;
+    }
+    console.log(sous_chapitre);
+    id_last_sous_chapitre = sous_chapitre.childNodes[sous_chapitre.childNodes.length - 1].id.substring(31);
+    httpRequest.onreadystatechange = requete_nothing;
+    httpRequest.open('POST', '/home/:operation/add_sous_chapitre_to_tram_untec', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send(`id_chapitre=${id_chapitre}&&nom=${nom}&&last=${id_last_sous_chapitre}`);
+    select = document.getElementById("select sous_chapitre of chapitre " + id_chapitre);
+    option.id = "selection sous_chapitre option " + nothing[0].ID;
+    option.textContent = nom;
+    select.appendChild(option);
+    container_bis = document.getElementById("container selection prestation");
+    select_bis.className = "selection prestation";
+    select_bis.id = "select prestation of sous_chapitre " + nothing[0].ID;
+    container_bis.appendChild(select_bis);
+    container = document.getElementById("Chapitre " + id_chapitre).childNodes[1];
+    box.className = "option filtrage sous_chapitre";
+    box.id = "Sous_chapitre " + nothing[0].ID;
+    box.style.height = "20px";
+    text.className = "text sous_chapitre";
+    img.src = "/image/add_bis.png";
+    img.id = "plus";
+    img.className = "deploiement";
+    liste.className = "liste options filtrage prestation";
+    text.appendChild(img);
+    text.innerHTML += nom;
+    box.appendChild(text);
+    box.appendChild(liste);
+    container.appendChild(box);
+    cancel_slide_add_sous_chapitre_tram();
+}

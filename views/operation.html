@@ -527,6 +527,14 @@
 
                     </div>
 
+                    <div class="2 input">
+
+                      <span id="title input">ID OP (Abreviation + numero d'OP)</span>
+
+                      <input name="ID_OP" value="" id="ID OP" class="input generale"/>
+
+                    </div>
+
                   </div>
 
                 </div>
@@ -1129,13 +1137,25 @@
 
           <div id="container selection sous_chapitre">
 
-            <span class="title container selection">Sous-chapitre</span>
+            <div id="box span">
+
+              <span class="title container selection">Sous-Chapitre</span>
+
+              <img id="plus tram" src="/image/add_bis.png" onclick="slide_sous_chapitre()"/>
+
+            </div>
 
           </div>
 
           <div id="container selection prestation">
 
-            <span class="title container selection">Prestation</span>
+            <div id="box span">
+
+              <span class="title container selection">Prestation</span>
+
+              <img id="plus tram" src="/image/add_bis.png" onclick="slide_prestation()"/>
+
+            </div>
 
           </div>
 
@@ -1158,6 +1178,54 @@
           <div id="container submit ajout d'article a la tram">
 
             <button type="button" class="button1" id="button modif article" onclick="add_article_tram();">Sauvegarder</button>
+
+          </div>
+
+        </nav>
+
+        <nav id="navigation d'ajout prestation a la tram">
+
+          <div id="cancel add">
+
+            <img src="/image/close.png" id="cancel" onclick="cancel_slide_add_prestation_tram();"/>
+
+          </div>
+
+          <div id="container selection nom">
+
+            <span class="title container selection">Nom</span>
+
+            <input class="ajout d'article" id="nom prestation">
+
+          </div>
+
+          <div id="container submit ajout d'article a la tram">
+
+            <button type="button" class="button1" id="button modif article" onclick="add_prestation_tram();">Sauvegarder</button>
+
+          </div>
+
+        </nav>
+
+        <nav id="navigation d'ajout sous-chapitre a la tram">
+
+          <div id="cancel add">
+
+            <img src="/image/close.png" id="cancel" onclick="cancel_slide_add_sous_chapitre_tram();"/>
+
+          </div>
+
+          <div id="container selection nom">
+
+            <span class="title container selection">Nom</span>
+
+            <input class="ajout d'article" id="nom sous chapitre">
+
+          </div>
+
+          <div id="container submit ajout d'article a la tram">
+
+            <button type="button" class="button1" id="button modif article" onclick="add_sous_chapitre_tram();">Sauvegarder</button>
 
           </div>
 
@@ -1187,8 +1255,10 @@
 
       </div>
 
+      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script src="sweetalert2.all.min.js"></script>
       <script type="application/json" src="/index.js" async></script>
-      <script src="/js/script_operation.js" async></script>
+      <script src="/js/script_operation.js"></script>
 
     </body>
 

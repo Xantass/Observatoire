@@ -1984,3 +1984,46 @@ div[id="add maitre ouvrage"] {
   margin-top: 30px;
   cursor: pointer;
 }
+div[id="box span"] {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 50px;
+}
+img[id="plus tram"] {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+nav[id="navigation d'ajout prestation a la tram"] {
+  box-sizing: border-box;
+  display: none;
+  position: absolute;
+  height: 100%;
+  width: 440px;
+  margin-left: 100vw;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #fff;
+  flex-direction: column;
+  z-index: 7;
+}nav[id="navigation d'ajout sous-chapitre a la tram"] {
+  box-sizing: border-box;
+  display: none;
+  position: absolute;
+  height: 100%;
+  width: 440px;
+  margin-left: 100vw;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #fff;
+  flex-direction: column;
+  z-index: 7;
+}

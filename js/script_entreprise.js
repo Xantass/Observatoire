@@ -61,6 +61,7 @@ function create_box_entreprise(values) {
     var img = document.createElement('img');
 
     box.className = "Box Entreprise";
+    box.id = values.ID;
     text_nom.className = "text entreprise";
     text_nom.textContent = values.NOM;
     text_adresse.className = "text adresse";

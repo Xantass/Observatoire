@@ -34,7 +34,7 @@ async function load_operation() {
     let ChildsNods = document.getElementById('container List Operation').childNodes;
     i = 4;
     for (j = 0; j < ChildsNods.length; i = i + 5, j++) {
-      array_elem.push([ChildsNods[j].id, ChildsNods[j].childNodes[2].childNodes[0].textContent, ChildsNods[j].childNodes[3].childNodes[0].textContent, ChildsNods[j].childNodes[4].childNodes[0].textContent, ChildsNods[j].childNodes[5].childNodes[0].textContent, ChildsNods[j], value[i]]);
+      array_elem.push([ChildsNods[j].id, ChildsNods[j].childNodes[2].textContent, ChildsNods[j].childNodes[3].textContent, ChildsNods[j].childNodes[4].textContent, ChildsNods[j].childNodes[5].textContent, ChildsNods[j], value[i]]);
     }
 }
 
@@ -375,6 +375,7 @@ function slide_right_dashboard () {
     httpRequest.send(`operation=${input.value}&id=${id_operation}`);
     update.style.display = "none";
     box.textContent = input.value;
+    Swal.fire({icon: 'success', title: 'Operation renommer', showConfirmButton: false, timer: 1200});
   }
 
   function get_duplicate() {
@@ -392,6 +393,7 @@ function slide_right_dashboard () {
       myNode.removeChild(myNode.firstChild);
     }
     load_operation();
+    Swal.fire({icon: 'success', title: 'Operation duppliquer', showConfirmButton: false, timer: 1200});
   }
 
   function get_sup() {
@@ -407,6 +409,7 @@ function slide_right_dashboard () {
     update_bis.style.display = "none";
     element.remove();
     cancel_sup();
+    Swal.fire({icon: 'error', title: 'Operation Supprimer', showConfirmButton: false, timer: 1200});
   }
   function get_valid() {
     var container = document.getElementById("container validation");

@@ -9,6 +9,8 @@
    */
 
  const router = global.router;
+ var utilisateur;
+
  /**
    *  App Configuration
    */
@@ -26,6 +28,7 @@ router.get("/home", async (req, res) => {
     res.redirect('/');
   }
   else {
+    utilisateur = result[0].UTILISATEUR;
     res.render('home');
   }
 })
@@ -44,8 +47,9 @@ router.post("/home:id", async (req, res) => {
   var content_operation;
   content_operation = await query(sql);
   for (element of content_operation) {
-    value.push(await get_value_operation(element, 1));
+    value.push(await get_value_operation(element));
   }
+  console.log(utilisateur);
   res.status('200').json(value);
 })
 
@@ -105,7 +109,8 @@ router.post("/home/duplicate", async (req, res) => {
   arg.push(result[0].S_FACADE_PLEINE);
   arg.push(result[0].S_VITRAGE);
   arg.push(result[0].FINI);
-  sql = "INSERT INTO operation (NOM_OP, NOM_CLIENT, NOM_SITE, CATEGORIE_SITE, SOUS_CATEGORIE_SITE, COMPOSITION_SITE, LOCALISATION, ADRESSE, LONGITUDE, LATITUDE, DATE_AO, TYPOLOGIE_MARCHE2, TYPOLOGIE_OPERATION, NBR_ELEVE, NBR_CLASSE, NBR_SALLE, NBR_LOGEMENT, NBR_BUREAUX, NBR_CHAMBRE, NBR_COMMERCE, NBR_PARKING_INFRA, NBR_PARKING_INT_SUPERSTRUCT, NBR_PARKING_EXT, S_LOCAUX_TECHNIQUE, S_GARAGE_LOCAUX_ANNEXES, SHAB, SU, SDO, SDP, NBR_NIV_INFRA, NBR_NIV_SUPERSTRUCT, PARCELLE, ESPACE_VERT, S_MINERALE, EMPRISE_SOL, S_TOITURE, S_FACADE, S_FACADE_PLEINE, S_VITRAGE, FINI) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  arg.push(result[0].CREATEUR);
+  sql = "INSERT INTO operation (NOM_OP, NOM_CLIENT, NOM_SITE, CATEGORIE_SITE, SOUS_CATEGORIE_SITE, COMPOSITION_SITE, LOCALISATION, ADRESSE, LONGITUDE, LATITUDE, DATE_AO, TYPOLOGIE_MARCHE2, TYPOLOGIE_OPERATION, NBR_ELEVE, NBR_CLASSE, NBR_SALLE, NBR_LOGEMENT, NBR_BUREAUX, NBR_CHAMBRE, NBR_COMMERCE, NBR_PARKING_INFRA, NBR_PARKING_INT_SUPERSTRUCT, NBR_PARKING_EXT, S_LOCAUX_TECHNIQUE, S_GARAGE_LOCAUX_ANNEXES, SHAB, SU, SDO, SDP, NBR_NIV_INFRA, NBR_NIV_SUPERSTRUCT, PARCELLE, ESPACE_VERT, S_MINERALE, EMPRISE_SOL, S_TOITURE, S_FACADE, S_FACADE_PLEINE, S_VITRAGE, FINI, CREATEUR) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
   result = await query(sql, arg);
   var id_op = result.insertId;
   var id_lot;
@@ -147,11 +152,11 @@ router.post("/home/delete", async (req, res) => {
    * Server Activation
    */
 
-  async function get_value_operation(element, id) {
+  async function get_value_operation(element) {
       var value = [];
 
       value.push(get_name(element));
-      value.push( await get_createur(id));
+      value.push(element.CREATEUR);
       value.push(element.DATE_AO);
       value.push(get_maitre(element.NOM_CLIENT));
       value.push(element.ID);

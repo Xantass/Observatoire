@@ -1,4 +1,7 @@
 var value;
+var id_client;
+var client;
+var httpRequest;
 
 function slide_right_dashboard () {
     var dashboard = document.getElementById("shadow Dashboard");
@@ -63,6 +66,7 @@ function create_box_client(values) {
     var img = document.createElement('img');
 
     box.className = "Box Client";
+    box.id = values.ID;
     text_nom.className = "text client";
     text_nom.textContent = values.NOM;
     text_ab.className = "text abreviation";
@@ -71,12 +75,43 @@ function create_box_client(values) {
     text_adresse.textContent = values.ADRESSE;
     img.src = "/image/bouton-de-suppression-de-la-poubelle.png";
     img.id = "del";
+    img.addEventListener('click', get_valid);
 
     box.appendChild(text_nom);
     box.appendChild(text_ab);
     box.appendChild(text_adresse);
     box.appendChild(img);
     container.appendChild(box);
+}
+
+function get_valid(e) {
+    var container = document.getElementById("container validation");
+
+    e.stopPropagation();
+    id_client = this.parentNode.id;
+    client = this.parentNode.childNodes[0].textContent;
+    container.style.display = "flex";
+}
+
+function cancel_sup() {
+    var update = document.getElementById("container validation");
+
+    update.style.display = "none";
+}
+
+function delete_client() {
+    var container_bis = document.getElementById(id_client);
+
+    container_bis.remove();
+    httpRequest = new XMLHttpRequest();
+    if (!httpRequest)
+            console.log("NO REQUEST");
+    httpRequest.onreadystatechange = requete_nothing;
+    httpRequest.open('DELETE', '/home/:operation/del_lot', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send(`id_lot=${id_delete_lot}`);
+    cancel_sup();
+    Swal.fire({icon: 'error', title: 'Lot supprimer', showConfirmButton: false, timer: 1200});
 }
 
 async function requete() {

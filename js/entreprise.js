@@ -47,6 +47,14 @@ router.post("/entreprise/add_entreprise", async (req, res) => {
   res.status('200').json(result);
 })
 
+router.post("/entreprise/delete_entreprise", async (req, res) => {
+  var sql = "INSERT INTO entreprise (NOM, ADRESSE) VALUES (?, ?)";
+  var result;
+
+  result = await query(sql, [req.body.id]);
+  res.status('200').json(result);
+})
+
  /**
    * Server Activation
    */
