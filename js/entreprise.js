@@ -48,11 +48,17 @@ router.post("/entreprise/add_entreprise", async (req, res) => {
 })
 
 router.post("/entreprise/delete_entreprise", async (req, res) => {
-  var sql = "INSERT INTO entreprise (NOM, ADRESSE) VALUES (?, ?)";
+  var sql = "SELECT * FROM lot WHERE ENTREPRISE = ?";
   var result;
 
-  result = await query(sql, [req.body.id]);
-  res.status('200').json(result);
+  result = await query(sql, [req.body.nom]);
+  if (result[0] != undefined)
+    res.status('200').json(result);
+  else {
+    sql = "DELETE FROM entreprise WHERE ID = ?"
+    await query(sql, [req.body.id]);
+    res.status('200').json(result);
+  }
 })
 
  /**

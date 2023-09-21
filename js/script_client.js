@@ -2,6 +2,7 @@ var value;
 var id_client;
 var client;
 var httpRequest;
+var nothing;
 
 function slide_right_dashboard () {
     var dashboard = document.getElementById("shadow Dashboard");
@@ -102,20 +103,31 @@ function cancel_sup() {
 function delete_client() {
     var container_bis = document.getElementById(id_client);
 
-    container_bis.remove();
     httpRequest = new XMLHttpRequest();
     if (!httpRequest)
             console.log("NO REQUEST");
     httpRequest.onreadystatechange = requete_nothing;
-    httpRequest.open('DELETE', '/home/:operation/del_lot', false);
+    httpRequest.open('POST', '/client/delete_client', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    httpRequest.send(`id_lot=${id_delete_lot}`);
+    httpRequest.send(`id=${id_client}&&nom=${client}`);
+    if (nothing[0] != undefined) {
+        Swal.fire({icon: 'warning', title: 'Client lies a une operation', showConfirmButton: false, timer: 1200});
+    }
+    else {
+        Swal.fire({icon: 'error', title: 'Client supprimer', showConfirmButton: false, timer: 1200});
+        container_bis.remove();
+    }
     cancel_sup();
-    Swal.fire({icon: 'error', title: 'Lot supprimer', showConfirmButton: false, timer: 1200});
 }
 
 async function requete() {
     if (httpRequest.readyState == 4) {
         value = JSON.parse(httpRequest.response);
+    }
+}
+
+async function requete_nothing() {
+    if (httpRequest.readyState == 4) {
+        nothing = JSON.parse(httpRequest.response);
     }
 }

@@ -26,7 +26,7 @@ const router = global.router;
 
 router.post('/login', async (req, res) => {
         var sql = "SELECT * FROM user WHERE identifiant=? AND encrypt=?";
-        var hash = crypto.createHash('sha256').update(req.body.password + req.body.username).digest('hex');
+        var hash = crypto.createHash('sha256').update(req.body.password + "salt").digest('hex');
         var values = [req.body.username, hash];
         var result;
 

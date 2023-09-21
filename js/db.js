@@ -1,19 +1,16 @@
 const mysql = require('mysql');
 const util = require('util');
+require('dotenv').config();
 
-const host_azure = "i2bat.mysql.database.azure.com";
-const user_azure = "I2bat";
-const password_azure = "dz7@8#%PYP2b";
-const database_azure = "observatoire";
-const port = "3306";
+const databaseConfig = {
+  host: process.env.HOST_AZURE,
+  port: process.env.PORT_AZURE,
+  user: process.env.USER_AZURE,
+  password: process.env.PASSWORD_AZURE,
+  database: process.env.DATABASE_AZURE
+};
 
-const connection = mysql.createConnection({
-    port: port,
-    host: host_azure,
-    user: user_azure,
-    password: password_azure,
-    database: database_azure
-});
+const connection = mysql.createConnection(databaseConfig);
 
 const query = util.promisify(connection.query).bind(connection);
 

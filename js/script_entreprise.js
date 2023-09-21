@@ -1,4 +1,8 @@
 var value;
+var id_entreprise;
+var entreprise;
+var httpRequest;
+var nothing;
 
 function slide_right_dashboard () {
     var dashboard = document.getElementById("shadow Dashboard");
@@ -68,6 +72,7 @@ function create_box_entreprise(values) {
     text_adresse.textContent = values.ADRESSE;
     img.src = "/image/bouton-de-suppression-de-la-poubelle.png";
     img.id = "del";
+    img.addEventListener('click', get_valid);
 
     box.appendChild(text_nom);
     box.appendChild(text_adresse);
@@ -75,8 +80,49 @@ function create_box_entreprise(values) {
     container.appendChild(box);
 }
 
+function get_valid(e) {
+    var container = document.getElementById("container validation");
+
+    e.stopPropagation();
+    id_entreprise = this.parentNode.id;
+    entreprise = this.parentNode.childNodes[0].textContent;
+    container.style.display = "flex";
+}
+
+function cancel_sup() {
+    var update = document.getElementById("container validation");
+
+    update.style.display = "none";
+}
+
+function delete_entreprise() {
+    var container_bis = document.getElementById(id_entreprise);
+
+    httpRequest = new XMLHttpRequest();
+    if (!httpRequest)
+            console.log("NO REQUEST");
+    httpRequest.onreadystatechange = requete_nothing;
+    httpRequest.open('POST', '/entreprise/delete_entreprise', false);
+    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpRequest.send(`id=${id_entreprise}&&nom=${entreprise}`);
+    if (nothing[0] != undefined) {
+        Swal.fire({icon: 'warning', title: 'Entreprise lies a un lot', showConfirmButton: false, timer: 1200});
+    }
+    else {
+        Swal.fire({icon: 'error', title: 'Entreprise supprimer', showConfirmButton: false, timer: 1200});
+        container_bis.remove();
+    }
+    cancel_sup();
+}
+
 async function requete() {
     if (httpRequest.readyState == 4) {
         value = JSON.parse(httpRequest.response);
+    }
+}
+
+async function requete_nothing() {
+    if (httpRequest.readyState == 4) {
+        nothing = JSON.parse(httpRequest.response);
     }
 }

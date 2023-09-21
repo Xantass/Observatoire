@@ -48,11 +48,17 @@ router.post("/client/add_client", async (req, res) => {
 })
 
 router.post("/client/delete_client", async (req, res) => {
-  var sql = "INSERT INTO maitre_ouvrage (NOM, ADRESSE, ABREVIATION) VALUES (?, ?, ?)";
+  var sql = "SELECT * FROM operation WHERE NOM_CLIENT = ?";
   var result;
 
-  result = await query(sql, [req.body.nom, req.body.adresse, req.body.abreviation]);
-  res.status('200').json(result);
+  result = await query(sql, [req.body.nom]);
+  if (result[0] != undefined)
+    res.status('200').json(result);
+  else {
+    sql = "DELETE FROM maitre_ouvrage WHERE ID = ?"
+    await query(sql, [req.body.id]);
+    res.status('200').json(result);
+  }
 })
 
  /**
