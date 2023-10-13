@@ -17,7 +17,7 @@ const crypto = require('crypto');
  */
 
 const app = express();
-const port = "3000";
+const port = "3001";
 const router = (global.router = (express.Router()));
 const login = require("./js/login.js");
 const home = require("./js/home.js");

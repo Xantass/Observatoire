@@ -69,7 +69,6 @@ async function load_data() {
         httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         httpRequest.send();
         operation_id = operation_id[0]["MAX (ID)"] + 1;
-        console.log(operation_id);
         return;
     }
     if (value.FINI == "select") {
@@ -131,7 +130,6 @@ async function load_totale_value_lot(container) {
         while(temp.indexOf(' ') != -1) {
             temp = temp.replace(' ', '');
         }
-        console.log(temp);
         if (temp != "") {
             montant_totale = montant_totale + parseFloat(temp);
         }
@@ -580,7 +578,6 @@ function cancel_slide() {
             temp.childNodes[i].childNodes[0].childNodes[0].id = "plus";
             temp.childNodes[i].childNodes[0].childNodes[0].src = "/image/add_bis.png";
             temp.childNodes[i].style.height = "20px";
-            console.log(temp.childNodes[i].childNodes[1]);
             temp.childNodes[i].childNodes[1].style.display = "none";
             temp = temp.childNodes[i].childNodes[1];
             i = -1;
@@ -628,7 +625,6 @@ async function cancel_slide_modif_article(arg) {
     else {
         container_bis = container_bis.parentNode;
     }
-    console.log(container_bis);
     container.style.marginLeft = `${window.innerWidth}px`;
     await load_totale_value_lot(container_bis);
     await load_totale_value_op();
@@ -781,7 +777,6 @@ async function add_lot_to_operation(arg) {
         httpRequest.send();
         max = max_id[0]["MAX (ID)"] + 1;
         arg[2] = max;
-        console.log(operation_id);
         httpRequest.open('POST', '/home/:operation/add_lot', false);
         httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         httpRequest.send(`id_lot=${arg[2]}&&id_op=${operation_id}`);
@@ -1211,53 +1206,53 @@ function update_lot(e) {
 
 function maj_op(e) {
     e.stopPropagation();
-    var nom_op = document.getElementsByName("nom_operation")[0].value.replace('.', ',');
-    var maitre = document.getElementsByName("maitre_ouvrage")[0].value.replace('.', ',');
-    var nom_site = document.getElementsByName("Nom_site")[0].value.replace('.', ',');
-    var categorie = document.getElementsByName("Categorie")[0].value.replace('.', ',');
-    var sous_categorie = document.getElementsByName("Sous_Categorie").replace('.', ',');
-    var composition = document.getElementsByName("Composition")[0].value.replace('.', ',');
-    var localisation = document.getElementsByName("Localisation")[0].value.replace('.', ',');
-    var adresse = document.getElementsByName("Adresse_du_site")[0].value.replace('.', ',');
-    var longitude = document.getElementsByName("Longitude")[0].value.replace('.', ',');
-    var latitude = document.getElementsByName("Latitude")[0].value.replace('.', ',');
-    var description = document.getElementsByName("Description")[0].value.replace('.', ',');
-    var date_ao = document.getElementsByName("Date_AO")[0].value.replace('.', ',');
-    var typologie_marche = document.getElementsByName("Typologie_marche")[0].value.replace('.', ',');
-    var typologie_operation = document.getElementsByName("Typologie_operation")[0].value.replace('.', ',');
-    var nb_eleve = document.getElementsByName("Nombre_d'eleve")[0].value.replace('.', ',');
-    var nb_classe = document.getElementsByName("Nombre_de_classe_(salle_d'enseignement)")[0].value.replace('.', ',');
-    var nb_salle = document.getElementsByName("Nombre_de_salle_(poly_spectacle_sport)")[0].value.replace('.', ',');
-    var nb_logement = document.getElementsByName("Nombre_de_logement")[0].value.replace('.', ',');
-    var nb_bureaux = document.getElementsByName("Nombre_de_bureaux_/_autres_locaux")[0].value.replace('.', ',');
-    var nb_chambre = document.getElementsByName("Nombre_de_chambre")[0].value.replace('.', ',');
-    var nb_commerce = document.getElementsByName("Nombre_de_commerce")[0].value.replace('.', ',');
-    var nb_parking_infra = document.getElementsByName("Nombre_place_de_parking_Infrastructure")[0].value.replace('.', ',');
-    var nb_parking_int_super = document.getElementsByName("Nombre_de_places_de_parking_interieur_dans_la_superstructure")[0].value.replace('.', ',');
-    var nb_parking_ext = document.getElementsByName("Nombre_de_places_de_parking_exterieur")[0].value.replace('.', ',');
-    var s_locaux_tech = document.getElementsByName("Surface_de_locaux_technique")[0].value.replace('.', ',');
-    var s_locaux_annexe = document.getElementsByName("Surface_des_garages_et_locaux_annexes")[0].value.replace('.', ',');
-    var shab = document.getElementsByName("SHAB")[0].value.replace('.', ',');
-    var su = document.getElementsByName("SU")[0].value.replace('.', ',');
-    var sdo = document.getElementsByName("SDO")[0].value.replace('.', ',');
-    var sdp = document.getElementsByName("SDP")[0].value.replace('.', ',');
-    var nb_niv_infra = document.getElementsByName("Nombre_de_niveaux_Infrastructure")[0].value.replace('.', ',');
-    var nb_niv_super = document.getElementsByName("Nombre_de_niveaux_superstructure")[0].value.replace('.', ',');
-    var emprise_parcelle = document.getElementsByName("Emprise_de_la_parcelle")[0].value.replace('.', ',');
-    var s_espace_vert = document.getElementsByName("Surface_d'espace_verts")[0].value.replace('.', ',');
-    var s_minerale = document.getElementsByName("Surface_minerale")[0].value.replace('.', ',');
-    var emprise_sol = document.getElementsByName("Emprise_au_sol")[0].value.replace('.', ',');
-    var s_toiture = document.getElementsByName("Surface_de_toiture_(isolee_thermiquement)")[0].value.replace('.', ',');
-    var emprise_facade = document.getElementsByName("Emprise_de_facade_totale")[0].value.replace('.', ',');
-    var s_facade = document.getElementsByName("Dont_surface_de_facade_pleine")[0].value.replace('.', ',');
-    var s_vitrage = document.getElementsByName("Dont_surface_de_vitrage")[0].value.replace('.', ',');
+    var nom_op = document.getElementsByName("nom_operation")[0].value;
+    var maitre = document.getElementsByName("maitre_ouvrage")[0].value;
+    var nom_site = document.getElementsByName("Nom_site")[0].value;
+    var categorie = document.getElementsByName("Categorie")[0].value;
+    var sous_categorie = document.getElementsByName("Sous_Categorie");
+    var composition = document.getElementsByName("Composition")[0].value;
+    var localisation = document.getElementsByName("Localisation")[0].value;
+    var adresse = document.getElementsByName("Adresse_du_site")[0].value;
+    var longitude = document.getElementsByName("Longitude")[0].value.replace(',', '.');
+    var latitude = document.getElementsByName("Latitude")[0].value.replace(',', '.');
+    var description = document.getElementsByName("Description")[0].value;
+    var date_ao = document.getElementsByName("Date_AO")[0].value;
+    var typologie_marche = document.getElementsByName("Typologie_marche")[0].value;
+    var typologie_operation = document.getElementsByName("Typologie_operation")[0].value;
+    var nb_eleve = document.getElementsByName("Nombre_d'eleve")[0].value.replace(',', '.');
+    var nb_classe = document.getElementsByName("Nombre_de_classe_(salle_d'enseignement)")[0].value.replace(',', '.');
+    var nb_salle = document.getElementsByName("Nombre_de_salle_(poly_spectacle_sport)")[0].value.replace(',', '.');
+    var nb_logement = document.getElementsByName("Nombre_de_logement")[0].value.replace(',', '.');
+    var nb_bureaux = document.getElementsByName("Nombre_de_bureaux_/_autres_locaux")[0].value.replace(',', '.');
+    var nb_chambre = document.getElementsByName("Nombre_de_chambre")[0].value.replace(',', '.');
+    var nb_commerce = document.getElementsByName("Nombre_de_commerce")[0].value.replace(',', '.');
+    var nb_parking_infra = document.getElementsByName("Nombre_place_de_parking_Infrastructure")[0].value.replace(',', '.');
+    var nb_parking_int_super = document.getElementsByName("Nombre_de_places_de_parking_interieur_dans_la_superstructure")[0].value.replace(',', '.');
+    var nb_parking_ext = document.getElementsByName("Nombre_de_places_de_parking_exterieur")[0].value.replace(',', '.');
+    var s_locaux_tech = document.getElementsByName("Surface_de_locaux_technique")[0].value.replace(',', '.');
+    var s_locaux_annexe = document.getElementsByName("Surface_des_garages_et_locaux_annexes")[0].value.replace(',', '.');
+    var shab = document.getElementsByName("SHAB")[0].value.replace(',', '.');
+    var su = document.getElementsByName("SU")[0].value.replace(',', '.');
+    var sdo = document.getElementsByName("SDO")[0].value.replace(',', '.');
+    var sdp = document.getElementsByName("SDP")[0].value.replace(',', '.');
+    var nb_niv_infra = document.getElementsByName("Nombre_de_niveaux_Infrastructure")[0].value.replace(',', '.');
+    var nb_niv_super = document.getElementsByName("Nombre_de_niveaux_superstructure")[0].value.replace(',', '.');
+    var emprise_parcelle = document.getElementsByName("Emprise_de_la_parcelle")[0].value.replace(',', '.');
+    var s_espace_vert = document.getElementsByName("Surface_d'espace_verts")[0].value.replace(',', '.');
+    var s_minerale = document.getElementsByName("Surface_minerale")[0].value.replace(',', '.');
+    var emprise_sol = document.getElementsByName("Emprise_au_sol")[0].value.replace(',', '.');
+    var s_toiture = document.getElementsByName("Surface_de_toiture_(isolee_thermiquement)")[0].value.replace(',', '.');
+    var emprise_facade = document.getElementsByName("Emprise_de_facade_totale")[0].value.replace(',', '.');
+    var s_facade = document.getElementsByName("Dont_surface_de_facade_pleine")[0].value.replace(',', '.');
+    var s_vitrage = document.getElementsByName("Dont_surface_de_vitrage")[0].value.replace(',', '.');
     var check = 0;
     var finie = document.getElementById("box validation de l'operation").childNodes[3];
-    var exigence_environnementale = document.getElementsByName("Exigence_Environnementale")[0].value.replace('.', ',');
-    var niveau_performance_environnementale = document.getElementsByName("Niveau_Performance_Environnementale")[0].value.replace('.', ',');
-    var niveau_performance_thermique = document.getElementsByName("Niveau_Performance_Thermique")[0].value.replace('.', ',');
-    var id_op_bis = document.getElementsByName("ID_OP")[0].value.replace('.', ',');
-    var importance = document.getElementsByName("Importance")[0].value.replace('.', ',');
+    var exigence_environnementale = document.getElementsByName("Exigence_Environnementale")[0].value.replace(',', '.');
+    var niveau_performance_environnementale = document.getElementsByName("Niveau_Performance_Environnementale")[0].value.replace(',', '.');
+    var niveau_performance_thermique = document.getElementsByName("Niveau_Performance_Thermique")[0].value.replace(',', '.');
+    var id_op_bis = document.getElementsByName("ID_OP")[0].value.replace(',', '.');
+    var importance = document.getElementsByName("Importance")[0].value.replace(',', '.');
 
     for (i = 0; i < sous_categorie.length; i++) {
         if (sous_categorie[i].style.display == "flex") {
@@ -1271,7 +1266,6 @@ function maj_op(e) {
     httpRequest = new XMLHttpRequest();
     if (!httpRequest)
             console.log("NO REQUEST");
-    console.log(description);
     if (_new == 0) {
         httpRequest.onreadystatechange = requete_nothing;
         httpRequest.open('POST', '/home/:operation/add_op', false);
@@ -1298,7 +1292,7 @@ async function add_modif_article() {
     httpRequest.onreadystatechange = requete_nothing;
     httpRequest.open('POST', '/home/:operation/modif_article', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    httpRequest.send(`quantite=${container.childNodes[3].childNodes[5].childNodes[3].value.replace('.', ',')}&&prix_u=${container.childNodes[3].childNodes[7].childNodes[3].value.replace('.', ',')}&&prix_t=${container.childNodes[3].childNodes[9].childNodes[3].value.replace('.', ',')}&&tva=${container.childNodes[3].childNodes[13].childNodes[3].value.replace('.', ',')}&&id=${container.childNodes[3].childNodes[11].childNodes[3].value}`);
+    httpRequest.send(`quantite=${container.childNodes[3].childNodes[5].childNodes[3].value.replace(',', '.')}&&prix_u=${container.childNodes[3].childNodes[7].childNodes[3].value.replace(',', '.')}&&prix_t=${container.childNodes[3].childNodes[9].childNodes[3].value.replace(',', '.')}&&tva=${container.childNodes[3].childNodes[13].childNodes[3].value.replace(',', '.')}&&id=${container.childNodes[3].childNodes[11].childNodes[3].value}`);
     string = await beautiful_number(container.childNodes[3].childNodes[5].childNodes[3].value);
     container_bis.childNodes[3].childNodes[0].textContent = string;
     string = await beautiful_number(container.childNodes[3].childNodes[7].childNodes[3].value);
@@ -1860,7 +1854,6 @@ function add_article_to_lot() {
             httpRequest.open('POST', '/home/:operation/add_article_to_lot', false);
             httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             httpRequest.send(`id_article=${element_result[i][0]}&&prestation=${element_result[i][7]}&&nom=${element_result[i][8].childNodes[1].textContent}&&id_lot=${temp.className.substring(20)}&&unite=${element_result[i][9]}&&tva=20%`);
-            console.log(nothing);
             create_article_bis([nothing.insertId, element_result[i][8].childNodes[1].textContent, element_result[i][7], "", "", "", element_result[i][9], "20%"], container.childNodes[2]);
         }
     }
@@ -1887,7 +1880,6 @@ function create_article_bis(article, container) {
     var text_prix_totale = document.createElement('div');
     var text_tva = document.createElement('div');
 
-    console.log(article);
     box_article.className = "box article";
     box_article.id = "article " + article[0];
     box_article.addEventListener('click', slide_modif_article);
@@ -1969,7 +1961,6 @@ async function maj_totale_article() {
     var nb = 0;
     var string = "";
 
-    console.log(quantite.value.replace(' ', ''));
     if (quantite.value != "" && prix_unitaire.value != "") {
         while(quantite.value.indexOf(' ') != -1) {
             quantite.value = quantite.value.replace(' ', '');
@@ -1977,8 +1968,6 @@ async function maj_totale_article() {
         while(prix_unitaire.value.indexOf(' ') != -1) {
             prix_unitaire.value = prix_unitaire.value.replace(' ', '');
         }
-        console.log(prix_unitaire.value);
-        console.log(quantite.value);
         nb = parseFloat(quantite.value.replace(' ', '')) * parseFloat(prix_unitaire.value.replace(' ', ''));
         nb = Math.round(nb * 100) / 100;
         string = nb.toString();
@@ -2179,7 +2168,6 @@ function add_article_tram() {
             break;
         }
     }
-    console.log(nom);
     if (id_section == undefined || id_theme == undefined || id_chapitre == undefined || id_sous_chapitre == undefined || last == undefined || nom == "" || unite == "") {
         Swal.fire({icon: 'warning', title: 'Mauvais renseignement'});
         return;
@@ -2188,7 +2176,6 @@ function add_article_tram() {
     httpRequest.open('POST', '/home/:operation/add_article_to_tram_untec', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpRequest.send(`id_section=${id_section}&&id_theme=${id_theme}&&id_chapitre=${id_chapitre}&&id_sous_chapitre=${id_sous_chapitre}&&id_prestation=${last}&&prestation=${prestation_nom}&&nom=${nom}&&unite=${unite}`);
-    console.log(nothing);
     article = create_element_tram(nothing[0]);
     article.style.display = "flex";
     element_result.push([nothing[0].ID, nothing[0].ID_SECTION, nothing[0].ID_THEME, nothing[0].ID_CHAPITRE, nothing[0].ID_SOUS_CHAPITRE, nothing[0].ID_PRESTATION, nothing[0].NOM, nothing[0].PRESTATION, article, nothing[0].U]);
@@ -2301,7 +2288,6 @@ function add_sous_chapitre_tram() {
         Swal.fire({icon: 'warning', title: 'Mauvais renseignement'});
         return;
     }
-    console.log(sous_chapitre);
     id_last_sous_chapitre = sous_chapitre.childNodes[sous_chapitre.childNodes.length - 1].id.substring(31);
     httpRequest.onreadystatechange = requete_nothing;
     httpRequest.open('POST', '/home/:operation/add_sous_chapitre_to_tram_untec', false);

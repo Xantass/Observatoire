@@ -49,7 +49,6 @@ router.post("/home:id", async (req, res) => {
   for (element of content_operation) {
     value.push(await get_value_operation(element));
   }
-  console.log(utilisateur);
   res.status('200').json(value);
 })
 
@@ -153,6 +152,14 @@ router.post("/home/delete", async (req, res) => {
   res.status('200').json(result);
 })
 
+router.post("/home/maitre", async (req, res) => {
+  var sql = "SELECT * FROM maitre_ouvrage";
+  var result;
+
+  result = await query(sql);
+  res.status('200').json(result);
+})
+
  /**
    * Server Activation
    */
@@ -161,10 +168,11 @@ router.post("/home/delete", async (req, res) => {
       var value = [];
 
       value.push(get_name(element));
-      value.push(element.CREATEUR);
+      value.push(element.FINI);
       value.push(element.DATE_AO);
       value.push(get_maitre(element.NOM_CLIENT));
       value.push(element.ID);
+      value.push(element.CATEGORIE_SITE);
       return value;
   };
 
@@ -179,7 +187,7 @@ router.post("/home/delete", async (req, res) => {
 
   function get_maitre(value) {
     return value;
-};
+  };
 
 
  module.exports = router;

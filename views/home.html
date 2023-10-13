@@ -217,19 +217,39 @@
 
                             </div>
 
-                            <div id="creator filter" onclick="change_icon_creator();">
+                            <div id="categorie filter">
 
-                              <div id="text">Créé par</div>
+                              <div id="text">Categorie</div>
 
-                              <img src="/image/chevron-en-bas.png" id="creator filter image" class="Sorted">
+                              <select id="select categorie" onclick="get_value_categorie();">
+                                <option value="aucun"></option>
+                                <option value="ENSEIGNEMENT">ENSEIGNEMENT</option>
+                                <option value="LOGEMENT ET HEBERGEMENT">LOGEMENT ET HEBERGEMENT</option>
+                                <option value="BUREAUX ET ADMINISTRATION">BUREAUX ET ADMINISTRATION</option>
+                                <option value="DIVERS">DIVERS</option>
+                              </select>
 
                             </div>
 
-                            <div id="Maitre d'ouvrage filter" onclick="change_icon_Maitre();">
+                            <div id="creator filter">
+
+                              <div id="text">Status</div>
+
+                              <select id="select status" onclick="get_value_status();">
+                                <option value="aucun"></option>
+                                <option value="terminée">terminée</option>
+                                <option value="en cours ...">en cours</option>
+                              </select>
+
+                            </div>
+
+                            <div id="Maitre d'ouvrage filter">
 
                               <div id="text">Maitre d'ouvrage</div>
 
-                              <img src="/image/chevron-en-bas.png" id="Maitre d'ouvrage filter image" class="Sorted">
+                              <select id="select maitre" onclick="get_value_maitre();">
+                                <option value="aucun"></option>
+                              </select>
 
                             </div>
 

@@ -8,6 +8,7 @@ var value;
 var array_elem;
 var name_operation;
 var id_operation;
+var categorie_array;
 
 
 async function load_operation() {
@@ -27,26 +28,44 @@ async function load_operation() {
       value[i] = values;
       i = i + 1;
     }
-    for (j = 0; j < value.length; j = j + 5) {
-      await create_element_html(value[j], value[j + 1], value[j + 3], value[j + 2], value[j + 4]);
+    for (j = 0; j < value.length; j = j + 6) {
+      await create_element_html(value[j], value[j + 1], value[j + 3], value[j + 2], value[j + 4], value[j + 5]);
     }
     array_elem = new Array();
     let ChildsNods = document.getElementById('container List Operation').childNodes;
     i = 4;
-    for (j = 0; j < ChildsNods.length; i = i + 5, j++) {
+    for (j = 0; j < ChildsNods.length; i = i + 6, j++) {
       array_elem.push([ChildsNods[j].id, ChildsNods[j].childNodes[2].textContent, ChildsNods[j].childNodes[3].textContent, ChildsNods[j].childNodes[4].textContent, ChildsNods[j].childNodes[5].textContent, ChildsNods[j], value[i]]);
+    }
+    if (!httpRequest)
+      console.log("NO REQUEST");
+    httpRequest.onreadystatechange = requete_categorie;
+    httpRequest.open('POST', `/home/maitre`, false);
+    httpRequest.send();
+    for (tmp of categorie_array) {
+      await create_options_select(tmp.NOM);
     }
 }
 
-async function create_element_html(nom, date, maj, createur, Id) {
+async function create_options_select(value) {
+  var container = document.getElementById("select maitre");
+  var option = document.createElement("option");
+
+  option.value = value;
+  option.textContent = value;
+  container.appendChild(option);
+}
+
+async function create_element_html(nom, fini, maj, createur, Id, categorie) {
   var container = document.getElementById("container List Operation");
   var box = document.createElement('div');
   var box_color = document.createElement('div');
   var img = document.createElement('img');
   var NOM = document.createElement('div');
-  var DATE = document.createElement('div');
   var MAJ = document.createElement('div');
+  var DATE = document.createElement('div');
   var CREATEUR = document.createElement('div');
+  var CATEGORIE = document.createElement('div');
   var update = document.createElement('button');
   var img_bis = document.createElement('img');
   var ID = document.createElement('div');
@@ -59,12 +78,18 @@ async function create_element_html(nom, date, maj, createur, Id) {
   img.id = "dossier";
   NOM.id = "Nom Operation";
   NOM.textContent = nom;
-  DATE.id = "Date Operation";
-  DATE.textContent = date;
   MAJ.id = "MAJ Operation";
   MAJ.textContent = maj;
   CREATEUR.id = "Createur Operation";
   CREATEUR.textContent = createur;
+  CATEGORIE.id = "Categorie Operation";
+  CATEGORIE.textContent = categorie;
+  DATE.id = "Date Operation";
+  console.log(fini);
+  if (fini == "select") {
+    DATE.textContent = "terminée"
+  } else
+    DATE.textContent = "en cours ..."
   update.id = "Update Operation";
   update.addEventListener('click', get_position);
   img_bis.id = "point de suspension";
@@ -75,6 +100,7 @@ async function create_element_html(nom, date, maj, createur, Id) {
   box.appendChild(box_color);
   box.appendChild(img);
   box.appendChild(NOM);
+  box.appendChild(CATEGORIE);
   box.appendChild(DATE);
   box.appendChild(MAJ);
   box.appendChild(CREATEUR);
@@ -111,6 +137,12 @@ async function requete() {
       if (httpRequest.readyState == 4) {
         value = httpRequest.response;
       }
+}
+
+async function requete_categorie() {
+  if (httpRequest.readyState == 4) {
+    categorie_array = JSON.parse(httpRequest.response);
+  }
 }
 
 function slide_right_dashboard () {
@@ -240,6 +272,60 @@ function slide_right_dashboard () {
         array_elem[i][5].style.display = "flex";
       else
         array_elem[i][5].style.display = "none";
+    }
+  }
+
+  function get_value_status() {
+    input = document.getElementById('select status').value;
+
+    let ChildsNods = document.getElementById('container List Operation').childNodes;
+    if (input == "aucun") {
+      for (i = 0; i < ChildsNods.length; i++) {
+        array_elem[i][5].style.display = "flex";
+      }
+    } else {
+      for (i = 0; i < ChildsNods.length; i++) {
+        if (array_elem[i][3].toLowerCase() == input.toLowerCase())
+          array_elem[i][5].style.display = "flex";
+        else
+          array_elem[i][5].style.display = "none";
+      }
+    }
+  }
+
+  function get_value_categorie() {
+    input = document.getElementById('select categorie').value;
+
+    let ChildsNods = document.getElementById('container List Operation').childNodes;
+    if (input == "aucun") {
+      for (i = 0; i < ChildsNods.length; i++) {
+        array_elem[i][5].style.display = "flex";
+      }
+    } else {
+      for (i = 0; i < ChildsNods.length; i++) {
+        if (array_elem[i][2].toLowerCase() == input.toLowerCase())
+          array_elem[i][5].style.display = "flex";
+        else
+          array_elem[i][5].style.display = "none";
+      }
+    }
+  }
+
+  function get_value_maitre() {
+    input = document.getElementById('select maitre').value;
+
+    let ChildsNods = document.getElementById('container List Operation').childNodes;
+    if (input == "aucun") {
+      for (i = 0; i < ChildsNods.length; i++) {
+        array_elem[i][5].style.display = "flex";
+      }
+    } else {
+      for (i = 0; i < ChildsNods.length; i++) {
+        if (array_elem[i][4].toLowerCase() == input.toLowerCase())
+          array_elem[i][5].style.display = "flex";
+        else
+          array_elem[i][5].style.display = "none";
+      }
     }
   }
 
