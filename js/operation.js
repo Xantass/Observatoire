@@ -205,7 +205,6 @@ router.post("/home/:operation/add_article_to_tram_untec", async (req, res) => {
 
   sql = "SELECT N_SOUSCHAPITRE FROM sous_chapitre WHERE ID = ?";
   result = await query(sql, [req.body.id_sous_chapitre]);
-  console.log(result);
   id_article = result[0].N_SOUSCHAPITRE + "-";
   sql = "INSERT INTO article (ID_SECTION, ID_THEME, ID_CHAPITRE, ID_SOUS_CHAPITRE, ID_PRESTATION, PRESTATION, NOM, U) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   result = await query(sql, [req.body.id_section, req.body.id_theme, req.body.id_chapitre, req.body.id_sous_chapitre, req.body.id_prestation, req.body.prestation, req.body.nom, req.body.unite]);
@@ -224,11 +223,9 @@ router.post("/home/:operation/add_sous_chapitre_to_tram_untec", async (req, res)
   var temp;
   var add;
 
-  console.log(req.body.last);
   sql = "SELECT N_SOUSCHAPITRE FROM sous_chapitre WHERE ID = ?";
   result = await query(sql, [req.body.last]);
   id_sous_chapitre = result[0].N_SOUSCHAPITRE;
-  console.log(id_sous_chapitre);
   temp = id_sous_chapitre.substring(0, id_sous_chapitre.length - 1);
   if (id_sous_chapitre[id_sous_chapitre.length - 1] == "9") {
     add = "10";

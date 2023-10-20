@@ -85,7 +85,6 @@ async function create_element_html(nom, fini, maj, createur, Id, categorie) {
   CATEGORIE.id = "Categorie Operation";
   CATEGORIE.textContent = categorie;
   DATE.id = "Date Operation";
-  console.log(fini);
   if (fini == "select") {
     DATE.textContent = "terminée"
   } else

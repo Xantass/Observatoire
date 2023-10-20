@@ -32,7 +32,7 @@ router.get("/indice_bt", async (req, res) => {
 })
 
 router.post("/indice_bt/get_indice", async (req, res) => {
-  var sql = "SELECT * FROM indice_bt";
+  var sql = "SELECT * FROM indice_bt01";
   var result;
 
   result = await query(sql);
@@ -40,7 +40,7 @@ router.post("/indice_bt/get_indice", async (req, res) => {
 })
 
 router.post("/indice_bt/add_indice", async (req, res) => {
-  var sql = "INSERT INTO indice_bt (BT_DATE, BT_INDICE, BT_PARUTION) VALUES (?, ?, ?)";
+  var sql = "INSERT INTO indice_bt01 (BT_DATE, BT_INDICE, BT_PARUTION) VALUES (?, ?, ?)";
   var result;
 
   result = await query(sql, [req.body.date_bt, req.body.indice, req.body.date_parution]);
