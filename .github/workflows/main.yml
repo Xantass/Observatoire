@@ -15,12 +15,8 @@ jobs:
 
     - name: Install dependencies (if needed)
       run: |
-        # Mettez ici les commandes pour installer vos dépendances si nécessaire
-        # Exemple : npm install
-        # Cette étape peut être omise si votre site n'a pas de dépendances à installer
+        npm install
 
     - name: Deploy to OVH
       run: |
-        ssh user@your-ovh-server-ip 'cd /path/to/your/web/root && git pull origin main'
-        # Assurez-vous de remplacer 'user' par votre nom d'utilisateur OVH et 'your-ovh-server-ip' par l'adresse IP de votre serveur OVH
-        # Assurez-vous également de spécifier le chemin correct vers le répertoire de votre site web sur le serveur OVH
+        sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no -p ${{ secrets.CUSTOM_SSH_PORT }} simonnq@sshcloud.cluster024.hosting.ovh.net
