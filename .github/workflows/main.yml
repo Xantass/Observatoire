@@ -19,4 +19,4 @@ jobs:
 
     - name: Deploy to OVH
       run: |
-        sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no -p ${{ secrets.CUSTOM_SSH_PORT }} simonnq@sshcloud.cluster024.hosting.ovh.net
+        sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no -p ${{ secrets.CUSTOM_SSH_PORT }} simonnq@sshcloud.cluster024.hosting.ovh.net 'cd /www/Observatoire && git pull origin main'
