@@ -1,6 +1,9 @@
 var value;
 var date = [];
 var indiceNb = [];
+var indice_recent;
+var delta;
+var date_recent;
 
 function slide_right_dashboard () {
     var dashboard = document.getElementById("shadow Dashboard");
@@ -42,6 +45,29 @@ function differenceMois(date1, date2) {
     const differenceMois = mois2 - mois1;
 
     return differenceAnnees * 12 + differenceMois;
+}
+
+function dateEnChiffres(dateEnLettres) {
+    const moisEnLettres = {
+        'janvier': '01',
+        'février': '02',
+        'mars': '03',
+        'avril': '04',
+        'mai': '05',
+        'juin': '06',
+        'juillet': '07',
+        'août': '08',
+        'septembre': '09',
+        'octobre': '10',
+        'novembre': '11',
+        'décembre': '12'
+    };
+
+    const mots = dateEnLettres.toLowerCase().split(' ');
+    const mois = moisEnLettres[mots[0]];
+    const annee = mots[1];
+
+    return `${annee}-${mois}`;
 }
 
 function graphique() {
@@ -156,6 +182,11 @@ function graphique() {
         // tableau += "</table>";
         // tableauElement = document.getElementById('tableau-actualise');
         // tableauElement.innerHTML = tableau;
+        indice_recent = parseFloat(valeursSelectionnees[valeursSelectionnees.length - 1]);
+        console.log()
+        delta = parseFloat((indice_recent - valeursSelectionnees[0]) / (moisSelectionnees.length - 1))
+        date_recent = moisSelectionnees[moisSelectionnees.length - 1].toString()  + " " + anneeSelectionnees[anneeSelectionnees.length - 1].toString();
+        date_recent = dateEnChiffres(date_recent)
     });
     myChart.dispatchAction({
         type: 'dataZoom',
@@ -366,10 +397,10 @@ function calClick(dateStr, id){
 	field = document.getElementById(jsSDPObj[id][1]);
 	field.value = dateArr[2]+'-'+dateArr[1];
 	document.getElementById('calendarWrap'+id).style.display = "none";
-    var dif_date = differenceMois(date.at(date.length - 1), field.value) + 1
-    var bt_actualise = indiceNb.at(indiceNb.length - 1) / indiceNb.at(indiceNb.length - dif_date);
-    var estimation = indiceNb.at(indiceNb.length - 1) * bt_actualise
-    estimation = estimation.toFixed(1);
+    var dif_date = differenceMois(date_recent, field.value)
+    var delta_ajuste = delta * dif_date;
+    var estimation = delta_ajuste + indice_recent;
+    estimation = estimation.toFixed(1)
     document.getElementById('champ_estimation2').value = estimation
 }
 //

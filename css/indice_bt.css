@@ -479,15 +479,22 @@ div[id="Box container Indice"] {
 }
 div[id="tableau-selection"] {
   max-height: "100%";
+  width: 100%;
   overflow-y: auto;
-  width: 20%;
   padding-left: 10px;
 }
-div[id="tableau-selection"]::-webkit-scrollbar {
+div[id="box tableau"]::-webkit-scrollbar {
   width: 0px;
 }
 div[id="box info"] {
   max-height: "100%";
+  width: 20%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+div[id="box tableau"] {
+  max-height: "100%";
+  overflow-y: auto;
   width: 20%;
   flex-direction: column;
   justify-content: space-between;
