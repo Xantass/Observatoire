@@ -486,9 +486,11 @@ div[id="tableau-selection"] {
 div[id="tableau-selection"]::-webkit-scrollbar {
   width: 0px;
 }
-div[id="tableau-actualise"] {
+div[id="box info"] {
   max-height: "100%";
   width: 20%;
+  flex-direction: column;
+  justify-content: space-between;
 }
 table {
   width: 100%; /* Assurez-vous que le tableau prend 100% de la largeur de son conteneur */

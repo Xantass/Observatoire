@@ -34,6 +34,16 @@ function load() {
     calInit("calendarMain2", "Calendrier", "champ_date2", "jsCalendar", "day", "selectedDay");
 }
 
+function differenceMois(date1, date2) {
+    const [annee1, mois1] = date1.split('-').map(Number);
+    const [annee2, mois2] = date2.split('-').map(Number);
+
+    const differenceAnnees = annee2 - annee1;
+    const differenceMois = mois2 - mois1;
+
+    return differenceAnnees * 12 + differenceMois;
+}
+
 function graphique() {
     var annees = [];
     var mois = [];
@@ -63,7 +73,8 @@ function graphique() {
         },
         yAxis: {
             type: "value",
-            name: "Indice Bt"
+            name: "Indice Bt",
+            min : 100
         },
         series: [
             {
@@ -134,25 +145,22 @@ function graphique() {
         var tableauElement = document.getElementById('tableau-selection');
         tableauElement.innerHTML = tableau;
 
-        tableau = "<table><tr><th>Année</th><th>Mois</th><th>Valeur</th></tr>";
-        tableau += "<tr><td>" + anneeSelectionnees[0] + "</td><td>" + moisSelectionnees[0] + "</td><td>" + valeursSelectionnees[0] + "</td></tr>";
-        tableau += "<tr><td>" + anneeSelectionnees[anneeSelectionnees.length - 1] + "</td><td>" + moisSelectionnees[moisSelectionnees.length - 1] + "</td><td>" + valeursSelectionnees[valeursSelectionnees.length - 1] + "</td></tr>";
-        tableau += "</table>";
-        tableauElement = document.getElementById('tableau-actualise');
-        tableauElement.innerHTML = tableau;
-        myChart.setOption({
-            graphic: [{
-                type: 'text',
-                left: 'center',
-                top: 20,
-                style: {
-                    text: 'Bt actualiser : ' + moyenne,
-                    textAlign: 'center',
-                    fill: '#000',
-                    fontSize: 14
-                }
-            }]
-        });
+        document.getElementById('champ_bt_actualise2').value = moyenne;
+        document.getElementById('champ_bt_ancien2').value = valeursSelectionnees[0];
+        document.getElementById('champ_bt_recent2').value = valeursSelectionnees[valeursSelectionnees.length - 1];
+        document.getElementById('champ_date_ancien2').value = moisSelectionnees[0].toString()  + " " + anneeSelectionnees[0].toString();
+        document.getElementById('champ_date_recent2').value = moisSelectionnees[moisSelectionnees.length - 1].toString()  + " " + anneeSelectionnees[anneeSelectionnees.length - 1].toString();
+        // tableau = "<table><tr><th>Année</th><th>Mois</th><th>Valeur</th></tr>";
+        // tableau += "<tr><td>" + anneeSelectionnees[0] + "</td><td>" + moisSelectionnees[0] + "</td><td>" + valeursSelectionnees[0] + "</td></tr>";
+        // tableau += "<tr><td>" + anneeSelectionnees[anneeSelectionnees.length - 1] + "</td><td>" + moisSelectionnees[moisSelectionnees.length - 1] + "</td><td>" + valeursSelectionnees[valeursSelectionnees.length - 1] + "</td></tr>";
+        // tableau += "</table>";
+        // tableauElement = document.getElementById('tableau-actualise');
+        // tableauElement.innerHTML = tableau;
+    });
+    myChart.dispatchAction({
+        type: 'dataZoom',
+        start: 0,
+        end: 100
     });
 }
 
@@ -358,6 +366,11 @@ function calClick(dateStr, id){
 	field = document.getElementById(jsSDPObj[id][1]);
 	field.value = dateArr[2]+'-'+dateArr[1];
 	document.getElementById('calendarWrap'+id).style.display = "none";
+    var dif_date = differenceMois(date.at(date.length - 1), field.value) + 1
+    var bt_actualise = indiceNb.at(indiceNb.length - 1) / indiceNb.at(indiceNb.length - dif_date);
+    var estimation = indiceNb.at(indiceNb.length - 1) * bt_actualise
+    estimation = estimation.toFixed(1);
+    document.getElementById('champ_estimation2').value = estimation
 }
 //
 // affiche le titre
