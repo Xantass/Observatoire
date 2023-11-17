@@ -34,7 +34,7 @@ axios.post(apiUrl, requestData, {
 
     const bearer = "Bearer " + response.data.access_token;
 
-    axios.get("https://api.insee.fr/series/BDM/V1/data/SERIES_BDM/001710986", {
+    axios.get("https://api.insee.fr/series/BDM/V1/data/SERIES_BDM/001710985", {
         headers: {
             "Authorization": bearer,
             "Accept": "application/vnd.sdmx.structurespecificdata+xml;version=2.1"
@@ -52,14 +52,14 @@ axios.post(apiUrl, requestData, {
                             console.error('Erreur de connexion : ' + erreur.stack);
                             return;
                         }
-                        connexion.query("TRUNCATE TABLE indice_bt", (erreur, resultats) => {
+                        connexion.query("TRUNCATE TABLE indice_bt53", (erreur, resultats) => {
                             if (erreur) {
                                 console.error('Erreur lors de la suppresion : ' + erreur.message);
                             } else {
                                 //console.log('Données insérées avec succès. ID de l\'enregistrement : ' + resultats.insertId);
                             }
                         });
-                        const requeteInsertion = 'INSERT INTO indice_bt (BT_DATE, BT_INDICE, BT_PARUTION) VALUES (?, ?, ?)';
+                        const requeteInsertion = 'INSERT INTO indice_bt53 (BT_DATE, BT_INDICE, BT_PARUTION) VALUES (?, ?, ?)';
                         for (const obs of obsElements) {
                             const timePeriod = obs.$.TIME_PERIOD;
                             const obsValue = obs.$.OBS_VALUE;

@@ -1,0 +1,40 @@
+#!/bin/bash
+
+cd script_bt/
+
+node script01.js
+node script02.js
+node script03.js
+node script06.js
+node script07.js
+node script08.js
+node script09.js
+node script11.js
+node script12.js
+node script14.js
+node script16b.js
+node script18a.js
+node script19b.js
+node script26.js
+node script27.js
+node script28.js
+node script30.js
+node script32.js
+node script33.js
+node script34.js
+node script35.js
+node script38.js
+node script40.js
+node script41.js
+node script42.js
+node script43.js
+node script45.js
+node script46.js
+node script47.js
+node script48.js
+node script49.js
+node script50.js
+node script51.js
+node script52.js
+node script53.js
+node script54.js
