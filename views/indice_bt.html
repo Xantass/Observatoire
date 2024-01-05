@@ -14,7 +14,7 @@
 
     </head>
 
-    <body onload="load();">
+    <body onload="load('01', 'Tout corps d\'état');">
 
       <div id="container">
 
@@ -170,6 +170,52 @@
                       </div>
 
                       <div id="box calendar">
+
+                        <div class="dropdown">
+                          <button class="dropbtn">Selectionne un Indice Bt</button>
+                          <div class="dropdown-content">
+                            <div onclick="load('01', 'Tout corps d\'état')"> Indice Bt 01</div>
+                            <div onclick="load('02', 'Terrassements')"> Indice Bt 02</div>
+                            <div onclick="load('03', 'Maçonnerie et canalisations en béton')"> Indice Bt 03</div>
+                            <div onclick="load('06', 'Ossature, ouvrages en béton armé')"> Indice Bt 06</div>
+                            <div onclick="load('07', 'Ossature et charpentes métalliques')"> Indice Bt 07</div>
+                            <div onclick="load('08', 'Plâtre et préfabriqués')"> Indice Bt 08</div>
+                            <div onclick="load('09', 'Carrelage et revêtement céramique')"> Indice Bt 09</div>
+                            <div onclick="load('10', 'Revêtements en plastiques')"> Indice Bt 10</div>
+                            <div onclick="load('11', 'Revêtements en textiles synthétiques')"> Indice Bt 11</div>
+                            <div onclick="load('12', 'Revêtements en textiles naturels')"> Indice Bt 12</div>
+                            <div onclick="load('14', 'Revêtements en plaque de pierre naturelle sciée et produit assimilés')"> Indice Bt 14</div>
+                            <div onclick="load('16b', 'Charpentes bois')"> Indice Bt 16b</div>
+                            <div onclick="load('18b', 'Menuiserie intérieure en bois')"> Indice Bt 18b</div>
+                            <div onclick="load('19b', 'Menuiserie extérieure en bois')"> Indice Bt 19b</div>
+                            <div onclick="load('26', 'Fermeture de baies en plastique y compris fenêtre PVC')"> Indice Bt 26</div>
+                            <div onclick="load('27', 'Fermeture de baies en aluminium')"> Indice Bt 27</div>
+                            <div onclick="load('28', 'Fermeture de baies en metal ferreux')"> Indice Bt 28</div>
+                            <div onclick="load('30', 'Couverture en ardoises de schiste')"> Indice Bt 30</div>
+                            <div onclick="load('32', 'Couverture en tuiles en terre cuite')"> Indice Bt 32</div>
+                            <div onclick="load('33', 'Couverture en tuiles en béton')"> Indice Bt 33</div>
+                            <div onclick="load('34', 'Couverture en zinc et en métal')"> Indice Bt 34</div>
+                            <div onclick="load('35', 'Couverture en bardeaux bitumés')"> Indice Bt 35</div>
+                            <div onclick="load('38', 'Plomberie sanitaire')"> Indice Bt 38</div>
+                            <div onclick="load('40', 'Chauffage central')"> Indice Bt 40</div>
+                            <div onclick="load('41', 'Ventilation et conditionnement d\'air')"> Indice Bt 41</div>
+                            <div onclick="load('42', 'Menuiserie en acier et serrurie')"> Indice Bt 42</div>
+                            <div onclick="load('43', 'Menuiserie en alliage d\'aluminium')"> Indice Bt 43</div>
+                            <div onclick="load('45', 'Vitrerie-Miroiterie')"> Indice Bt 45</div>
+                            <div onclick="load('46', 'Peinture, tenture, revêtements muraux')"> Indice Bt 46</div>
+                            <div onclick="load('47', 'Electricité')"> Indice Bt 47</div>
+                            <div onclick="load('48', 'Ascenseurs')"> Indice Bt 48</div>
+                            <div onclick="load('49', 'Couverture et bardage en tôles d\'acier nervurés avec revêtement étanchéité')"> Indice Bt 49</div>
+                            <div onclick="load('50', 'Rénovation - Entretien tous corps d\'état')"> Indice Bt 50</div>
+                            <div onclick="load('51', 'Menuiserie PVC')"> Indice Bt 51</div>
+                            <div onclick="load('52', 'Imperméabilité de façades')"> Indice Bt 52</div>
+                            <div onclick="load('53', 'Etanchéité')"> Indice Bt 53</div>
+                            <div onclick="load('54', 'Ossature bois')"> Indice Bt 54</div>
+                          </div>
+                        </div>
+
+                        <button class="dropbtn" style="margin-left: 20px;" onclick="exportToPDF()">Exporter PDF</button>
+
                       </div>
 
                     </header>
@@ -179,7 +225,7 @@
                       <div id="Box container Indice"></div>
 
                       <div id="box info">
-                        <p style="margin-left: 70px; font-size: large; font-weight: bold;">Actualisation du Bt</p>
+                        <p id="titre tableau 1" style="margin-left: 70px; font-size: large; font-weight: bold;">Actualisation du Bt</p>
                         <p style="margin-top: 60px;">Bt actualiser : <input type="text" value="" name="date2" id="champ_bt_actualise2" size="12" maxlength="10" readonly></p>
                         <p>Date Bt plus ancien :
                           <input type="text" value="" name="date2" id="champ_date_ancien2" size="10" maxlength="5" readonly>
@@ -189,14 +235,14 @@
                           <input type="text" value="" name="date2" id="champ_date_recent2" size="10 " maxlength="5" readonly>
                           <input type="text" value="" name="date2" id="champ_bt_recent2" size="5" maxlength="5" readonly>
                         </p>
-                        <p style="margin-top: 250px; margin-left: 70px; font-size: large; font-weight: bold;">Projection du Bt</p>
+                        <p id="titre tableau 2" style="margin-top: 250px; margin-left: 70px; font-size: large; font-weight: bold;">Projection du Bt</p>
                         <div id="calendarMain2" style="margin-top: 60px;"></div>
                         <p>Date : <input type="text" value="" name="date2" id="champ_date2" size="12" maxlength="10" readonly></p>
                         <p>Estimation : <input type="text" value="" name="date2" id="champ_estimation2" size="12" maxlength="10" readonly></p>
                       </div>
 
                       <div id="box tableau">
-                        <p style="margin-left: 70px; font-size: large; font-weight: bold;">Liste des Bt Selectionnés</p>
+                        <p id="titre tableau 3" style="margin-left: 70px; font-size: large; font-weight: bold;">Liste des Bt Selectionnés</p>
                         <div id="tableau-selection"></div>
                       </div>
 
@@ -260,6 +306,9 @@
        <script src="https://cdn.jsdelivr.net/npm/chart.js" async></script>
        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom" async></script>
        <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.0.2/chartjs-plugin-annotation.min.js" async></script> -->
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+       <script src="https://unpkg.com/jspdf-autotable@3.5.22/dist/jspdf.plugin.autotable.js"></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
        <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/echarts.min.js" async></script>
        <script type="application/json" src="/index.js" async></script>
        <script src="/js/script_indice_bt.js" async></script>

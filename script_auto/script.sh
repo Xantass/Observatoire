@@ -9,6 +9,7 @@ node script06.js
 node script07.js
 node script08.js
 node script09.js
+node script10.js
 node script11.js
 node script12.js
 node script14.js

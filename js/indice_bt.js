@@ -32,7 +32,7 @@ router.get("/indice_bt", async (req, res) => {
 })
 
 router.post("/indice_bt/get_indice", async (req, res) => {
-  var sql = "SELECT * FROM indice_bt01";
+  var sql = "SELECT * FROM indice_bt" + req.body.indice;
   var result;
 
   result = await query(sql);

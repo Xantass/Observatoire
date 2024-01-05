@@ -4,6 +4,9 @@ var indiceNb = [];
 var indice_recent;
 var delta;
 var date_recent;
+var chart;
+var tableauPDF = [];
+var checkdefine = false;
 
 function slide_right_dashboard () {
     var dashboard = document.getElementById("shadow Dashboard");
@@ -19,22 +22,88 @@ function slide_left_dashboard() {
     main.style.paddingLeft = "72px";
 }
 
-function load() {
+function load(indice, nom_indice) {
     httpRequest = new XMLHttpRequest();
     if (!httpRequest)
       console.log("NO REQUEST");
     httpRequest.onreadystatechange = requete;
     httpRequest.open('POST', '/indice_bt/get_indice', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    httpRequest.send();
+    httpRequest.send(`indice=${indice}`);
+    date = []
+    indiceNb = []
     for (i = 0; i < value.length; i++)
         date.push(value[i].BT_DATE)
     for (i = 0; i < value.length; i++)
         indiceNb.push(value[i].BT_INDICE)
     date.reverse()
     indiceNb.reverse()
-    graphique()
+    graphique(indice)
     calInit("calendarMain2", "Calendrier", "champ_date2", "jsCalendar", "day", "selectedDay");
+    console.log(document.getElementById("titre tableau 1").innerText)
+    document.getElementById("Title").innerText = "Indice Bt" + indice + ": " + nom_indice;
+}
+
+async function exportToPDF() {
+    console.log("EXPORT PDF !!!")
+    const chartImage = chart.getDataURL({
+        pixelRatio: 2,
+        backgroundColor: '#fff'
+    });
+    const date_ancien = document.getElementById('champ_date_ancien2').value
+    const bt_ancien = document.getElementById('champ_bt_ancien2').value
+    const date_recent = document.getElementById('champ_date_recent2').value
+    const bt_recent = document.getElementById('champ_bt_recent2').value
+    const date_proj = chiffreEnDate(document.getElementById('champ_date2').value)
+    const bt_proj = document.getElementById('champ_estimation2').value
+    const pct_proj = ((parseFloat(bt_proj) - parseFloat(bt_recent)) / parseFloat(bt_recent)) * 100
+    const pct_graph = ((parseFloat(bt_recent) - parseFloat(bt_ancien)) / parseFloat(bt_ancien)) * 100
+    var image = document.getElementById('logo simonneau avec ecriture');
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    canvas.width = image.width;
+    canvas.height = image.height;
+    ctx.drawImage(image, 0, 0);
+    var base64URL = canvas.toDataURL('image/png');
+    console.log(base64URL);
+    const doc = new jsPDF("landscape");
+    doc.addImage(base64URL, 'png', 10, 10, 50, 20)
+    doc.addImage(chartImage, 'PNG', 100, 30, 210, 100, '', 'FAST');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10)
+    doc.text("Actualisation entre 2 dates definies", 215, 150)
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(20)
+    doc.text(`${pct_graph.toFixed(2)} %`, 230, 170)
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(13)
+    doc.text(`${date_ancien}`, 30, 150)
+    doc.text(`${date_recent}`, 30, 180)
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(20)
+    doc.text(`${bt_ancien}`, 80, 150)
+    doc.text(`${bt_recent}`, 80, 180)
+    doc.setFontSize(8)
+    doc.setFont('helvetica', 'normal');
+    doc.text("indice bt initial", 80, 155)
+    doc.text("dernier indice bt", 80, 185)
+    console.log(checkdefine)
+    if (checkdefine) {
+        doc.setFontSize(10)
+        doc.text("projection du bt entre ", 120, 150)
+        doc.setFont('helvetica', 'bold');
+        doc.text(`${date_recent} - ${date_proj}`, 155, 150)
+        doc.setFontSize(20)
+        doc.text(`${pct_proj.toFixed(2)} %`, 140, 170)
+    }
+    doc.autoTable({
+        body: tableauPDF,
+        startY: 40,
+        startX: 200,
+        theme: 'grid',
+        tableWidth: 80
+    })
+    doc.save("pdf.pdf");
 }
 
 function differenceMois(date1, date2) {
@@ -45,6 +114,29 @@ function differenceMois(date1, date2) {
     const differenceMois = mois2 - mois1;
 
     return differenceAnnees * 12 + differenceMois;
+}
+
+function chiffreEnDate(dateEnChiffre) {
+    const moisEnLettres = {
+        '01': 'janvier',
+        '02': 'fevrier',
+        '03': 'mars',
+        '04': 'avril',
+        '05': 'mai',
+        '06': 'juin',
+        '07': 'juillet',
+        '08': 'aout',
+        '09': 'septembre',
+        '10': 'octobre',
+        '11': 'novembre',
+        '12': 'decembre'
+    };
+
+    const mots = dateEnChiffre.toLowerCase().split('-');
+    const mois = moisEnLettres[mots[1]];
+    const annee = mots[0];
+
+    return `${mois} ${annee}`;
 }
 
 function dateEnChiffres(dateEnLettres) {
@@ -70,7 +162,7 @@ function dateEnChiffres(dateEnLettres) {
     return `${annee}-${mois}`;
 }
 
-function graphique() {
+function graphique(indice) {
     var annees = [];
     var mois = [];
     date.forEach(function(dates) {
@@ -88,7 +180,6 @@ function graphique() {
 
     // Configurez les options du graphique
     var endMAx = annees.length - 1;
-    console.log(endMAx)
     var options = {
         title: {
             text: "Évolution de l'indice Bt en fonction du temps"
@@ -164,6 +255,8 @@ function graphique() {
         var tableau = "<table><tr><th>Année</th><th>Mois</th><th>Valeur</th></tr>";
         for (var i = 0; i < anneeSelectionnees.length; i++) {
             tableau += "<tr><td>" + anneeSelectionnees[i] + "</td><td>" + moisSelectionnees[i] + "</td><td>" + valeursSelectionnees[i] + "</td></tr>";
+            if (i < 12)
+                tableauPDF.push([anneeSelectionnees[i], moisSelectionnees[i], valeursSelectionnees[i]]);
         }
         tableau += "</table>";
 
@@ -183,7 +276,6 @@ function graphique() {
         // tableauElement = document.getElementById('tableau-actualise');
         // tableauElement.innerHTML = tableau;
         indice_recent = parseFloat(valeursSelectionnees[valeursSelectionnees.length - 1]);
-        console.log()
         delta = parseFloat((indice_recent - valeursSelectionnees[0]) / (moisSelectionnees.length - 1))
         date_recent = moisSelectionnees[moisSelectionnees.length - 1].toString()  + " " + anneeSelectionnees[anneeSelectionnees.length - 1].toString();
         date_recent = dateEnChiffres(date_recent)
@@ -193,6 +285,7 @@ function graphique() {
         start: 0,
         end: 100
     });
+    chart = myChart;
 }
 
 function slide_indice() {
@@ -402,6 +495,7 @@ function calClick(dateStr, id){
     var estimation = delta_ajuste + indice_recent;
     estimation = estimation.toFixed(1)
     document.getElementById('champ_estimation2').value = estimation
+    checkdefine = true;
 }
 //
 // affiche le titre
