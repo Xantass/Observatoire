@@ -62,7 +62,7 @@ axios.post(apiUrl, requestData, {
                         const requeteInsertion = 'INSERT INTO indice_bt53 (BT_DATE, BT_INDICE, BT_PARUTION) VALUES (?, ?, ?)';
                         for (const obs of obsElements) {
                             const timePeriod = obs.$.TIME_PERIOD;
-                            const obsValue = obs.$.OBS_VALUE;
+                            const obsValue = obs.$.OBS_VALUE.replace(/\./g, ",");
                             const dateJo = obs.$.DATE_JO;
                             const valeurs = [timePeriod, obsValue, dateJo];
 
