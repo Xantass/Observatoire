@@ -1131,7 +1131,7 @@ async function beautiful_number(string) {
 function format_number(string, index) {
     var result = "";
 
-    string = string.replace(',', '.');
+    string = string.replace('.', ',');
     if (index <= 3) {
         return string;
     }
@@ -1214,45 +1214,45 @@ function maj_op(e) {
     var composition = document.getElementsByName("Composition")[0].value;
     var localisation = document.getElementsByName("Localisation")[0].value;
     var adresse = document.getElementsByName("Adresse_du_site")[0].value;
-    var longitude = document.getElementsByName("Longitude")[0].value.replace(',', '.');
-    var latitude = document.getElementsByName("Latitude")[0].value.replace(',', '.');
+    var longitude = document.getElementsByName("Longitude")[0].value.replace(',', '.').replace(/\ /g, "");
+    var latitude = document.getElementsByName("Latitude")[0].value.replace(',', '.').replace(/\ /g, "");
     var description = document.getElementsByName("Description")[0].value;
     var date_ao = document.getElementsByName("Date_AO")[0].value;
     var typologie_marche = document.getElementsByName("Typologie_marche")[0].value;
     var typologie_operation = document.getElementsByName("Typologie_operation")[0].value;
-    var nb_eleve = document.getElementsByName("Nombre_d'eleve")[0].value.replace(',', '.');
-    var nb_classe = document.getElementsByName("Nombre_de_classe_(salle_d'enseignement)")[0].value.replace(',', '.');
-    var nb_salle = document.getElementsByName("Nombre_de_salle_(poly_spectacle_sport)")[0].value.replace(',', '.');
-    var nb_logement = document.getElementsByName("Nombre_de_logement")[0].value.replace(',', '.');
-    var nb_bureaux = document.getElementsByName("Nombre_de_bureaux_/_autres_locaux")[0].value.replace(',', '.');
-    var nb_chambre = document.getElementsByName("Nombre_de_chambre")[0].value.replace(',', '.');
-    var nb_commerce = document.getElementsByName("Nombre_de_commerce")[0].value.replace(',', '.');
-    var nb_parking_infra = document.getElementsByName("Nombre_place_de_parking_Infrastructure")[0].value.replace(',', '.');
-    var nb_parking_int_super = document.getElementsByName("Nombre_de_places_de_parking_interieur_dans_la_superstructure")[0].value.replace(',', '.');
-    var nb_parking_ext = document.getElementsByName("Nombre_de_places_de_parking_exterieur")[0].value.replace(',', '.');
-    var s_locaux_tech = document.getElementsByName("Surface_de_locaux_technique")[0].value.replace(',', '.');
-    var s_locaux_annexe = document.getElementsByName("Surface_des_garages_et_locaux_annexes")[0].value.replace(',', '.');
-    var shab = document.getElementsByName("SHAB")[0].value.replace(',', '.');
-    var su = document.getElementsByName("SU")[0].value.replace(',', '.');
-    var sdo = document.getElementsByName("SDO")[0].value.replace(',', '.');
-    var sdp = document.getElementsByName("SDP")[0].value.replace(',', '.');
-    var nb_niv_infra = document.getElementsByName("Nombre_de_niveaux_Infrastructure")[0].value.replace(',', '.');
-    var nb_niv_super = document.getElementsByName("Nombre_de_niveaux_superstructure")[0].value.replace(',', '.');
-    var emprise_parcelle = document.getElementsByName("Emprise_de_la_parcelle")[0].value.replace(',', '.');
-    var s_espace_vert = document.getElementsByName("Surface_d'espace_verts")[0].value.replace(',', '.');
-    var s_minerale = document.getElementsByName("Surface_minerale")[0].value.replace(',', '.');
-    var emprise_sol = document.getElementsByName("Emprise_au_sol")[0].value.replace(',', '.');
-    var s_toiture = document.getElementsByName("Surface_de_toiture_(isolee_thermiquement)")[0].value.replace(',', '.');
-    var emprise_facade = document.getElementsByName("Emprise_de_facade_totale")[0].value.replace(',', '.');
-    var s_facade = document.getElementsByName("Dont_surface_de_facade_pleine")[0].value.replace(',', '.');
-    var s_vitrage = document.getElementsByName("Dont_surface_de_vitrage")[0].value.replace(',', '.');
+    var nb_eleve = document.getElementsByName("Nombre_d'eleve")[0].value.replace('.', ',').replace(/\ /g, "");
+    var nb_classe = document.getElementsByName("Nombre_de_classe_(salle_d'enseignement)")[0].value.replace('.', ',').replace(/\ /g, "");
+    var nb_salle = document.getElementsByName("Nombre_de_salle_(poly_spectacle_sport)")[0].value.replace('.', ',').replace(/\ /g, "");
+    var nb_logement = document.getElementsByName("Nombre_de_logement")[0].value.replace('.', ',').replace(/\ /g, "");
+    var nb_bureaux = document.getElementsByName("Nombre_de_bureaux_/_autres_locaux")[0].value.replace('.', ',').replace(/\ /g, "");
+    var nb_chambre = document.getElementsByName("Nombre_de_chambre")[0].value.replace('.', ',').replace(/\ /g, "");
+    var nb_commerce = document.getElementsByName("Nombre_de_commerce")[0].value.replace('.', ',').replace(/\ /g, "");
+    var nb_parking_infra = document.getElementsByName("Nombre_place_de_parking_Infrastructure")[0].value.replace('.', ',').replace(/\ /g, "");
+    var nb_parking_int_super = document.getElementsByName("Nombre_de_places_de_parking_interieur_dans_la_superstructure")[0].value.replace('.', ',').replace(/\ /g, "");
+    var nb_parking_ext = document.getElementsByName("Nombre_de_places_de_parking_exterieur")[0].value.replace('.', ',').replace(/\ /g, "");
+    var s_locaux_tech = document.getElementsByName("Surface_de_locaux_technique")[0].value.replace('.', ',').replace(/\ /g, "");
+    var s_locaux_annexe = document.getElementsByName("Surface_des_garages_et_locaux_annexes")[0].value.replace('.', ',').replace(/\ /g, "");
+    var shab = document.getElementsByName("SHAB")[0].value.replace('.', ',').replace(/\ /g, "");
+    var su = document.getElementsByName("SU")[0].value.replace('.', ',').replace(/\ /g, "");
+    var sdo = document.getElementsByName("SDO")[0].value.replace('.', ',').replace(/\ /g, "");
+    var sdp = document.getElementsByName("SDP")[0].value.replace('.', ',').replace(/\ /g, "");
+    var nb_niv_infra = document.getElementsByName("Nombre_de_niveaux_Infrastructure")[0].value.replace('.', ',').replace(/\ /g, "");
+    var nb_niv_super = document.getElementsByName("Nombre_de_niveaux_superstructure")[0].value.replace('.', ',').replace(/\ /g, "");
+    var emprise_parcelle = document.getElementsByName("Emprise_de_la_parcelle")[0].value.replace('.', ',').replace(/\ /g, "");
+    var s_espace_vert = document.getElementsByName("Surface_d'espace_verts")[0].value.replace('.', ',').replace(/\ /g, "");
+    var s_minerale = document.getElementsByName("Surface_minerale")[0].value.replace('.', ',').replace(/\ /g, "");
+    var emprise_sol = document.getElementsByName("Emprise_au_sol")[0].value.replace('.', ',').replace(/\ /g, "");
+    var s_toiture = document.getElementsByName("Surface_de_toiture_(isolee_thermiquement)")[0].value.replace('.', ',').replace(/\ /g, "");
+    var emprise_facade = document.getElementsByName("Emprise_de_facade_totale")[0].value.replace('.', ',').replace(/\ /g, "");
+    var s_facade = document.getElementsByName("Dont_surface_de_facade_pleine")[0].value.replace('.', ',').replace(/\ /g, "");
+    var s_vitrage = document.getElementsByName("Dont_surface_de_vitrage")[0].value.replace('.', ',').replace(/\ /g, "");
     var check = 0;
     var finie = document.getElementById("box validation de l'operation").childNodes[3];
-    var exigence_environnementale = document.getElementsByName("Exigence_Environnementale")[0].value.replace(',', '.');
-    var niveau_performance_environnementale = document.getElementsByName("Niveau_Performance_Environnementale")[0].value.replace(',', '.');
-    var niveau_performance_thermique = document.getElementsByName("Niveau_Performance_Thermique")[0].value.replace(',', '.');
-    var id_op_bis = document.getElementsByName("ID_OP")[0].value.replace(',', '.');
-    var importance = document.getElementsByName("Importance")[0].value.replace(',', '.');
+    var exigence_environnementale = document.getElementsByName("Exigence_Environnementale")[0].value.replace('.', ',').replace(/\ /g, "");
+    var niveau_performance_environnementale = document.getElementsByName("Niveau_Performance_Environnementale")[0].value.replace('.', ',').replace(/\ /g, "");
+    var niveau_performance_thermique = document.getElementsByName("Niveau_Performance_Thermique")[0].value.replace('.', ',').replace(/\ /g, "");
+    var id_op_bis = document.getElementsByName("ID_OP")[0].value.replace('.', ',').replace(/\ /g, "");
+    var importance = document.getElementsByName("Importance")[0].value.replace('.', ',').replace(/\ /g, "");
 
     for (i = 0; i < sous_categorie.length; i++) {
         if (sous_categorie[i].style.display == "flex") {
@@ -1292,7 +1292,7 @@ async function add_modif_article() {
     httpRequest.onreadystatechange = requete_nothing;
     httpRequest.open('POST', '/home/:operation/modif_article', false);
     httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    httpRequest.send(`quantite=${container.childNodes[3].childNodes[5].childNodes[3].value.replace(',', '.')}&&prix_u=${container.childNodes[3].childNodes[7].childNodes[3].value.replace(',', '.')}&&prix_t=${container.childNodes[3].childNodes[9].childNodes[3].value.replace(',', '.')}&&tva=${container.childNodes[3].childNodes[13].childNodes[3].value.replace(',', '.')}&&id=${container.childNodes[3].childNodes[11].childNodes[3].value}`);
+    httpRequest.send(`quantite=${container.childNodes[3].childNodes[5].childNodes[3].value.replace('.', ',').replace(/\ /g, "")}&&prix_u=${container.childNodes[3].childNodes[7].childNodes[3].value.replace('.', ',').replace(/\ /g, "")}&&prix_t=${container.childNodes[3].childNodes[9].childNodes[3].value.replace('.', ',').replace(/\ /g, "")}&&tva=${container.childNodes[3].childNodes[13].childNodes[3].value.replace('.', ',').replace(/\ /g, "")}&&id=${container.childNodes[3].childNodes[11].childNodes[3].value}`);
     string = await beautiful_number(container.childNodes[3].childNodes[5].childNodes[3].value);
     container_bis.childNodes[3].childNodes[0].textContent = string;
     string = await beautiful_number(container.childNodes[3].childNodes[7].childNodes[3].value);

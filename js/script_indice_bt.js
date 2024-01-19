@@ -33,6 +33,8 @@ function load(indice, nom_indice) {
     date = []
     indiceNb = []
     for (i = 0; i < value.length; i++)
+        value[i].BT_INDICE = value[i].BT_INDICE.replace(/\,/g, ".");
+    for (i = 0; i < value.length; i++)
         date.push(value[i].BT_DATE)
     for (i = 0; i < value.length; i++)
         indiceNb.push(value[i].BT_INDICE)
